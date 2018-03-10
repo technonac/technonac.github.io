@@ -1,0 +1,341 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Linux命令行(3)理解Linux文件权限 | Canon&#39;s Blog</title>
+  <meta name="author" content="technonac">
+  
+  <meta name="description" content="Java,Android Blog">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Linux命令行(3)理解Linux文件权限"/>
+  <meta property="og:site_name" content="Canon&#39;s Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  
+  
+    <link href="/favicon.png" rel="icon">
+  
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/css/themes/sandstone.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight-default.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/comment.css" media="screen" type="text/css">
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.9/es5-shim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-sham.min.js"></script>
+  <![endif]-->
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+  
+  <!-- analytics -->
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-114131858-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?99f21b353655df817afcb7d4d21a0688";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</head>
+
+ <body>  
+  <nav id="main-nav" class="navbar  navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+	<span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+       <a class="navbar-brand" href="/">Canon&#39;s Blog</a>
+      <div class="collapse navbar-collapse nav-menu">
+		<ul class="nav navbar-nav">
+		  
+		  <li>
+			<a href="/archives" title="All the articles.">
+			  <i class="fa fa-archive"></i>Archives
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/categories" title="All the categories.">
+			  <i class="fa fa-folder"></i>Categories
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/tags" title="All the tags.">
+			  <i class="fa fa-tags"></i>Tags
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/about" title="About me.">
+			  <i class="fa fa-user"></i>About
+			</a>
+		  </li>
+		  
+		</ul>
+      </div>
+    </div> <!-- container -->
+</nav>
+<div class="clearfix"></div>
+
+  <div class="container">
+  	<div class="content">
+    	 
+
+
+	
+		<div class="page-header ">		
+			<h1 class="title "> Linux命令行(3)理解Linux文件权限</h1>
+		</div>		
+	
+
+
+
+
+
+
+<div class="row post">
+	<!-- cols -->
+	
+	<div id="top_meta"></div>
+	<div class="col-md-9">
+	
+
+	<!-- content -->
+	<div class="mypage">		
+	  		
+
+	  <h2 id="Linux-的安全性"><a href="#Linux-的安全性" class="headerlink" title="Linux 的安全性"></a>Linux 的安全性</h2><p>Linux安全系统的核心是用户账户。每个能进入Linux系统的用户都会被分配唯一的用户账户。用户对系统中各种对象的访问权限取决于他们登录系统时用的账户。用户权限是通过创建用户时分配的用户ID（User ID，通常缩写为UID）来跟踪的</p>
+<h3 id="etc-passwd文件"><a href="#etc-passwd文件" class="headerlink" title="/etc/passwd文件"></a><code>/etc/passwd</code>文件</h3><p>Linux系统使用一个专门的文件来将用户的登录名匹配到对应的UID值。为普通用户创建账户时，大多数Linux系统会从500开始，将第一个可用UID分配给这个账户。root用户账户是Linux系统的管理员，固定分配给它的UID是 0。/etc/passwd是一个标准的文本文件。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">root:x:0:0:root:/root:/bin/bash</span><br><span class="line">mysql:x:501:501::/home/mysql:/sbin/nologin</span><br><span class="line">-----------------------------------</span><br><span class="line">/etc/passwd文件的字段包含了如下信息</span><br><span class="line">登录用户名</span><br><span class="line">用户密码</span><br><span class="line">用户账户的UID(数字形式)</span><br><span class="line">用户账户的组ID(GID)(数字形式)</span><br><span class="line">用户账户的文本描述(称为备注字段)</span><br><span class="line">用户HOME目录的位置</span><br><span class="line">用户的默认shell</span><br></pre></td></tr></table></figure>
+<p><code>/etc/passwd</code>文件中的密码字段都被设置成了x,，绝大多数Linux系统都将用户密码保存在另一个单独的文件中叫作shadow文件，位置在<code>/etc/shadow</code>）。只有特定的程序（比如登录程序）才能访问这个文件。</p>
+<h3 id="etc-shadow-文件"><a href="#etc-shadow-文件" class="headerlink" title="/etc/shadow 文件"></a><code>/etc/shadow</code> 文件</h3><p><code>/etc/shadow</code>文件对Linux系统密码管理提供了更多的控制。只有root用户才能访问<code>/etc/shadow</code>文件，这让它比起<code>/etc/passwd</code>安全许多。<br><code>/etc/shadow</code>文件为系统上的每个用户账户都保存了一条记录。记录就像下面这样：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">rich:<span class="variable">$1</span>$.FfcK0ns<span class="variable">$f1UgiyHQ25wrB</span>/hykCn020:11627:0:99999:7:::</span><br><span class="line">-------------------------------------</span><br><span class="line">在/etc/shadow文件的每条记录中都有9个字段：</span><br><span class="line">与/etc/passwd文件中的登录名字段对应的登录名</span><br><span class="line">加密后的密码</span><br><span class="line">自上次修改密码后过去的天数密码（自1970年1月1日开始计算）</span><br><span class="line">多少天后才能更改密码</span><br><span class="line">多少天后必须更改密码</span><br><span class="line">密码过期前提前多少天提醒用户更改密码 </span><br><span class="line">密码过期后多少天禁用用户账户</span><br><span class="line">用户账户被禁用的日期（用自1970年1月1日到当天的天数表示）</span><br><span class="line">预留字段给将来使用</span><br></pre></td></tr></table></figure>
+<h3 id="添加新用户"><a href="#添加新用户" class="headerlink" title="添加新用户"></a>添加新用户</h3><p>useradd用来向Linux系统添加新用户。</p>
+<p><code>useradd</code> 命令使用系统的默认值以及命令行参数来设置用户账户。系统默认值被设置在<code>/etc/default/useradd</code>文件中。可以使用<code>useradd -D</code>命令查看所用Linux系统中的这些默认值</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># /usr/sbin/useradd -D </span></span><br><span class="line">GROUP=100 </span><br><span class="line">HOME=/home </span><br><span class="line">INACTIVE=-1 </span><br><span class="line">EXPIRE= </span><br><span class="line">SHELL=/bin/bash </span><br><span class="line">SKEL=/etc/skel </span><br><span class="line">CREATE_MAIL_SPOOL=yes </span><br><span class="line"><span class="comment"># </span></span><br><span class="line">新用户会被添加到GID为 100 的公共组；</span><br><span class="line">新用户的HOME目录将会位于/home/loginname；</span><br><span class="line">新用户账户密码在过期后不会被禁用；</span><br><span class="line">新用户账户未被设置过期日期；</span><br><span class="line">新用户账户将bash shell作为默认shell；</span><br><span class="line">系统会将/etc/skel目录下的内容复制到用户的HOME目录下；</span><br><span class="line">系统为该用户账户在mail目录下创建一个用于接收邮件的文件。</span><br><span class="line">$ ls -al /etc/skel</span><br><span class="line">total 32 </span><br><span class="line">drwxr-xr-x   2 root root  4096 2010-04-29 08:26 . </span><br><span class="line">drwxr-xr-x 135 root root 12288 2010-09-23 18:49 .. </span><br><span class="line">-rw-r--r--   1 root root   220 2010-04-18 21:51 .bash_logout </span><br><span class="line">-rw-r--r--   1 root root  3103 2010-04-18 21:51 .bashrc </span><br><span class="line">-rw-r--r--   1 root root   179 2010-03-26 08:31 examples.desktop </span><br><span class="line">-rw-r--r--   1 root root   675 2010-04-18 21:51 .profile</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -m  创建用户的HOME目录</span></span><br><span class="line">useradd -m <span class="built_in">test</span></span><br><span class="line">-c comment  给新用户添加备注 </span><br><span class="line">-d home_dir  为主目录指定一个名字（如果不想用登录名作为主目录名的话） </span><br><span class="line">-e expire_date  用YYYY-MM-DD格式指定一个账户过期的日期 </span><br><span class="line">-f inactive_days  指定这个账户密码过期后多少天这个账户被禁用；0表示密码一过期就立即禁用，1表示</span><br><span class="line">禁用这个功能 </span><br><span class="line">-g initial_group  指定用户登录组的GID或组名 </span><br><span class="line">-G group ...  指定用户除登录组之外所属的一个或多个附加组 </span><br><span class="line">-k  必须和-m一起使用，将/etc/skel目录的内容复制到用户的HOME目录 </span><br><span class="line">-m  创建用户的HOME目录 </span><br><span class="line">-M  不创建用户的HOME目录（当默认设置里要求创建时才使用这个选项） </span><br><span class="line">-n  创建一个与用户登录名同名的新组 </span><br><span class="line">-r  创建系统账户 </span><br><span class="line">-p passwd  为用户账户指定默认密码 </span><br><span class="line">-s shell  指定默认的登录shell </span><br><span class="line">-u uid  为账户指定唯一的UID</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># useradd -D -s /bin/tsch </span></span><br><span class="line">useradd更改默认值的参数 </span><br><span class="line">-b default_home  更改默认的创建用户HOME目录的位置 </span><br><span class="line">-e expiration_date  更改默认的新账户的过期日期 </span><br><span class="line">-f inactive  更改默认的新用户从密码过期到账户被禁用的天数 </span><br><span class="line">-g group  更改默认的组名称或GID </span><br><span class="line">-s shell  更改默认的登录shell</span><br></pre></td></tr></table></figure>
+<h3 id="删除用户"><a href="#删除用户" class="headerlink" title="删除用户"></a>删除用户</h3><p>默认情况下， <code>userdel</code>命令会只删除<code>/etc/passwd</code>文件中的用户信息，而不会删除系统中属于该账户的任何文件。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 删除用户的HOME目录以及邮件目录</span></span><br><span class="line">userdel -r <span class="built_in">test</span></span><br></pre></td></tr></table></figure>
+<h3 id="修改用户"><a href="#修改用户" class="headerlink" title="修改用户"></a>修改用户</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">usermod <span class="comment"># 修改用户账户的字段，还可以指定主要组以及附加组的所属关系</span></span><br><span class="line">passwd <span class="comment"># 修改已有用户的密码</span></span><br><span class="line">chpasswd <span class="comment"># 从文件中读取登录名密码对，并更新密码</span></span><br><span class="line">chage <span class="comment"># 修改密码的过期日期</span></span><br><span class="line">chfn <span class="comment"># 修改用户账户的备注信息</span></span><br><span class="line">chsh <span class="comment"># 修改用户账户的默认登录shell</span></span><br></pre></td></tr></table></figure>
+<h5 id="1-usermod"><a href="#1-usermod" class="headerlink" title="1.usermod"></a>1.<code>usermod</code></h5><p><code>usermod</code> 命令是用户账户修改工具中最强大的一个。参数大部分跟 useradd 命令的参数一样.</p>
+<p>-g 修改默认的登录组<br>-l  修改用户账户的登录名。<br>-L 锁定账户，使用户无法登录。<br>-p 修改账户的密码。<br>-U 解除锁定，使用户能够登录。</p>
+<h5 id="2-passwd和chpasswd"><a href="#2-passwd和chpasswd" class="headerlink" title="2.passwd和chpasswd"></a>2.<code>passwd</code>和<code>chpasswd</code></h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 更改密码</span></span><br><span class="line"><span class="comment"># passwd test</span></span><br><span class="line">Changing password <span class="keyword">for</span> user <span class="built_in">test</span>.</span><br><span class="line">New UNIX password:</span><br><span class="line">Retype new UNIX password:</span><br><span class="line">passwd: all authentication tokens updated successfully.</span><br></pre></td></tr></table></figure>
+<p>如果只用<code>passwd</code>命令，它会改你自己的密码。系统上的任何用户都能改自己的密码，但只有root用户才有权限改别人的密码。<br>-e 选项能强制用户下次登录时修改密码。你可以先给用户设置一个简单的密码，之后再强制在下次登录时改成他们能记住的更复杂的密码。</p>
+<p>如果需要为系统中的大量用户修改密码，<code>chpasswd</code>命令能从标准输入自动读取登录名和密码对（由冒号分割）列表，给密码加密，然后为用户账户设置。<br>你也可以用重定向命令来将含有<code>userid:passwd</code> 对的文件重定向给该命令。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chpasswd &lt; users.txt</span><br></pre></td></tr></table></figure></p>
+<h5 id="3-chsh、chfn和chage"><a href="#3-chsh、chfn和chage" class="headerlink" title="3.chsh、chfn和chage"></a>3.<code>chsh</code>、<code>chfn</code>和<code>chage</code></h5><p><code>chsh</code>、 <code>chfn</code> 和 <code>chage</code> 工具专门用来修改特定的账户信息<br><code>chsh</code> 命令用来快速修改默认的用户登录shell。使用时必须用shell的全路径名作为参数，不能只用shell名。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">chsh -s /bin/csh <span class="built_in">test</span></span><br><span class="line">Changing shell <span class="keyword">for</span> <span class="built_in">test</span>.</span><br><span class="line">Shell changed.</span><br></pre></td></tr></table></figure>
+<p><code>chfn</code> 命令提供了在<code>/etc/passwd</code>文件的备注字段中存储信息的标准方法。 <code>chfn</code> 命令会将用于<br>Unix的<code>finger</code> 命令的信息存进备注字段，而不是简单地存入一些随机文本（比如名字或昵称之类的），或是将备注字段留空。</p>
+<p><code>finger</code>命令可以非常方便地查看Linux系统上的用户信息。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># finger rich</span></span><br><span class="line">Login: rich                            Name: Rich Blum</span><br><span class="line">Directory: /home/rich                  Shell: /bin/bash</span><br><span class="line">On since Thu Sep 20 18:03 (EDT) on pts/0 from 192.168.1.2</span><br><span class="line">No mail.</span><br><span class="line">No Plan.</span><br></pre></td></tr></table></figure></p>
+<p>如果在使用 <code>chfn</code>命令时没有参数，它会向你询问要将哪些适合的内容加进备注字段。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">chfn <span class="built_in">test</span></span><br><span class="line">Changing finger information <span class="keyword">for</span> <span class="built_in">test</span>.</span><br><span class="line">Name []: Ima Test</span><br><span class="line">Office []: Director of Technology</span><br><span class="line">Office Phone []: (123)555-1234</span><br><span class="line">Home Phone []: (123)555-9876</span><br></pre></td></tr></table></figure></p>
+<p><code>chage</code> 命令用来帮助管理用户账户的有效期</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">-d  设置上次修改密码到现在的天数 </span><br><span class="line">-E  设置密码过期的日期 </span><br><span class="line">-I  设置密码过期到锁定账户的天数 </span><br><span class="line">-m  设置修改密码之间最少要多少天 </span><br><span class="line">-W  设置密码过期前多久开始出现提醒信息</span><br></pre></td></tr></table></figure>
+<h2 id="Linux-组"><a href="#Linux-组" class="headerlink" title="Linux 组"></a>Linux 组</h2><p>组权限允许多个用户对系统中的对象（比如文件、目录或设备等）共享一组共用的权限。Ubuntu就会为每个用户创建一个单独的与用户账户同名的组。在添加用户前后可用 <code>grep</code> 命令或 <code>tail</code> 命令<br>查看/etc/group文件的内容比较（<code>grep USERNAME  /etc/group 或 tail /etc/group</code> ）。</p>
+<h4 id="etc-group文件"><a href="#etc-group文件" class="headerlink" title="/etc/group文件"></a><code>/etc/group</code>文件</h4><p>/etc/group文件包含系统上用到的每个组的信息</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">root:x:0:root</span><br><span class="line">bin:x:1:root,bin,daemon</span><br><span class="line">daemon:x:2:root,bin,daemon</span><br><span class="line">sys:x:3:root,bin,adm</span><br><span class="line">jessica:x:503:</span><br><span class="line">mysql:x:27:</span><br><span class="line"><span class="built_in">test</span>:x:504:</span><br><span class="line">----------------------</span><br><span class="line">系统账户用的组通常会分配低于500的GID值，而用户组的GID则会从500开始分配。</span><br><span class="line">/etc/group文件有4个字段：</span><br><span class="line">组名</span><br><span class="line">组密码</span><br><span class="line">GID</span><br><span class="line">属于该组的用户列表</span><br></pre></td></tr></table></figure>
+<h4 id="创建新组-groupadd"><a href="#创建新组-groupadd" class="headerlink" title="创建新组(groupadd)"></a>创建新组(groupadd)</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># /usr/sbin/groupadd shared </span></span><br><span class="line"><span class="comment"># tail /etc/group </span></span><br><span class="line">shared:x:505:</span><br></pre></td></tr></table></figure>
+<p>在创建新组时，默认没有用户被分配到该组。<code>groupadd</code>命令没有提供将用户添加到组中的<br>选项，但可以用 <code>usermod</code> 命令来弥补这一点<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># usermod -G shared rich</span></span><br><span class="line"><span class="comment"># usermod -G shared test</span></span><br><span class="line">-g 指定的组名会替换掉该账户的默认组。</span><br><span class="line">-G 将该组添加到用户的属组的列表里，不会影响默认组。</span><br><span class="line"><span class="comment"># tail /etc/group </span></span><br><span class="line">shared:x:505:rich, <span class="built_in">test</span> </span><br><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="comment"># 如果更改了已登录系统账户所属的用户组，该用户必须登出系统后再登录，组关系的更改才能生效。</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="修改组-groupmod"><a href="#修改组-groupmod" class="headerlink" title="修改组(groupmod)"></a>修改组(groupmod)</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># /usr/sbin/groupmod -n sharing shared  </span></span><br><span class="line">-g 修改已有组的GID</span><br><span class="line">-n 修改组名</span><br><span class="line"><span class="comment"># tail /etc/group </span></span><br><span class="line">sharing:x:505:<span class="built_in">test</span>,rich</span><br></pre></td></tr></table></figure>
+<h2 id="理解文件权限"><a href="#理解文件权限" class="headerlink" title="理解文件权限"></a>理解文件权限</h2><h3 id="使用文件权限符"><a href="#使用文件权限符" class="headerlink" title="使用文件权限符"></a>使用文件权限符</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">$ ls –l </span><br><span class="line">-rw-rw-r-- 1 rich rich  50 2010-09-13 07:49 file1.gz</span><br><span class="line">drwxrwxr-x 2 rich rich 4096 2010-09-03 15:12 test1</span><br><span class="line">$</span><br><span class="line">-----------------------------------------------------</span><br><span class="line">输出结果的第一个字段就是描述文件和目录权限的编码。这个字段的第一个字符代表了对象的类型：</span><br><span class="line">- 代表文件</span><br><span class="line">d 代表目录</span><br><span class="line">l 代表链接</span><br><span class="line">c 代表字符型设备</span><br><span class="line">b 代表块设备</span><br><span class="line">n 代表网络设备</span><br><span class="line">之后有3组三字符的编码。每一组定义了3种访问权限：</span><br><span class="line">r 代表对象是可读的</span><br><span class="line">w 代表对象是可写的</span><br><span class="line">x 代表对象是可执行的</span><br><span class="line">若没有某种权限，在该权限位会出现单破折线。这3组权限分别对应对象的3个安全级别：</span><br><span class="line">对象的属主</span><br><span class="line">对象的属组</span><br><span class="line">系统其他用户</span><br><span class="line"> </span><br><span class="line">-rwxrwxr-x 1 rich rich 4882 2010-09-18 13:58 myprog</span><br><span class="line">文件myprog有下面3组权限。</span><br><span class="line">rwx ：文件的属主（设为登录名rich）。</span><br><span class="line">rwx ：文件的属组（设为组名rich）。</span><br><span class="line">r-x ：系统上其他人。</span><br></pre></td></tr></table></figure>
+<h3 id="默认文件权限"><a href="#默认文件权限" class="headerlink" title="默认文件权限"></a>默认文件权限</h3><p><code>umask</code> 命令用来设置所创建文件和目录的默认权限</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># touch 命令用分配给我的用户账户的默认权限创建了这个文件</span></span><br><span class="line">$ touch newfile </span><br><span class="line">$ ls -al newfile </span><br><span class="line">-rw-r--r--    1 rich     rich            0 Sep 20 19:16 newfile </span><br><span class="line">$ </span><br><span class="line"></span><br><span class="line"><span class="comment"># umask</span></span><br><span class="line">0022</span><br></pre></td></tr></table></figure>
+<p><code>umask</code> 值只是个掩码。它会屏蔽掉不想授予该安全级别的权限,要把 <code>umask</code> 值从对象的全权限值中减掉。对文件来说，全权限的值是 666 （所有用户都有读和写的权限）；而对目录来说，则是 777 （所有用户都有读、写、执行权限）</p>
+<h2 id="改变安全性设置"><a href="#改变安全性设置" class="headerlink" title="改变安全性设置"></a>改变安全性设置</h2><h3 id="改变权限"><a href="#改变权限" class="headerlink" title="改变权限"></a>改变权限</h3><p><code>chmod</code>命令用来改变文件和目录的安全性设置</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">chmod options mode file </span><br><span class="line">-R 让权限的改变递归地作用到文件和子目录。你可以使用通配符指定多个文件，然后利用一条命令将权限更改应用到这些文件上。</span><br><span class="line"></span><br><span class="line"><span class="comment"># mode 参数可以使用八进制模式或符号模式进行安全性设置。</span></span><br><span class="line"><span class="comment"># 1.八进制模式 设置非常直观，直接用期望赋予文件的标准3位八进制权限码即可。</span></span><br><span class="line">$ chmod 760 newfile</span><br><span class="line">$ ls -l newfile</span><br><span class="line">-rwxrw----    1 rich    rich            0 Sep 20 19:16 newfile</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2.符号模式下指定权限的格式:</span></span><br><span class="line">[ugoa…][[+-=][rwxXstugo…]</span><br><span class="line">第一组字符定义了权限作用的对象：</span><br><span class="line">u 代表用户</span><br><span class="line">g 代表组</span><br><span class="line">o 代表其他</span><br><span class="line">a 代表上述所有</span><br><span class="line">下一步，后面跟着的符号表示你是想在现有权限基础上增加权限(+)，还是在现有权限基础上移除权限(-)，或是将权限设置成后面的值(=)。</span><br><span class="line">第三个符号代表作用到设置上的权限。额外的设置有以下几项:</span><br><span class="line">X ：如果对象是目录或者它已有执行权限，赋予执行权限。</span><br><span class="line">s ：运行时重新设置UID或GID。</span><br><span class="line">t ：保留文件或目录。</span><br><span class="line">u ：将权限设置为跟属主一样。</span><br><span class="line">g ：将权限设置为跟属组一样。</span><br><span class="line">o ：将权限设置为跟其他用户一样。</span><br><span class="line">$ chmod o+r newfile</span><br><span class="line"><span class="comment">#ls -F 它能够在具有执行权限的文件名后加一个星号</span></span><br><span class="line">$ ls -lF newfile</span><br><span class="line">-rwxrw-r--    1 rich    rich            0 Sep 20 19:16 newfile*</span><br></pre></td></tr></table></figure>
+<p>options 为 chmod 命令提供了另外一些功能。 </p>
+<h3 id="改变所属关系"><a href="#改变所属关系" class="headerlink" title="改变所属关系"></a>改变所属关系</h3><p><code>chown</code>改变文件的属主<br><code>chgrp</code>改变文件的默认属组</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># chown 命令的格式如下</span></span><br><span class="line">chown options owner[.group] file</span><br><span class="line">-R 选项配合通配符可以递归地改变子目录和文件的所属关系。 </span><br><span class="line">-h 选项可以改变该文件的所有符号链接文件的所属关系</span><br><span class="line"></span><br><span class="line"><span class="comment"># 同时改变所在属主和属组</span></span><br><span class="line"><span class="comment"># chown dan.shared newfile </span></span><br><span class="line"><span class="comment"># ls -l newfile </span></span><br><span class="line">-rw-rw-r--    1 dan      shared             0 Sep 20 19:16 newfile </span><br><span class="line"><span class="comment">#</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># chgrp命令可以更改文件或目录的默认属组,用户账户必须是这个文件的属主，除了能够更换属组之外，还得是新组的成员.</span></span><br><span class="line">$ chgrp shared newfile</span><br><span class="line">$ ls -l newfile</span><br><span class="line">-rw-rw-r--    1 rich    shared          0 Sep 20 19:16 newfile</span><br></pre></td></tr></table></figure>
+<h2 id="共享文件"><a href="#共享文件" class="headerlink" title="共享文件"></a>共享文件</h2><p>Linux系统上共享文件的方法是创建组<br>Linux还为每个文件和目录存储了3个额外的信息位。<br>设置用户ID（<code>SUID</code>）：当文件被用户使用时，程序会以文件属主的权限运行。<br>设置组ID（<code>SGID</code>）：对文件来说，程序会以文件属组的权限运行；对目录来说，目录中创建的新文件会以目录的默认属组作为默认属组。<br>粘着位：进程结束后文件还驻留（粘着）在内存中。</p>
+<p><code>SGID</code>位对文件共享非常重要。启用<code>SGID</code>位后，你可以强制在一个共享目录下创建的新文件都属于该目录的属组，这个组也就成为了每个用户的属组。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir testdir</span><br><span class="line">$ ls -l</span><br><span class="line">drwxrwxr-x    2 rich    rich        4096 Sep 20 23:12 testdir/</span><br><span class="line">$ chgrp shared testdir</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ chmod g+s testdir  <span class="comment">#将目录的SGID位置位，以保证目录中新建文件都用shared作为默认属组</span></span><br><span class="line">$ ls -l</span><br><span class="line">drwxrwsr-x    2 rich    shared      4096 Sep 20 23:12 testdir/</span><br></pre></td></tr></table></figure>
+<h2 id="参考书目"><a href="#参考书目" class="headerlink" title="参考书目"></a>参考书目</h2><p>《Linux命令行与shell脚本编程大全》第3版</p>
+	  
+	</div>
+
+	<!-- recommended posts -->
+	
+
+	<div>
+  	<center>
+	<div class="pagination">
+<ul class="pagination">
+	 
+				
+    	<li class="prev"><a href="/2018/02/17/linux-cmd-4-linux-pms/" class="alignleft prev"><i class="fa fa-arrow-circle-o-left"></i>上一页</a></li>
+  		
+
+        <li><a href="/archives"><i class="fa fa-archive"></i>Archive</a></li>
+
+		
+		   <li class="next"><a href="/2018/02/15/linux-cmd-2-linux-enviroment/" class="alignright next">下一页<i class="fa fa-arrow-circle-o-right"></i></a></li>         
+        
+	
+</ul>
+</div>
+
+    </center>
+	</div>
+
+    <!-- share -->
+    
+        
+
+        
+
+    
+	
+	<!-- comment -->
+	
+<section id="comment">
+  <h2 class="title">留言</h2>
+  
+  	 <div id="disqus_thread">
+     <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  	 </div>
+  
+</section>
+
+
+	</div> <!-- col-md-9/col-md-12 -->
+		
+	
+	<div id="side_meta">
+		<div class="col-md-3" id="post_meta"> 
+
+	<!-- date -->
+	
+	<div class="meta-widget">
+	<i class="fa fa-clock-o"></i>
+	2018-02-16 
+	</div>
+	
+
+	<!-- categories -->
+    
+
+	<!-- tags -->
+	
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#tags"><i class="fa fa-tags"></i></a>		  
+    <ul id="tags" class="tag_box list-unstyled collapse in">	  
+	    
+  <li><a href="/tags/Linux/">Linux<span>11</span></a></li> <li><a href="/tags/Shell/">Shell<span>11</span></a></li>
+    </ul>
+	</div>
+	
+
+	<!-- toc -->
+	<div class="meta-widget">
+	
+	   <a data-toggle="collapse" data-target="#toc"><i class="fa fa-bars"></i></a>
+	   <div id="toc" class="toc collapse in">
+			<ol class="toc-article"><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#Linux-的安全性"><span class="toc-article-text">Linux 的安全性</span></a><ol class="toc-article-child"><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#etc-passwd文件"><span class="toc-article-text">/etc/passwd文件</span></a></li><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#etc-shadow-文件"><span class="toc-article-text">/etc/shadow 文件</span></a></li><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#添加新用户"><span class="toc-article-text">添加新用户</span></a></li><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#删除用户"><span class="toc-article-text">删除用户</span></a></li><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#修改用户"><span class="toc-article-text">修改用户</span></a><ol class="toc-article-child"><li class="toc-article-item toc-article-level-5"><a class="toc-article-link" href="#1-usermod"><span class="toc-article-text">1.usermod</span></a></li><li class="toc-article-item toc-article-level-5"><a class="toc-article-link" href="#2-passwd和chpasswd"><span class="toc-article-text">2.passwd和chpasswd</span></a></li><li class="toc-article-item toc-article-level-5"><a class="toc-article-link" href="#3-chsh、chfn和chage"><span class="toc-article-text">3.chsh、chfn和chage</span></a></li></ol></li></ol></li></ol></li><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#Linux-组"><span class="toc-article-text">Linux 组</span></a><ol class="toc-article-child"><li class="toc-article-item toc-article-level-4"><a class="toc-article-link" href="#etc-group文件"><span class="toc-article-text">/etc/group文件</span></a></li><li class="toc-article-item toc-article-level-4"><a class="toc-article-link" href="#创建新组-groupadd"><span class="toc-article-text">创建新组(groupadd)</span></a></li><li class="toc-article-item toc-article-level-4"><a class="toc-article-link" href="#修改组-groupmod"><span class="toc-article-text">修改组(groupmod)</span></a></li></ol></li></ol></li><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#理解文件权限"><span class="toc-article-text">理解文件权限</span></a><ol class="toc-article-child"><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#使用文件权限符"><span class="toc-article-text">使用文件权限符</span></a></li><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#默认文件权限"><span class="toc-article-text">默认文件权限</span></a></li></ol></li><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#改变安全性设置"><span class="toc-article-text">改变安全性设置</span></a><ol class="toc-article-child"><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#改变权限"><span class="toc-article-text">改变权限</span></a></li><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#改变所属关系"><span class="toc-article-text">改变所属关系</span></a></li></ol></li><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#共享文件"><span class="toc-article-text">共享文件</span></a></li><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#参考书目"><span class="toc-article-text">参考书目</span></a></li></ol>
+		</div>
+	
+	</div>
+	
+    <hr>
+	
+</div><!-- col-md-3 -->
+
+	</div>
+		
+
+</div><!-- row -->
+
+<script type="text/javascript">
+var disqus_shortname = 'technonacgithub';
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+	</div>
+  </div>
+  <div class="container-narrow">
+  <footer> <p>
+  &copy; 2018 technonac
+  
+      with help from <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="http://getbootstrap.com/" target="_blank">Twitter Bootstrap</a>. Theme by <a href="http://github.com/wzpan/hexo-theme-freemind/">Freemind</a>.    
+</p> </footer>
+</div> <!-- container-narrow -->
+  
+
+
+  
+<a id="gotop" href="#">   
+  <span>▲</span> 
+</a>
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script> 
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+   <script type="text/javascript">      
+     var search_path = "search.xml";
+	 if (search_path.length == 0) {
+	 	search_path = "search.xml";
+	 }
+	 var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+   </script>
+
+
+<!-- syntax highlighting -->
+
+
+</body>
+   </html>

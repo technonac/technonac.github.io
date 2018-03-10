@@ -1,0 +1,395 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>shell脚本(2)结构化命令 | Canon&#39;s Blog</title>
+  <meta name="author" content="technonac">
+  
+  <meta name="description" content="Java,Android Blog">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="shell脚本(2)结构化命令"/>
+  <meta property="og:site_name" content="Canon&#39;s Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  
+  
+    <link href="/favicon.png" rel="icon">
+  
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/css/themes/sandstone.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight-default.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/comment.css" media="screen" type="text/css">
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.9/es5-shim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-sham.min.js"></script>
+  <![endif]-->
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+  
+  <!-- analytics -->
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-114131858-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?99f21b353655df817afcb7d4d21a0688";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</head>
+
+ <body>  
+  <nav id="main-nav" class="navbar  navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+	<span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+       <a class="navbar-brand" href="/">Canon&#39;s Blog</a>
+      <div class="collapse navbar-collapse nav-menu">
+		<ul class="nav navbar-nav">
+		  
+		  <li>
+			<a href="/archives" title="All the articles.">
+			  <i class="fa fa-archive"></i>Archives
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/categories" title="All the categories.">
+			  <i class="fa fa-folder"></i>Categories
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/tags" title="All the tags.">
+			  <i class="fa fa-tags"></i>Tags
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/about" title="About me.">
+			  <i class="fa fa-user"></i>About
+			</a>
+		  </li>
+		  
+		</ul>
+      </div>
+    </div> <!-- container -->
+</nav>
+<div class="clearfix"></div>
+
+  <div class="container">
+  	<div class="content">
+    	 
+
+
+	
+		<div class="page-header ">		
+			<h1 class="title "> shell脚本(2)结构化命令</h1>
+		</div>		
+	
+
+
+
+
+
+
+<div class="row post">
+	<!-- cols -->
+	
+	<div id="top_meta"></div>
+	<div class="col-md-9">
+	
+
+	<!-- content -->
+	<div class="mypage">		
+	  		
+
+	  <p>逻辑流程控制通常称为结构化命令(structured command)</p>
+<h2 id="使用-if-then-语句"><a href="#使用-if-then-语句" class="headerlink" title="使用 if-then 语句"></a>使用 if-then 语句</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="built_in">command</span></span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">    commands</span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
+<p>bash shell的 if 语句会运行 if 后面的那个命令。如果该命令的退出状态码是0（该命令成功运行），位于 then 部分的命令就会被执行,如果该命令的退出状态码是其他值， then部分的命令就不会被执行，bash shell会继续执行脚本中的下一个命令<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ cat test1.sh</span><br><span class="line"><span class="comment"># !/bin/bash</span></span><br><span class="line"><span class="comment"># testing the if statement</span></span><br><span class="line"><span class="keyword">if</span> <span class="built_in">pwd</span></span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"It worked"</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line">$</span><br></pre></td></tr></table></figure></p>
+<p>if-then 语句的另一种形式：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="built_in">command</span>; <span class="keyword">then</span></span><br><span class="line">commands </span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
+<h2 id="if-then-else-语句"><a href="#if-then-else-语句" class="headerlink" title="if-then-else 语句"></a>if-then-else 语句</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="built_in">command</span></span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">  commands</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">  commands</span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
+<h2 id="嵌套-if"><a href="#嵌套-if" class="headerlink" title="嵌套 if"></a>嵌套 if</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> command1 </span><br><span class="line"><span class="keyword">then</span> </span><br><span class="line">    <span class="built_in">command</span> <span class="built_in">set</span> 1 </span><br><span class="line"><span class="keyword">elif</span> command2 </span><br><span class="line"><span class="keyword">then</span> </span><br><span class="line">   <span class="built_in">command</span> <span class="built_in">set</span> 2 </span><br><span class="line"><span class="keyword">elif</span> command3 </span><br><span class="line"><span class="keyword">then</span> </span><br><span class="line">   <span class="built_in">command</span> <span class="built_in">set</span> 3 </span><br><span class="line"><span class="keyword">elif</span> command4 </span><br><span class="line"><span class="keyword">then</span> </span><br><span class="line">   <span class="built_in">command</span> <span class="built_in">set</span> 4 </span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
+<h2 id="test-命令"><a href="#test-命令" class="headerlink" title="test 命令"></a>test 命令</h2><p>test 命令提供了在 if-then 语句中测试不同条件的途径,如果 test 命令中列出的条件成立,test 命令就会退出并返回退出状态码0。<br>test 命令的格式非常简单。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">test</span> condition</span><br><span class="line">--------------------------------</span><br><span class="line"><span class="keyword">if</span> <span class="built_in">test</span> condition</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">  commands</span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
+<p> 判断内容是否为空</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">$ cat test6.sh </span><br><span class="line"><span class="meta">#!/bin/bash </span></span><br><span class="line"><span class="comment"># Testing the test command </span></span><br><span class="line"><span class="comment"># </span></span><br><span class="line">my_variable=<span class="string">""</span> </span><br><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="keyword">if</span> <span class="built_in">test</span> <span class="variable">$my_variable</span></span><br><span class="line"><span class="keyword">then</span> </span><br><span class="line">   <span class="built_in">echo</span> <span class="string">"The <span class="variable">$my_variable</span> expression returns a True"</span> </span><br><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="keyword">else</span> </span><br><span class="line">   <span class="built_in">echo</span> <span class="string">"The <span class="variable">$my_variable</span> expression returns a False"</span> </span><br><span class="line"><span class="keyword">fi</span> </span><br><span class="line">$ </span><br><span class="line">$ ./test6.sh </span><br><span class="line">The  expression returns a False </span><br><span class="line">$</span><br></pre></td></tr></table></figure>
+<p>bash shell提供了另一种条件测试方法，无需在 if-then 语句中声明 test 命令。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> [ condition ]</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">  commands</span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"><span class="comment"># 方括号定义了测试条件。注意，第一个方括号之后和第二个方括号之前必须加上一个空格，否则就会报错。</span></span><br></pre></td></tr></table></figure>
+<p>test 命令可以判断三类条件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">数值比较</span><br><span class="line">字符串比较</span><br><span class="line">文件比较</span><br></pre></td></tr></table></figure>
+<h3 id="数值比较"><a href="#数值比较" class="headerlink" title="数值比较"></a>数值比较</h3><p>test命令的数值比较功能</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">n1 -eq n2  检查n1是否与n2相等</span><br><span class="line">n1 -ge n2  检查n1是否大于或等于n2 </span><br><span class="line">n1 -gt n2  检查n1是否大于n2 </span><br><span class="line">n1 -le n2  检查n1是否小于或等于n2 </span><br><span class="line">n1 -lt n2  检查n1是否小于n2 </span><br><span class="line">n1 -ne n2  检查n1是否不等于n2</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">$ cat numeric_test.sh</span><br><span class="line"><span class="comment"># !/bin/bash</span></span><br><span class="line"><span class="comment"># Using numeric test evaluations</span></span><br><span class="line"><span class="comment"># </span></span><br><span class="line">value1=10</span><br><span class="line">value2=11</span><br><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="keyword">if</span> [ <span class="variable">$value1</span> -gt 5 ] <span class="comment"># 测试变量 value1 的值是否大于 5</span></span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"The test value <span class="variable">$value1</span> is greater than 5"</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="keyword">if</span> [ <span class="variable">$value1</span> -eq <span class="variable">$value2</span> ] <span class="comment"># 测试变量 value1 的值是否和变量 value2 的值相等</span></span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"The values are equal"</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"The values are different"</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"><span class="comment"># </span></span><br><span class="line">$</span><br></pre></td></tr></table></figure>
+<h3 id="字符串比较"><a href="#字符串比较" class="headerlink" title="字符串比较"></a>字符串比较</h3><p>字符串比较测试 </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">str1 = str2   检查str1是否和str2相同</span><br><span class="line">str1 != str2  检查str1是否和str2不同</span><br><span class="line">str1 &lt; str2   检查str1是否比str2小</span><br><span class="line">str1 &gt; str2   检查str1是否比str2大</span><br><span class="line">-n str1       检查str1的长度是否非0</span><br><span class="line">-z str1       检查str1的长度是否为0</span><br></pre></td></tr></table></figure>
+<h4 id="1-字符串相等性"><a href="#1-字符串相等性" class="headerlink" title="1.字符串相等性"></a>1.字符串相等性</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">$ cat test7.sh </span><br><span class="line"><span class="meta">#!/bin/bash </span></span><br><span class="line"><span class="comment"># testing string equality </span></span><br><span class="line">testuser=rich </span><br><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="keyword">if</span> [ <span class="variable">$USER</span> = <span class="variable">$testuser</span> ] </span><br><span class="line"><span class="keyword">then</span> </span><br><span class="line">   <span class="built_in">echo</span> <span class="string">"Welcome <span class="variable">$testuser</span>"</span> </span><br><span class="line"><span class="keyword">fi</span> </span><br><span class="line">$  </span><br><span class="line">$ ./test7.sh </span><br><span class="line">Welcome rich </span><br><span class="line">$</span><br></pre></td></tr></table></figure>
+<p>记住，在比较字符串的相等性时，比较测试会将所有的标点和大小写情况都考虑在内。</p>
+<h4 id="2-字符串顺序"><a href="#2-字符串顺序" class="headerlink" title="2.字符串顺序"></a>2.字符串顺序</h4><p>大于号和小于号必须转义，否则shell会把它们当作重定向符号，把字符串值当作文件名；<br>大于和小于顺序和 sort 命令所采用的不同。</p>
+<p>比较测试中使用的是标准的ASCII顺序，根据每个字符的ASCII数值来决定排序结果。 sort命令使用的是系统的本地化语言设置中定义的排序顺序</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">$ cat test9.sh</span><br><span class="line"><span class="comment"># !/bin/bash</span></span><br><span class="line"><span class="comment"># mis-using string comparisons</span></span><br><span class="line"><span class="comment"># </span></span><br><span class="line">val1=baseball</span><br><span class="line">val2=hockey</span><br><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="keyword">if</span> [ <span class="variable">$val1</span> \&gt; <span class="variable">$val2</span> ]</span><br><span class="line">  <span class="keyword">then</span></span><br><span class="line">  <span class="built_in">echo</span> <span class="string">"<span class="variable">$val1</span> is greater than <span class="variable">$val2</span>"</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">  <span class="built_in">echo</span> <span class="string">"<span class="variable">$val1</span> is less than <span class="variable">$val2</span>"</span></span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
+<p>注意,test 命令和测试表达式使用标准的数学比较符号来表示字符串比较，而用文本代码来表示数值比较</p>
+<h4 id="3-字符串大小"><a href="#3-字符串大小" class="headerlink" title="3.字符串大小"></a>3.字符串大小</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">$ cat test10.sh </span><br><span class="line"><span class="meta">#!/bin/bash </span></span><br><span class="line"><span class="comment"># testing string length </span></span><br><span class="line">val1=testing </span><br><span class="line">val2=<span class="string">''</span> </span><br><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="keyword">if</span> [ -n <span class="variable">$val1</span> ] </span><br><span class="line"><span class="keyword">then</span> </span><br><span class="line">   <span class="built_in">echo</span> <span class="string">"The string '<span class="variable">$val1</span>' is not empty"</span> </span><br><span class="line"><span class="keyword">else</span> </span><br><span class="line">   <span class="built_in">echo</span> <span class="string">"The string '<span class="variable">$val1</span>' is empty"</span> </span><br><span class="line"><span class="keyword">fi</span> </span><br><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="keyword">if</span> [ -z <span class="variable">$val2</span> ] </span><br><span class="line"><span class="keyword">then</span> </span><br><span class="line">   <span class="built_in">echo</span> <span class="string">"The string '<span class="variable">$val2</span>' is empty"</span> </span><br><span class="line"><span class="keyword">else</span> </span><br><span class="line">   <span class="built_in">echo</span> <span class="string">"The string '<span class="variable">$val2</span>' is not empty"</span> </span><br><span class="line"><span class="keyword">fi</span> </span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> [ -z <span class="variable">$val3</span> ] <span class="comment"># 未被定义过，长度为0</span></span><br><span class="line"><span class="keyword">then</span> </span><br><span class="line">   <span class="built_in">echo</span> <span class="string">"The string '<span class="variable">$val3</span>' is empty"</span> </span><br><span class="line"><span class="keyword">else</span> </span><br><span class="line">   <span class="built_in">echo</span> <span class="string">"The string '<span class="variable">$val3</span>' is not empty"</span> </span><br><span class="line"><span class="keyword">fi</span> </span><br><span class="line">$  </span><br><span class="line">$ ./test10.sh </span><br><span class="line">The string <span class="string">'testing'</span> is not empty </span><br><span class="line">The string <span class="string">''</span> is empty </span><br><span class="line">The string <span class="string">''</span> is empty </span><br><span class="line">$</span><br></pre></td></tr></table></figure>
+<h3 id="文件比较"><a href="#文件比较" class="headerlink" title="文件比较"></a>文件比较</h3><p>文件比较是shell编程中最为强大、也是用得最多的比较形式。它允许你测试Linux文件系统上文件和目录的状态。</p>
+<p>test命令的文件比较功能</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">-d file  检查file是否存在并是一个目录</span><br><span class="line">-e file  检查file是否存在</span><br><span class="line">-f file  检查file是否存在并是一个文件</span><br><span class="line">-r file  检查file是否存在并可读</span><br><span class="line">-s file  检查file是否存在并非空</span><br><span class="line">-w file  检查file是否存在并可写</span><br><span class="line">-x file  检查file是否存在并可执行</span><br><span class="line">-O file  检查file是否存在并属当前用户所有</span><br><span class="line">-G file  检查file是否存在并且默认组与当前用户相同</span><br><span class="line">file1 -nt file2  检查file1是否比file2新</span><br><span class="line">file1 -ot file2  检查file1是否比file2旧</span><br></pre></td></tr></table></figure>
+<h4 id="1-检查目录"><a href="#1-检查目录" class="headerlink" title="1.检查目录"></a>1.检查目录</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">$ cat test11.sh</span><br><span class="line"><span class="comment"># !/bin/bash</span></span><br><span class="line"><span class="comment"># Look before you leap</span></span><br><span class="line"><span class="comment"># </span></span><br><span class="line">jump_directory=/home/arthur</span><br><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="keyword">if</span> [ -d <span class="variable">$jump_directory</span> ]</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">  <span class="built_in">echo</span> <span class="string">"The <span class="variable">$jump_directory</span> directory exists"</span></span><br><span class="line">  <span class="built_in">cd</span> <span class="variable">$jump_directory</span></span><br><span class="line">  ls</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">  <span class="built_in">echo</span> <span class="string">"The <span class="variable">$jump_directory</span> directory does not exist"</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"><span class="comment"># $</span></span><br><span class="line">$ ./test11.sh</span><br><span class="line">The /home/arthur directory does not exist</span><br><span class="line">$</span><br></pre></td></tr></table></figure>
+<h2 id="复合条件测试"><a href="#复合条件测试" class="headerlink" title="复合条件测试"></a>复合条件测试</h2><p>if-then 语句允许你使用布尔逻辑来组合测试。有两种布尔运算符可用：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[ condition1 ] &amp;&amp; [ condition2 ]</span><br><span class="line">[ condition1 ] || [ condition2 ]</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ cat test22.sh </span><br><span class="line"><span class="meta">#!/bin/bash </span></span><br><span class="line"><span class="keyword">if</span> [ -d <span class="variable">$HOME</span> ] &amp;&amp; [ -w <span class="variable">$HOME</span>/testing ] </span><br><span class="line"><span class="keyword">then</span> </span><br><span class="line">   <span class="built_in">echo</span> <span class="string">"The file exists and you can write to it"</span> </span><br><span class="line"><span class="keyword">else</span> </span><br><span class="line">   <span class="built_in">echo</span> <span class="string">"I cannot write to the file"</span> </span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
+<h2 id="if-then-的高级特性"><a href="#if-then-的高级特性" class="headerlink" title="if-then 的高级特性"></a>if-then 的高级特性</h2><p>bash shell提供了两项可在 if-then 语句中使用的高级特性：</p>
+<blockquote>
+<p>用于数学表达式的双括号</p>
+</blockquote>
+<blockquote>
+<p> 用于高级字符串处理功能的双方括号</p>
+</blockquote>
+<h3 id="使用双括号"><a href="#使用双括号" class="headerlink" title="使用双括号"></a>使用双括号</h3><p>双括号命令允许你在比较过程中使用高级数学表达式。 test 命令只能在比较中使用简单的<br>算术操作,双括号命令的格式如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(( expression ))</span><br></pre></td></tr></table></figure>
+<p>双括号命令符号<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">val++  后增</span><br><span class="line">val--  后减</span><br><span class="line">++val  先增</span><br><span class="line">--val  先减</span><br><span class="line">!      逻辑求反</span><br><span class="line">~      位求反</span><br><span class="line">**     幂运算</span><br><span class="line">&lt;&lt;     左位移</span><br><span class="line">&gt;&gt;     右位移</span><br><span class="line">&amp;      位布尔和</span><br><span class="line">|      位布尔或</span><br><span class="line">&amp;&amp;     逻辑和</span><br><span class="line">||     逻辑或</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">$ cat test23.sh</span><br><span class="line"><span class="comment"># !/bin/bash</span></span><br><span class="line"><span class="comment"># using double parenthesis</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line">val1=10</span><br><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="keyword">if</span> (( <span class="variable">$val1</span> ** 2 &gt; 90 )) <span class="comment"># 不需要将双括号中表达式里的大于号转义</span></span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">  (( val2 = <span class="variable">$val1</span> ** 2 ))</span><br><span class="line">  <span class="built_in">echo</span> <span class="string">"The square of <span class="variable">$val1</span> is <span class="variable">$val2</span>"</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line">$ </span><br><span class="line">$ ./test23.sh</span><br><span class="line">The square of 10 is 100</span><br><span class="line">$</span><br></pre></td></tr></table></figure>
+<h3 id="使用双方括号"><a href="#使用双方括号" class="headerlink" title="使用双方括号"></a>使用双方括号</h3><p>双方括号命令提供了针对字符串比较的高级特性。双方括号命令的格式如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[[ expression ]]</span><br></pre></td></tr></table></figure>
+<p>双方括号里的 expression 使用了 test 命令中采用的标准字符串比较。但它提供了 test 命令未提供的另一个特性——模式匹配（pattern matching）。</p>
+<p>在模式匹配中，可以定义一个正则表达式来匹配字符串值。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">$ cat test24.sh</span><br><span class="line"><span class="comment"># !/bin/bash</span></span><br><span class="line"><span class="comment"># using pattern matching</span></span><br><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="keyword">if</span> [[ <span class="variable">$USER</span> == r* ]]</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">  <span class="built_in">echo</span> <span class="string">"Hello <span class="variable">$USER</span>"</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">  <span class="built_in">echo</span> <span class="string">"Sorry, I do not know you"</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line">$ </span><br><span class="line">$ ./test24.sh</span><br><span class="line">Hello rich</span><br><span class="line">$</span><br></pre></td></tr></table></figure></p>
+<h2 id="case-命令"><a href="#case-命令" class="headerlink" title="case 命令"></a>case 命令</h2><p>case 命令会采用列表格式来检查单个变量的多个值</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">case</span> variable <span class="keyword">in</span></span><br><span class="line">pattern1 | pattern2) commands1;;</span><br><span class="line">pattern3) commands2;;</span><br><span class="line">*) default commands;;</span><br><span class="line"><span class="keyword">esac</span></span><br></pre></td></tr></table></figure>
+<p>case 命令会将指定的变量与不同模式进行比较。如果变量和模式是匹配的，那么shell会执行为该模式指定的命令。可以通过竖线操作符在一行中分隔出多个模式模式。星号会捕获所有与已知模式不匹配的值</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">$ cat test26.sh</span><br><span class="line"><span class="comment"># !/bin/bash</span></span><br><span class="line"><span class="comment"># using the case command</span></span><br><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="keyword">case</span> <span class="variable">$USER</span> <span class="keyword">in</span></span><br><span class="line">rich | barbara)</span><br><span class="line">  <span class="built_in">echo</span> <span class="string">"Welcome, <span class="variable">$USER</span>"</span></span><br><span class="line">  <span class="built_in">echo</span> <span class="string">"Please enjoy your visit"</span>;;</span><br><span class="line">testing)</span><br><span class="line">  <span class="built_in">echo</span> <span class="string">"Special testing account"</span>;;</span><br><span class="line">jessica)</span><br><span class="line">  <span class="built_in">echo</span> <span class="string">"Do not forget to log off when you're done"</span>;;</span><br><span class="line">*)</span><br><span class="line">  <span class="built_in">echo</span> <span class="string">"Sorry, you are not allowed here"</span>;;</span><br><span class="line"><span class="keyword">esac</span></span><br><span class="line">$ </span><br><span class="line">$ ./test26.sh</span><br><span class="line">Welcome, rich</span><br><span class="line">Please enjoy your visit</span><br><span class="line">$</span><br></pre></td></tr></table></figure>
+<h2 id="for-命令"><a href="#for-命令" class="headerlink" title="for 命令"></a>for 命令</h2><p>bash shell提供了 for 命令，允许你创建一个遍历一系列值的循环。每次迭代都使用其中一个值来执行已定义好的一组命令。下面是bash shell中 for 命令的基本格式。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> var <span class="keyword">in</span> list</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">  commands</span><br><span class="line"><span class="keyword">done</span></span><br><span class="line">---------------------------</span><br><span class="line"><span class="keyword">for</span> var <span class="keyword">in</span> list; <span class="keyword">do</span></span><br><span class="line">  commands</span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+<h3 id="读取列表中的值"><a href="#读取列表中的值" class="headerlink" title="读取列表中的值"></a>读取列表中的值</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ cat test1</span><br><span class="line"><span class="comment"># !/bin/bash</span></span><br><span class="line"><span class="comment"># basic for command</span></span><br><span class="line"><span class="keyword">for</span> <span class="built_in">test</span> <span class="keyword">in</span> Alabama Alaska </span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">   <span class="built_in">echo</span> The next state is <span class="variable">$test</span></span><br><span class="line"><span class="keyword">done</span></span><br><span class="line">$ ./test1</span><br><span class="line">The next state is Alabama</span><br><span class="line">The next state is Alaska</span><br><span class="line">$</span><br></pre></td></tr></table></figure>
+<h3 id="读取列表中的复杂值"><a href="#读取列表中的复杂值" class="headerlink" title="读取列表中的复杂值"></a>读取列表中的复杂值</h3><p>使用转义字符（反斜线）来将单引号转义；<br>使用双引号来定义用到单引号的值。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">$ cat test2</span><br><span class="line"><span class="comment"># !/bin/bash</span></span><br><span class="line"><span class="comment"># another example of how not to use the for command</span></span><br><span class="line"><span class="keyword">for</span> <span class="built_in">test</span> <span class="keyword">in</span> I don\<span class="string">'t know if "this'</span>ll<span class="string">" work</span></span><br><span class="line"><span class="string">do</span></span><br><span class="line"><span class="string">   echo "</span>word:<span class="variable">$test</span><span class="string">"</span></span><br><span class="line"><span class="string">done</span></span><br><span class="line"><span class="string">$ ./test2</span></span><br><span class="line"><span class="string">word:I</span></span><br><span class="line"><span class="string">word:don't</span></span><br><span class="line"><span class="string">word:know</span></span><br><span class="line"><span class="string">word:if</span></span><br><span class="line"><span class="string">word:this'll</span></span><br><span class="line"><span class="string">word:work</span></span><br><span class="line"><span class="string">$</span></span><br></pre></td></tr></table></figure>
+<p>for 命令用<code>空格</code>来划分列表中的每个值。如果在单独的数据值中有空格，就必须用双引号将这些值圈起来<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">$ cat test3</span><br><span class="line"><span class="comment"># !/bin/bash</span></span><br><span class="line"><span class="comment"># an example of how to properly define values</span></span><br><span class="line"><span class="keyword">for</span> <span class="built_in">test</span> <span class="keyword">in</span> Nevada <span class="string">"New Hampshire"</span> <span class="string">"New Mexico"</span> <span class="string">"New York"</span></span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">  <span class="built_in">echo</span> <span class="string">"Now going to <span class="variable">$test</span>"</span></span><br><span class="line"><span class="keyword">done</span></span><br><span class="line">$ ./test3</span><br><span class="line">Now going to Nevada</span><br><span class="line">Now going to New Hampshire</span><br><span class="line">Now going to New Mexico</span><br><span class="line">Now going to New York</span><br><span class="line">$</span><br></pre></td></tr></table></figure></p>
+<h3 id="从变量读取列表"><a href="#从变量读取列表" class="headerlink" title="从变量读取列表"></a>从变量读取列表</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">$ cat test4</span><br><span class="line"><span class="comment"># !/bin/bash</span></span><br><span class="line"><span class="comment"># using a variable to hold the list</span></span><br><span class="line">list=<span class="string">"Alabama Alaska Arizona"</span></span><br><span class="line">list=<span class="variable">$list</span><span class="string">" Connecticut"</span> <span class="comment"># 添加文本</span></span><br><span class="line"><span class="keyword">for</span> state <span class="keyword">in</span> <span class="variable">$list</span></span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">   <span class="built_in">echo</span> <span class="string">"Have you ever visited <span class="variable">$state</span>?"</span></span><br><span class="line"><span class="keyword">done</span></span><br><span class="line">$ ./test4</span><br><span class="line">Have you ever visited Alabama?</span><br><span class="line">Have you ever visited Alaska?</span><br><span class="line">Have you ever visited Arizona?</span><br><span class="line">Have you ever visited Connecticut?</span><br><span class="line">$</span><br></pre></td></tr></table></figure>
+<p>添加/拼接文本</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$var</span>=<span class="string">'hello'</span></span><br><span class="line"><span class="variable">$var</span>=<span class="variable">$var</span><span class="string">" world!"</span></span><br></pre></td></tr></table></figure>
+<h3 id="更改字段分隔符"><a href="#更改字段分隔符" class="headerlink" title="更改字段分隔符"></a>更改字段分隔符</h3><p>IFS(internal field separator,内部字段分隔符) 环境变量定义了bash shell用作字段分隔符的一系列字符。默认情况下，bash shell会将下列字符当作字段分隔符：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">空格</span><br><span class="line">制表符</span><br><span class="line">换行符</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">$ cat test5b</span><br><span class="line"><span class="comment"># !/bin/bash</span></span><br><span class="line"><span class="comment"># reading values from a file</span></span><br><span class="line">file=<span class="string">"states"</span></span><br><span class="line"><span class="comment"># 可以在shell脚本中临时更改 IFS 环境变量的值来限制被bash shell当作字段分隔符的字符</span></span><br><span class="line"><span class="comment">#告诉bash shell在数据值中忽略空格和制表符</span></span><br><span class="line">IFS=$<span class="string">'\n'</span></span><br><span class="line"> <span class="comment"># 命令替换$() 来执行任何能产生输出的命令，然后在 for 命令中使用该命令的输出</span></span><br><span class="line"><span class="keyword">for</span> state <span class="keyword">in</span> $(cat <span class="variable">$file</span>)</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"Visit beautiful <span class="variable">$state</span>"</span></span><br><span class="line"><span class="keyword">done</span></span><br><span class="line">$ ./test5b</span><br><span class="line">Visit beautiful Alabama</span><br><span class="line">Visit beautiful North Carolina</span><br><span class="line">$</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 还原IFS方法</span></span><br><span class="line"> 在处理代码量较大的脚本时，可能在一个地方需要修改 IFS 的值，然后忽略这次修改，在脚本的其他地方继续沿用 IFS 的默认值。一个可参考的安全实践是在改变 IFS 之前保存原来的 IFS 值，之后再恢复它。 </span><br><span class="line">这种技术可以这样实现： </span><br><span class="line">IFS.OLD=<span class="variable">$IFS</span> </span><br><span class="line">IFS=$<span class="string">'\n'</span> </span><br><span class="line">&lt;在代码中使用新的IFS值&gt; </span><br><span class="line">IFS=<span class="variable">$IFS</span>.OLD </span><br><span class="line">这就保证了在脚本的后续操作中使用的是 IFS 的默认值。</span><br></pre></td></tr></table></figure>
+<p>还有其他一些 IFS 环境变量的绝妙用法。假定你要遍历一个文件中用冒号分隔的值（比如在/etc/passwd文件中）。你要做的就是将 IFS 的值设为冒号。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">IFS=:</span><br></pre></td></tr></table></figure>
+<p>如果要指定多个 IFS 字符，只要将它们在赋值行串起来就行。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">IFS=$<span class="string">'\n'</span>:;<span class="string">"</span></span><br></pre></td></tr></table></figure>
+<p>这个赋值会将换行符、冒号、分号和双引号作为字段分隔符。如何使用 IFS 字符解析数据没有任何限制</p>
+<h3 id="用通配符读取目录"><a href="#用通配符读取目录" class="headerlink" title="用通配符读取目录"></a>用通配符读取目录</h3><p>可以用 for 命令来自动遍历目录中的文件。进行此操作时，必须在文件名或路径名中使用通配符。它会强制shell使用文件扩展匹配。文件扩展匹配是生成匹配指定通配符的文件名或路径名的过程。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">$ cat test6</span><br><span class="line"><span class="comment"># !/bin/bash</span></span><br><span class="line"><span class="comment"># iterate through all the files in a directory</span></span><br><span class="line"><span class="keyword">for</span> file <span class="keyword">in</span> /home/rich/<span class="built_in">test</span>/*</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">    <span class="keyword">if</span> [ -d <span class="string">"<span class="variable">$file</span>"</span> ] <span class="comment">#路径可能包含空格，使用双引号括起来</span></span><br><span class="line">    <span class="keyword">then</span></span><br><span class="line">      <span class="built_in">echo</span> <span class="string">"<span class="variable">$file</span> is a directory"</span></span><br><span class="line">    <span class="keyword">elif</span> [ -f <span class="string">"<span class="variable">$file</span>"</span> ]</span><br><span class="line">    <span class="keyword">then</span></span><br><span class="line">      <span class="built_in">echo</span> <span class="string">"<span class="variable">$file</span> is a file"</span></span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line"><span class="keyword">done</span></span><br><span class="line">$ ./test6</span><br><span class="line">/home/rich/<span class="built_in">test</span>/dir1 is a directory</span><br><span class="line">/home/rich/<span class="built_in">test</span>/myprog.c is a file</span><br><span class="line">/home/rich/<span class="built_in">test</span>/myprog is a file</span><br></pre></td></tr></table></figure>
+<h2 id="C-语言风格的-for-命令"><a href="#C-语言风格的-for-命令" class="headerlink" title="C 语言风格的 for 命令"></a>C 语言风格的 for 命令</h2><p>bash中C语言风格的 for 循环的基本格式如下:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (( variable assignment ; condition ; iteration process ))</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ cat test8</span><br><span class="line"><span class="comment"># !/bin/bash</span></span><br><span class="line"><span class="comment"># testing the C-style for loop</span></span><br><span class="line"><span class="keyword">for</span> (( i=1; i &lt;= 10; i++ ))</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">   <span class="built_in">echo</span> <span class="string">"The next number is <span class="variable">$i</span>"</span></span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+<p>使用多个变量<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># !/bin/bash</span></span><br><span class="line"><span class="comment"># multiple variables</span></span><br><span class="line"><span class="keyword">for</span> (( a=1, b=10; a &lt;= 10; a++, b-- ))</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">   <span class="built_in">echo</span> <span class="string">"<span class="variable">$a</span> - <span class="variable">$b</span>"</span></span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="while命令"><a href="#while命令" class="headerlink" title="while命令"></a>while命令</h2><p>while 命令允许定义一个要测试的命令，然后循环执行一组命令，只要定义的测试命令返回的是退出状态码 0 。它会在每次迭代的一开始测试 test 命令。在 test 命令返回非零退出状态码时， while 命令会停止执行那组命令。while 命令的格式是：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> <span class="built_in">test</span> <span class="built_in">command</span></span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">  other  commands</span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ cat test10</span><br><span class="line"><span class="comment"># !/bin/bash</span></span><br><span class="line"><span class="comment"># while command test</span></span><br><span class="line">var1=10</span><br><span class="line"><span class="keyword">while</span> [ <span class="variable">$var1</span> -gt 0 ]</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">  <span class="built_in">echo</span> <span class="variable">$var1</span></span><br><span class="line">  var1=$[ <span class="variable">$var1</span> - 1 ]</span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+<p>while 命令允许你在 while 语句行定义多个测试命令。只有最后一个测试命令的退出状态码会被用来决定什么时候结束循环</p>
+<h2 id="until-命令"><a href="#until-命令" class="headerlink" title="until 命令"></a>until 命令</h2><p>until 命令和 while 命令工作的方式完全相反。until 命令要求你指定一个通常返回非零退出状态码的测试命令。只有测试命令的退出状态码不为 0 ，bash shell才会执行循环中列出的命令。一旦测试命令返回了退出状态码 0 ，循环就结束了。until 命令的格式如下:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">until <span class="built_in">test</span> commands</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">  other commands</span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ cat test12</span><br><span class="line"><span class="comment"># !/bin/bash</span></span><br><span class="line"><span class="comment"># using the until command</span></span><br><span class="line">var1=100</span><br><span class="line">until [ <span class="variable">$var1</span> -eq 0 ]</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">  <span class="built_in">echo</span> <span class="variable">$var1</span></span><br><span class="line">  var1=$[ <span class="variable">$var1</span> - 25 ]</span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+<h2 id="循环处理文件数据"><a href="#循环处理文件数据" class="headerlink" title="循环处理文件数据"></a>循环处理文件数据</h2><p>通常必须遍历存储在文件中的数据。这要求结合已经讲过的两种技术：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">使用嵌套循环</span><br><span class="line">修改 IFS 环境变量</span><br></pre></td></tr></table></figure>
+<p>这个脚本使用了两个不同的 IFS 值来解析数据。第一个 IFS 值解析出<code>/etc/passwd</code>文件中的单独的行。内部 for 循环接着将 IFS 的值修改为冒号，允许你从<code>/etc/passwd</code>的行中解析出单独的值</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># !/bin/bash</span></span><br><span class="line"><span class="comment"># changing the IFS value</span></span><br><span class="line">IFS.OLD=<span class="variable">$IFS</span></span><br><span class="line">IFS=$<span class="string">'\n'</span></span><br><span class="line"><span class="keyword">for</span> entry <span class="keyword">in</span> $(cat /etc/passwd)</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"Values in <span class="variable">$entry</span> –"</span></span><br><span class="line">    IFS=:</span><br><span class="line">    <span class="keyword">for</span> value <span class="keyword">in</span> <span class="variable">$entry</span></span><br><span class="line">    <span class="keyword">do</span></span><br><span class="line">      <span class="built_in">echo</span> <span class="string">"<span class="variable">$value</span>"</span></span><br><span class="line">    <span class="keyword">done</span></span><br><span class="line"><span class="keyword">done</span></span><br><span class="line">$</span><br></pre></td></tr></table></figure>
+<h2 id="控制循环"><a href="#控制循环" class="headerlink" title="控制循环"></a>控制循环</h2><p>有两个命令能帮我们控制循环内部的情况,<code>break</code>命令和<code>continue</code>命令。</p>
+<h3 id="break命令"><a href="#break命令" class="headerlink" title="break命令"></a>break命令</h3><p>用 break 命令来退出任意类型的循环，包括while 和 until 循环。</p>
+<p>有时你在内部循环，但需要停止外部循环。 break 命令接受单个命令行参数值：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">break</span> n</span><br></pre></td></tr></table></figure>
+<p>其中 n 指定了要跳出的循环层级。默认情况下， n 为 1 ，表明跳出的是当前的循环。如果你将n 设为 2 ， break 命令就会停止下一级的外部循环。</p>
+<h3 id="continue-命令"><a href="#continue-命令" class="headerlink" title="continue 命令"></a>continue 命令</h3><p>continue 命令可以提前中止某次循环中的命令，但并不会完全终止整个循环。可以在循环内部设置shell不执行命令的条件。</p>
+<p>continue 命令也允许通过命令行参数指定要继续执行哪一级循环：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">continue</span> n</span><br></pre></td></tr></table></figure>
+<p>其中 n 定义了要继续的循环层级。</p>
+<h2 id="处理循环的输出"><a href="#处理循环的输出" class="headerlink" title="处理循环的输出"></a>处理循环的输出</h2><p>在shell脚本中，你可以对循环的输出使用管道或进行重定向,可以通过在 done 命令之后添加一个处理命令来实现。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> file <span class="keyword">in</span> /home/rich/*</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">  <span class="keyword">if</span> [ -d <span class="string">"<span class="variable">$file</span>"</span> ]</span><br><span class="line">  <span class="keyword">then</span></span><br><span class="line">      <span class="built_in">echo</span> <span class="string">"<span class="variable">$file</span> is a directory"</span></span><br><span class="line">  <span class="keyword">elif</span></span><br><span class="line">      <span class="built_in">echo</span> <span class="string">"<span class="variable">$file</span> is a file"</span></span><br><span class="line">  <span class="keyword">fi</span></span><br><span class="line"><span class="keyword">done</span> &gt; output.txt</span><br><span class="line"><span class="comment"># shell会将 for 命令的结果重定向到文件output.txt中，而不是显示在屏幕上</span></span><br><span class="line"><span class="comment"># 这种方法同样适用于将循环的结果管接给另一个命令</span></span><br><span class="line"><span class="keyword">for</span> state <span class="keyword">in</span> <span class="string">"North Dakota"</span> Connecticut Illinois Alabama Tennessee </span><br><span class="line"><span class="keyword">do</span> </span><br><span class="line">   <span class="built_in">echo</span> <span class="string">"<span class="variable">$state</span> is the next place to go"</span> </span><br><span class="line"><span class="keyword">done</span> | sort </span><br><span class="line"><span class="comment"># 。 for 命令的输出传给了 sort 命令，该命令会改变 for 命令输出结果的顺序</span></span><br></pre></td></tr></table></figure>
+<h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h2><h3 id="查找可执行文件"><a href="#查找可执行文件" class="headerlink" title="查找可执行文件"></a>查找可执行文件</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">$ cat test25</span><br><span class="line"><span class="comment"># !/bin/bash</span></span><br><span class="line"><span class="comment"># finding files in the PATH</span></span><br><span class="line">IFS=:</span><br><span class="line"><span class="keyword">for</span> folder <span class="keyword">in</span> <span class="variable">$PATH</span> <span class="comment"># 对环境变量 PATH 中的目录进行迭代</span></span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">  <span class="built_in">echo</span> <span class="string">"<span class="variable">$folder</span>:"</span></span><br><span class="line">  <span class="keyword">for</span> file <span class="keyword">in</span> <span class="variable">$folder</span>/* <span class="comment"># 迭代特定目录中的所有文件</span></span><br><span class="line">  <span class="keyword">do</span></span><br><span class="line">    <span class="keyword">if</span> [ -x <span class="variable">$file</span> ] <span class="comment"># 检查各个文件是否具有可执行权限</span></span><br><span class="line">    <span class="keyword">then</span></span><br><span class="line">      <span class="built_in">echo</span> <span class="string">"  <span class="variable">$file</span>"</span></span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line">  <span class="keyword">done</span></span><br><span class="line"><span class="keyword">done</span></span><br><span class="line">$</span><br></pre></td></tr></table></figure>
+<h3 id="创建多个用户账户"><a href="#创建多个用户账户" class="headerlink" title="创建多个用户账户"></a>创建多个用户账户</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ cat test26</span><br><span class="line"><span class="comment"># !/bin/bash</span></span><br><span class="line"><span class="comment"># process new user accounts</span></span><br><span class="line">input=<span class="string">"users.csv"</span></span><br><span class="line"><span class="keyword">while</span> IFS=<span class="string">','</span> <span class="built_in">read</span> -r userid name</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">  <span class="built_in">echo</span> <span class="string">"adding <span class="variable">$userid</span>"</span></span><br><span class="line">  useradd -c <span class="string">"<span class="variable">$name</span>"</span> -m <span class="variable">$userid</span></span><br><span class="line"><span class="keyword">done</span> &lt; <span class="string">"<span class="variable">$input</span>"</span></span><br><span class="line">$</span><br><span class="line"><span class="variable">$input</span> 变量指向数据文件，并且该变量被作为 <span class="keyword">while</span> 命令的重定向数据。</span><br></pre></td></tr></table></figure>
+<h2 id="参考书目"><a href="#参考书目" class="headerlink" title="参考书目"></a>参考书目</h2><p>《Linux命令行与shell脚本编程大全》第3版</p>
+	  
+	</div>
+
+	<!-- recommended posts -->
+	
+
+	<div>
+  	<center>
+	<div class="pagination">
+<ul class="pagination">
+	 
+				
+    	<li class="prev"><a href="/2018/02/21/shell-script-3-user-input/" class="alignleft prev"><i class="fa fa-arrow-circle-o-left"></i>上一页</a></li>
+  		
+
+        <li><a href="/archives"><i class="fa fa-archive"></i>Archive</a></li>
+
+		
+		   <li class="next"><a href="/2018/02/19/shell-script-1-basic-script/" class="alignright next">下一页<i class="fa fa-arrow-circle-o-right"></i></a></li>         
+        
+	
+</ul>
+</div>
+
+    </center>
+	</div>
+
+    <!-- share -->
+    
+        
+
+        
+
+    
+	
+	<!-- comment -->
+	
+<section id="comment">
+  <h2 class="title">留言</h2>
+  
+  	 <div id="disqus_thread">
+     <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  	 </div>
+  
+</section>
+
+
+	</div> <!-- col-md-9/col-md-12 -->
+		
+	
+	<div id="side_meta">
+		<div class="col-md-3" id="post_meta"> 
+
+	<!-- date -->
+	
+	<div class="meta-widget">
+	<i class="fa fa-clock-o"></i>
+	2018-02-20 
+	</div>
+	
+
+	<!-- categories -->
+    
+
+	<!-- tags -->
+	
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#tags"><i class="fa fa-tags"></i></a>		  
+    <ul id="tags" class="tag_box list-unstyled collapse in">	  
+	    
+  <li><a href="/tags/Linux/">Linux<span>11</span></a></li> <li><a href="/tags/Shell/">Shell<span>11</span></a></li>
+    </ul>
+	</div>
+	
+
+	<!-- toc -->
+	<div class="meta-widget">
+	
+	   <a data-toggle="collapse" data-target="#toc"><i class="fa fa-bars"></i></a>
+	   <div id="toc" class="toc collapse in">
+			<ol class="toc-article"><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#使用-if-then-语句"><span class="toc-article-text">使用 if-then 语句</span></a></li><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#if-then-else-语句"><span class="toc-article-text">if-then-else 语句</span></a></li><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#嵌套-if"><span class="toc-article-text">嵌套 if</span></a></li><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#test-命令"><span class="toc-article-text">test 命令</span></a><ol class="toc-article-child"><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#数值比较"><span class="toc-article-text">数值比较</span></a></li><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#字符串比较"><span class="toc-article-text">字符串比较</span></a><ol class="toc-article-child"><li class="toc-article-item toc-article-level-4"><a class="toc-article-link" href="#1-字符串相等性"><span class="toc-article-text">1.字符串相等性</span></a></li><li class="toc-article-item toc-article-level-4"><a class="toc-article-link" href="#2-字符串顺序"><span class="toc-article-text">2.字符串顺序</span></a></li><li class="toc-article-item toc-article-level-4"><a class="toc-article-link" href="#3-字符串大小"><span class="toc-article-text">3.字符串大小</span></a></li></ol></li><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#文件比较"><span class="toc-article-text">文件比较</span></a><ol class="toc-article-child"><li class="toc-article-item toc-article-level-4"><a class="toc-article-link" href="#1-检查目录"><span class="toc-article-text">1.检查目录</span></a></li></ol></li></ol></li><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#复合条件测试"><span class="toc-article-text">复合条件测试</span></a></li><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#if-then-的高级特性"><span class="toc-article-text">if-then 的高级特性</span></a><ol class="toc-article-child"><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#使用双括号"><span class="toc-article-text">使用双括号</span></a></li><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#使用双方括号"><span class="toc-article-text">使用双方括号</span></a></li></ol></li><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#case-命令"><span class="toc-article-text">case 命令</span></a></li><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#for-命令"><span class="toc-article-text">for 命令</span></a><ol class="toc-article-child"><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#读取列表中的值"><span class="toc-article-text">读取列表中的值</span></a></li><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#读取列表中的复杂值"><span class="toc-article-text">读取列表中的复杂值</span></a></li><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#从变量读取列表"><span class="toc-article-text">从变量读取列表</span></a></li><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#更改字段分隔符"><span class="toc-article-text">更改字段分隔符</span></a></li><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#用通配符读取目录"><span class="toc-article-text">用通配符读取目录</span></a></li></ol></li><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#C-语言风格的-for-命令"><span class="toc-article-text">C 语言风格的 for 命令</span></a></li><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#while命令"><span class="toc-article-text">while命令</span></a></li><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#until-命令"><span class="toc-article-text">until 命令</span></a></li><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#循环处理文件数据"><span class="toc-article-text">循环处理文件数据</span></a></li><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#控制循环"><span class="toc-article-text">控制循环</span></a><ol class="toc-article-child"><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#break命令"><span class="toc-article-text">break命令</span></a></li><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#continue-命令"><span class="toc-article-text">continue 命令</span></a></li></ol></li><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#处理循环的输出"><span class="toc-article-text">处理循环的输出</span></a></li><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#实例"><span class="toc-article-text">实例</span></a><ol class="toc-article-child"><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#查找可执行文件"><span class="toc-article-text">查找可执行文件</span></a></li><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#创建多个用户账户"><span class="toc-article-text">创建多个用户账户</span></a></li></ol></li><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#参考书目"><span class="toc-article-text">参考书目</span></a></li></ol>
+		</div>
+	
+	</div>
+	
+    <hr>
+	
+</div><!-- col-md-3 -->
+
+	</div>
+		
+
+</div><!-- row -->
+
+<script type="text/javascript">
+var disqus_shortname = 'technonacgithub';
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+	</div>
+  </div>
+  <div class="container-narrow">
+  <footer> <p>
+  &copy; 2018 technonac
+  
+      with help from <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="http://getbootstrap.com/" target="_blank">Twitter Bootstrap</a>. Theme by <a href="http://github.com/wzpan/hexo-theme-freemind/">Freemind</a>.    
+</p> </footer>
+</div> <!-- container-narrow -->
+  
+
+
+  
+<a id="gotop" href="#">   
+  <span>▲</span> 
+</a>
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script> 
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+   <script type="text/javascript">      
+     var search_path = "search.xml";
+	 if (search_path.length == 0) {
+	 	search_path = "search.xml";
+	 }
+	 var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+   </script>
+
+
+<!-- syntax highlighting -->
+
+
+</body>
+   </html>

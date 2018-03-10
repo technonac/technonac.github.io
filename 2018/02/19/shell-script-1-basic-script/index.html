@@ -1,0 +1,342 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>shell学习(1)构建基本脚本 | Canon&#39;s Blog</title>
+  <meta name="author" content="technonac">
+  
+  <meta name="description" content="Java,Android Blog">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="shell学习(1)构建基本脚本"/>
+  <meta property="og:site_name" content="Canon&#39;s Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  
+  
+    <link href="/favicon.png" rel="icon">
+  
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/css/themes/sandstone.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight-default.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/comment.css" media="screen" type="text/css">
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.9/es5-shim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-sham.min.js"></script>
+  <![endif]-->
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+  
+  <!-- analytics -->
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-114131858-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?99f21b353655df817afcb7d4d21a0688";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</head>
+
+ <body>  
+  <nav id="main-nav" class="navbar  navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+	<span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+       <a class="navbar-brand" href="/">Canon&#39;s Blog</a>
+      <div class="collapse navbar-collapse nav-menu">
+		<ul class="nav navbar-nav">
+		  
+		  <li>
+			<a href="/archives" title="All the articles.">
+			  <i class="fa fa-archive"></i>Archives
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/categories" title="All the categories.">
+			  <i class="fa fa-folder"></i>Categories
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/tags" title="All the tags.">
+			  <i class="fa fa-tags"></i>Tags
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/about" title="About me.">
+			  <i class="fa fa-user"></i>About
+			</a>
+		  </li>
+		  
+		</ul>
+      </div>
+    </div> <!-- container -->
+</nav>
+<div class="clearfix"></div>
+
+  <div class="container">
+  	<div class="content">
+    	 
+
+
+	
+		<div class="page-header ">		
+			<h1 class="title "> shell学习(1)构建基本脚本</h1>
+		</div>		
+	
+
+
+
+
+
+
+<div class="row post">
+	<!-- cols -->
+	
+	<div id="top_meta"></div>
+	<div class="col-md-9">
+	
+
+	<!-- content -->
+	<div class="mypage">		
+	  		
+
+	  <h2 id="使用多个命令"><a href="#使用多个命令" class="headerlink" title="使用多个命令"></a>使用多个命令</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用分号分隔多个命令</span></span><br><span class="line">$ date ; who</span><br></pre></td></tr></table></figure>
+<h2 id="基本shell脚本文件"><a href="#基本shell脚本文件" class="headerlink" title="基本shell脚本文件"></a>基本shell脚本文件</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># !/bin/bash</span></span><br><span class="line"><span class="comment"># This script displays the date and who's logged on</span></span><br><span class="line"><span class="built_in">echo</span> -n <span class="string">"The time and date are: "</span> <span class="comment">#把文本字符串和命令输出显示在同一行</span></span><br><span class="line">date</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"Let's see who's logged into the system:"</span></span><br><span class="line">who</span><br><span class="line">$</span><br><span class="line"><span class="comment"># 运行脚本文件</span></span><br><span class="line">$ test1 </span><br><span class="line">bash: test1: <span class="built_in">command</span> not found </span><br><span class="line">PATH 环境变量中没有找到命令，需要通过一下两种方式运行脚本:</span><br><span class="line">1.将shell脚本文件所处的目录添加到 PATH 环境变量中； </span><br><span class="line">2.在提示符中用绝对或相对文件路径来引用shell脚本文件。</span><br><span class="line">$ ./test1</span><br></pre></td></tr></table></figure>
+<h2 id="显示消息"><a href="#显示消息" class="headerlink" title="显示消息"></a>显示消息</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> Hello World</span><br><span class="line"><span class="comment"># 默认情况不需要引号，单双引号混用时才需要引号</span></span><br><span class="line">-n 不换行</span><br></pre></td></tr></table></figure>
+<h2 id="使用变量"><a href="#使用变量" class="headerlink" title="使用变量"></a>使用变量</h2><h3 id="环境变量"><a href="#环境变量" class="headerlink" title="环境变量"></a>环境变量</h3><p>shell维护着一组环境变量，用来记录特定的系统信息。比如系统的名称、登录到系统上的用户名、用户的系统ID（也称为UID）、用户的默认主目录以及shell查找程序的搜索路径。通过set命令查看当前环境变量列表。</p>
+<p>在环境变量名称之前加上美元符($) 来使用这些环境变量,并且可以再双引号中使用</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">"User info for userid: <span class="variable">$USER</span>"</span></span><br><span class="line"><span class="built_in">echo</span> UID: <span class="variable">$UID</span></span><br><span class="line"><span class="built_in">echo</span> HOME: <span class="variable">$HOME</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$&#123;variable&#125;</span> <span class="comment">#变量名两侧额外的花括号通常用来帮助识别美元符后的变量名</span></span><br></pre></td></tr></table></figure>
+<p>反斜线允许shell脚本将美元符解读为实际的美元符，而不是变量</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">echo</span> <span class="string">"The cost of the item is \$15"</span></span><br><span class="line">The cost of the item is <span class="variable">$15</span></span><br></pre></td></tr></table></figure>
+<h3 id="用户变量"><a href="#用户变量" class="headerlink" title="用户变量"></a>用户变量</h3><p>shell脚本还允许在脚本中定义和使用自己的变量，用户变量可以是任何由字母、数字或下划线组成的文本字符串，长度不超过20个，区分大小写。</p>
+<p>使用等号将值赋给用户变量。在变量、等号和值之间不能出现空格。</p>
+<p>变量每次被引用时，都会输出当前赋给它的值。重要的是要记住，引用一个变量值时需要使用美元符，而引用变量来对其进行赋值时则不要使用美元符,</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">value1=10</span><br><span class="line">value2=<span class="variable">$value1</span></span><br><span class="line"> </span><br><span class="line"><span class="built_in">echo</span> The resulting value is <span class="variable">$value2</span></span><br><span class="line">--------</span><br><span class="line">The resulting value is 10</span><br><span class="line">--------</span><br><span class="line">value2=value1</span><br><span class="line">--------</span><br><span class="line">The resulting value is value1</span><br><span class="line"><span class="comment"># 没有美元符，shell会将变量名解释成普通的文本字符串</span></span><br></pre></td></tr></table></figure>
+<h3 id="命令替换"><a href="#命令替换" class="headerlink" title="命令替换"></a>命令替换</h3><p>shell脚本中最有用的特性之一就是可以从命令输出中提取信息，并将其赋给变量。把输出赋给变量之后，就可以随意在脚本中使用了。</p>
+<p>有两种方法可以将命令输出赋给变量:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">反引号字符(`)</span><br><span class="line">$() 格式</span><br></pre></td></tr></table></figure>
+<p>命令替换允许你将shell命令的输出赋给变量，注意，赋值等号和命令替换字符之间没有空格</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">testing=`date`</span><br><span class="line">testing=$(date)</span><br><span class="line"></span><br><span class="line">$ cat test5 </span><br><span class="line"><span class="meta">#!/bin/bash </span></span><br><span class="line">testing=$(date) </span><br><span class="line"><span class="built_in">echo</span> <span class="string">"The date and time are: "</span> <span class="variable">$testing</span> </span><br><span class="line">$ </span><br><span class="line">$ chmod u+x test5 </span><br><span class="line">$ ./test5 </span><br><span class="line">The date and time are:  Mon Jan 31 20:23:25 EDT 2014 </span><br><span class="line">$</span><br></pre></td></tr></table></figure>
+<p> 命令替换会创建一个子shell来运行对应的命令。子shell（subshell）是由运行该脚本的shell所创建出来的一个独立的子shell（child shell）。正因如此，由该子shell所执行命令是无法使用脚本中所创建的变量的。<br>  在命令行提示符下使用路径 ./ 运行命令的话，也会创建出子shell；要是运行命令的时候不加入路径，就不会创建子shell。如果你使用的是内建的shell命令，并不会涉及子shell。</p>
+<h2 id="重定向输入和输出"><a href="#重定向输入和输出" class="headerlink" title="重定向输入和输出"></a>重定向输入和输出</h2><h3 id="输出重定向"><a href="#输出重定向" class="headerlink" title="输出重定向"></a>输出重定向</h3><p>最基本的重定向将命令的输出发送到一个文件中。bash shell用大于号(&gt;)来输出重定向,</p>
+<p>双大于号（&gt;&gt;）来追加数据</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">command</span> &gt; outputfile</span><br><span class="line"><span class="built_in">command</span> &gt;&gt; outputfile <span class="comment">#追加数据</span></span><br></pre></td></tr></table></figure>
+<h3 id="输入重定向"><a href="#输入重定向" class="headerlink" title="输入重定向"></a>输入重定向</h3><p>输入重定向将文件的内容重定向到命令,输入重定向符号是小于号（&lt;）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">command</span> &lt; inputfile</span><br></pre></td></tr></table></figure>
+<p>记忆：在命令行上，命令总是在左侧，而重定向符号“指向”数据流动的方向。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ wc &lt; test6</span><br><span class="line">      2      11      60</span><br><span class="line">  -------------------------------------------------   </span><br><span class="line">wc 命令可以对对数据中的文本进行计数。默认情况下，它会输出3个值：</span><br><span class="line">文本的行数</span><br><span class="line">文本的词数</span><br><span class="line">文本的字节数</span><br></pre></td></tr></table></figure></p>
+<p>另外一种输入重定向的方法，称为内联输入重定向（inline input redirection）。这种方法无需使用文件进行重定向，只需要在命令行中指定用于输入重定向的数据就可以了</p>
+<p>内联输入重定向符号是远小于号（&lt;&lt;）。除了这个符号，你必须指定一个文本标记来划分输入数据的开始和结尾。任何字符串都可作为文本标记，但在数据的开始和结尾文本标记必须一致。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">command</span> &lt;&lt; marker</span><br><span class="line">data</span><br><span class="line">marker</span><br></pre></td></tr></table></figure>
+<p>在命令行上使用内联输入重定向时，shell会用 PS2 环境变量中定义的次提示符来提示输入数据。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ wc &lt;&lt; EOF</span><br><span class="line">&gt; <span class="built_in">test</span> string 1</span><br><span class="line">&gt; <span class="built_in">test</span> string 2</span><br><span class="line">&gt; <span class="built_in">test</span> string 3</span><br><span class="line">&gt; EOF</span><br><span class="line">      3       9      42 </span><br><span class="line">$ </span><br><span class="line"><span class="comment"># 次提示符会持续提示，以获取更多的输入数据，直到你输入了作为文本标记的那个字符串。</span></span><br><span class="line"><span class="comment"># wc 命令会对内联输入重定向提供的数据进行行、词和字节计数。</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="管道"><a href="#管道" class="headerlink" title="管道"></a>管道</h2><p>将一个命令的输出作为另一个命令的输入,这个过程叫作管道连接（piping）,管道被放在命令之间，将一个命令的输出重定向到另一个命令中：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">command1 | command2</span><br></pre></td></tr></table></figure>
+<p>可以利用管道将 rpm 命令的输出送入 sort 命令来产生结果</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ rpm -qa | sort</span><br><span class="line">abrt-1.1.14-1.fc14.i686 </span><br><span class="line">abrt-addon-ccpp-1.1.14-1.fc14.i686 </span><br><span class="line">$ rpm -qa | sort &gt; rpm.list</span><br><span class="line"><span class="comment"># 可以在一条命令中使用任意多条管道。可以持续地将命令的输出通过管道传给其他命令来细化操作。 </span></span><br><span class="line">$ rpm -qa | sort | more</span><br></pre></td></tr></table></figure>
+<h2 id="执行数学运算"><a href="#执行数学运算" class="headerlink" title="执行数学运算"></a>执行数学运算</h2><h3 id="expr-命令（复杂）"><a href="#expr-命令（复杂）" class="headerlink" title="expr 命令（复杂）"></a>expr 命令（复杂）</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ expr 1 + 5</span><br><span class="line">6</span><br><span class="line">$ expr 5 \* 2</span><br><span class="line">10</span><br><span class="line"> </span><br><span class="line">var1=10</span><br><span class="line">var2=20</span><br><span class="line">var3=$(expr <span class="variable">$var2</span> / <span class="variable">$var1</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="使用方括号"><a href="#使用方括号" class="headerlink" title="使用方括号"></a>使用方括号</h3><p>在bash中，在将一个数学运算结果赋给某个变量时，可以用美元符和方括号<code>$[ operation ]</code>将数学表达式围起来</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ var1=$[1 + 5]</span><br><span class="line">$ <span class="built_in">echo</span> <span class="variable">$var1</span></span><br><span class="line">6</span><br><span class="line">$ var2=$[<span class="variable">$var1</span> * 2]</span><br><span class="line">$ <span class="built_in">echo</span> <span class="variable">$var2</span></span><br><span class="line">12</span><br><span class="line">$</span><br></pre></td></tr></table></figure>
+<p>bash shell数学运算符只支持整数运算。需要使用bc命令计算， z shell（zsh）提供了完整的浮点数算术操作。</p>
+<h2 id="退出脚本"><a href="#退出脚本" class="headerlink" title="退出脚本"></a>退出脚本</h2><p>shell中运行的每个命令都使用退出状态码（exit status）告诉shell它已经运行完毕。退出状态码是一个0～255的整数值，在命令结束运行时由命令传给shell。可以捕获这个值并在脚本中使用。</p>
+<h3 id="查看退出状态码"><a href="#查看退出状态码" class="headerlink" title="查看退出状态码"></a>查看退出状态码</h3><p>Linux提供了一个专门的变量 $? 来保存上个已执行命令的退出状态码</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ date</span><br><span class="line">Sat Jan 15 10:01:30 EDT 2014</span><br><span class="line">$ <span class="built_in">echo</span> $?</span><br><span class="line">0</span><br></pre></td></tr></table></figure>
+<p>按照惯例，一个成功结束的命令的退出状态码是 0 。如果一个命令结束时有错误，退出状态码就是一个正数值。</p>
+<p>Linux退出状态码 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">0  命令成功结束 </span><br><span class="line">1  一般性未知错误 </span><br><span class="line">2  不适合的shell命令 </span><br><span class="line">126  命令不可执行 </span><br><span class="line">127  没找到命令 </span><br><span class="line">128  无效的退出参数 </span><br><span class="line">128+x  与Linux信号x相关的严重错误 </span><br><span class="line">130  通过Ctrl+C终止的命令 </span><br><span class="line">255  正常范围之外的退出状态码</span><br></pre></td></tr></table></figure>
+<h3 id="exit-命令"><a href="#exit-命令" class="headerlink" title="exit 命令"></a>exit 命令</h3><p>默认情况下，shell脚本会以脚本中的最后一个命令的退出状态码退出,exit 命令允许你在脚本结束时指定一个退出状态码。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ cat test13</span><br><span class="line"><span class="comment"># !/bin/bash</span></span><br><span class="line"><span class="comment"># testing the exit status</span></span><br><span class="line">var1=10</span><br><span class="line">var2=30</span><br><span class="line">var3=$[<span class="variable">$var1</span> + <span class="variable">$var2</span>]</span><br><span class="line"><span class="built_in">echo</span> The answer is <span class="variable">$var3</span></span><br><span class="line"><span class="built_in">exit</span> 5</span><br><span class="line">$</span><br></pre></td></tr></table></figure>
+<p>也可以在 exit 命令的参数中使用变量。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">exit</span> <span class="variable">$var3</span></span><br></pre></td></tr></table></figure>
+<p>退出状态码超过255时。shell通过模运算计算退出码,最终的结果是指定的数值除以256后得到的余数</p>
+<h2 id="参考书目"><a href="#参考书目" class="headerlink" title="参考书目"></a>参考书目</h2><p>《Linux命令行与shell脚本编程大全》第3版</p>
+	  
+	</div>
+
+	<!-- recommended posts -->
+	
+
+	<div>
+  	<center>
+	<div class="pagination">
+<ul class="pagination">
+	 
+				
+    	<li class="prev"><a href="/2018/02/20/shell-script-2-structed-command/" class="alignleft prev"><i class="fa fa-arrow-circle-o-left"></i>上一页</a></li>
+  		
+
+        <li><a href="/archives"><i class="fa fa-archive"></i>Archive</a></li>
+
+		
+		   <li class="next"><a href="/2018/02/18/linux-cmd-5-vim-editor/" class="alignright next">下一页<i class="fa fa-arrow-circle-o-right"></i></a></li>         
+        
+	
+</ul>
+</div>
+
+    </center>
+	</div>
+
+    <!-- share -->
+    
+        
+
+        
+
+    
+	
+	<!-- comment -->
+	
+<section id="comment">
+  <h2 class="title">留言</h2>
+  
+  	 <div id="disqus_thread">
+     <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  	 </div>
+  
+</section>
+
+
+	</div> <!-- col-md-9/col-md-12 -->
+		
+	
+	<div id="side_meta">
+		<div class="col-md-3" id="post_meta"> 
+
+	<!-- date -->
+	
+	<div class="meta-widget">
+	<i class="fa fa-clock-o"></i>
+	2018-02-19 
+	</div>
+	
+
+	<!-- categories -->
+    
+
+	<!-- tags -->
+	
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#tags"><i class="fa fa-tags"></i></a>		  
+    <ul id="tags" class="tag_box list-unstyled collapse in">	  
+	    
+  <li><a href="/tags/Linux/">Linux<span>11</span></a></li> <li><a href="/tags/Shell/">Shell<span>11</span></a></li>
+    </ul>
+	</div>
+	
+
+	<!-- toc -->
+	<div class="meta-widget">
+	
+	   <a data-toggle="collapse" data-target="#toc"><i class="fa fa-bars"></i></a>
+	   <div id="toc" class="toc collapse in">
+			<ol class="toc-article"><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#使用多个命令"><span class="toc-article-text">使用多个命令</span></a></li><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#基本shell脚本文件"><span class="toc-article-text">基本shell脚本文件</span></a></li><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#显示消息"><span class="toc-article-text">显示消息</span></a></li><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#使用变量"><span class="toc-article-text">使用变量</span></a><ol class="toc-article-child"><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#环境变量"><span class="toc-article-text">环境变量</span></a></li><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#用户变量"><span class="toc-article-text">用户变量</span></a></li><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#命令替换"><span class="toc-article-text">命令替换</span></a></li></ol></li><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#重定向输入和输出"><span class="toc-article-text">重定向输入和输出</span></a><ol class="toc-article-child"><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#输出重定向"><span class="toc-article-text">输出重定向</span></a></li><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#输入重定向"><span class="toc-article-text">输入重定向</span></a></li></ol></li><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#管道"><span class="toc-article-text">管道</span></a></li><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#执行数学运算"><span class="toc-article-text">执行数学运算</span></a><ol class="toc-article-child"><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#expr-命令（复杂）"><span class="toc-article-text">expr 命令（复杂）</span></a></li><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#使用方括号"><span class="toc-article-text">使用方括号</span></a></li></ol></li><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#退出脚本"><span class="toc-article-text">退出脚本</span></a><ol class="toc-article-child"><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#查看退出状态码"><span class="toc-article-text">查看退出状态码</span></a></li><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#exit-命令"><span class="toc-article-text">exit 命令</span></a></li></ol></li><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#参考书目"><span class="toc-article-text">参考书目</span></a></li></ol>
+		</div>
+	
+	</div>
+	
+    <hr>
+	
+</div><!-- col-md-3 -->
+
+	</div>
+		
+
+</div><!-- row -->
+
+<script type="text/javascript">
+var disqus_shortname = 'technonacgithub';
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+	</div>
+  </div>
+  <div class="container-narrow">
+  <footer> <p>
+  &copy; 2018 technonac
+  
+      with help from <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="http://getbootstrap.com/" target="_blank">Twitter Bootstrap</a>. Theme by <a href="http://github.com/wzpan/hexo-theme-freemind/">Freemind</a>.    
+</p> </footer>
+</div> <!-- container-narrow -->
+  
+
+
+  
+<a id="gotop" href="#">   
+  <span>▲</span> 
+</a>
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script> 
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+   <script type="text/javascript">      
+     var search_path = "search.xml";
+	 if (search_path.length == 0) {
+	 	search_path = "search.xml";
+	 }
+	 var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+   </script>
+
+
+<!-- syntax highlighting -->
+
+
+</body>
+   </html>

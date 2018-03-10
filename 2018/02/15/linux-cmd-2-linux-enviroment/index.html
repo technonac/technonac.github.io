@@ -1,0 +1,335 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Linux命令行(2)Linux环境变量 | Canon&#39;s Blog</title>
+  <meta name="author" content="technonac">
+  
+  <meta name="description" content="Java,Android Blog">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Linux命令行(2)Linux环境变量"/>
+  <meta property="og:site_name" content="Canon&#39;s Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  
+  
+    <link href="/favicon.png" rel="icon">
+  
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/css/themes/sandstone.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight-default.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/comment.css" media="screen" type="text/css">
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.9/es5-shim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-sham.min.js"></script>
+  <![endif]-->
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+  
+  <!-- analytics -->
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-114131858-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?99f21b353655df817afcb7d4d21a0688";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</head>
+
+ <body>  
+  <nav id="main-nav" class="navbar  navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+	<span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+       <a class="navbar-brand" href="/">Canon&#39;s Blog</a>
+      <div class="collapse navbar-collapse nav-menu">
+		<ul class="nav navbar-nav">
+		  
+		  <li>
+			<a href="/archives" title="All the articles.">
+			  <i class="fa fa-archive"></i>Archives
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/categories" title="All the categories.">
+			  <i class="fa fa-folder"></i>Categories
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/tags" title="All the tags.">
+			  <i class="fa fa-tags"></i>Tags
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/about" title="About me.">
+			  <i class="fa fa-user"></i>About
+			</a>
+		  </li>
+		  
+		</ul>
+      </div>
+    </div> <!-- container -->
+</nav>
+<div class="clearfix"></div>
+
+  <div class="container">
+  	<div class="content">
+    	 
+
+
+	
+		<div class="page-header ">		
+			<h1 class="title "> Linux命令行(2)Linux环境变量</h1>
+		</div>		
+	
+
+
+
+
+
+
+<div class="row post">
+	<!-- cols -->
+	
+	<div id="top_meta"></div>
+	<div class="col-md-9">
+	
+
+	<!-- content -->
+	<div class="mypage">		
+	  		
+
+	  <h2 id="全局环境变量"><a href="#全局环境变量" class="headerlink" title="全局环境变量"></a>全局环境变量</h2><p>全局环境变量对于shell会话和所有生成的子shell都是可见的，局部变量则只对创建它们的shell可见。</p>
+<h3 id="查看全局变量"><a href="#查看全局变量" class="headerlink" title="查看全局变量"></a>查看全局变量</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">env 或 printenv</span><br></pre></td></tr></table></figure>
+<h3 id="显示个别环境变量的值"><a href="#显示个别环境变量的值" class="headerlink" title="显示个别环境变量的值"></a>显示个别环境变量的值</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">printenv HOME</span><br></pre></td></tr></table></figure>
+<p>也可以使用 echo 显示变量的值。在这种情况下引用某个环境变量的时候，必须在变量前面加上一个美元符($)。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="variable">$HOME</span></span><br></pre></td></tr></table></figure>
+<p>在 echo 命令中，在变量名前加上 $ 可不仅仅是要显示变量当前的值。它能够让变量作为命令行参数</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls <span class="variable">$HOME</span></span><br></pre></td></tr></table></figure>
+<h2 id="局部环境变量"><a href="#局部环境变量" class="headerlink" title="局部环境变量"></a>局部环境变量</h2><p>局部环境变量只能在定义它们的进程中可见。在Linux系统并没有一个只显示局部环境变量的命令,<code>set</code>命令 显示为某个特定进程设置的所有环境变量，包括局部变量、全局变量以及用户定义变量</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">set</span> </span><br><span class="line">BASH=/bin/bash </span><br><span class="line">[...] </span><br><span class="line">BASH_ALIASES=() </span><br><span class="line">BASH_ARGC=() </span><br><span class="line">BASH_ARGV=() </span><br><span class="line">BASH_CMDS=() </span><br><span class="line">BASH_LINENO=() </span><br><span class="line">BASH_SOURCE=() </span><br><span class="line">[...] </span><br><span class="line">colors=/etc/DIR_COLORS </span><br><span class="line">my_variable=<span class="string">'Hello World'</span> </span><br><span class="line">[...] </span><br><span class="line">$ </span><br><span class="line"><span class="comment">#可以看到，所有通过printenv 命令能看到的全局环境变量都出现在了 set 命令的输出中。但在 set 命令的输出中还有其他一些环境变量，即局部环境变量和用户定义变量。</span></span><br></pre></td></tr></table></figure>
+<h3 id="设置用户定义变量"><a href="#设置用户定义变量" class="headerlink" title="设置用户定义变量"></a>设置用户定义变量</h3><h4 id="设置局部用户定义变量"><a href="#设置局部用户定义变量" class="headerlink" title="设置局部用户定义变量"></a>设置局部用户定义变量</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">echo</span> <span class="variable">$my_variable</span></span><br><span class="line"></span><br><span class="line">$ my_variable=<span class="string">"Hello World"</span>  <span class="comment"># 值可以是数值或字符串</span></span><br><span class="line">$ <span class="built_in">echo</span> <span class="variable">$my_variable</span></span><br><span class="line">Hello World</span><br><span class="line"></span><br><span class="line"><span class="comment"># 子shell无法访问父shell定义的局部变量</span></span><br><span class="line">$ bash </span><br><span class="line">$ </span><br><span class="line">$ <span class="built_in">echo</span> <span class="variable">$my_variable</span> </span><br><span class="line"> </span><br><span class="line">$ <span class="built_in">exit</span> </span><br><span class="line"><span class="built_in">exit</span> </span><br><span class="line">$ </span><br><span class="line">$ <span class="built_in">echo</span> <span class="variable">$my_variable</span> </span><br><span class="line">Hello World </span><br><span class="line">$ </span><br><span class="line"></span><br><span class="line"><span class="comment"># 注意: 局部环境变量使用小写字母，系统环境变量使用大写字母</span></span><br><span class="line"><span class="comment"># 变量名、等号和值之间没有空格,。如果在赋值表达式中加上了空格，bash  shell就会把值当成一个单独的命令</span></span><br><span class="line">$ my_variable = <span class="string">"Hello World"</span> </span><br><span class="line">-bash: my_variable: <span class="built_in">command</span> not found </span><br><span class="line">$</span><br></pre></td></tr></table></figure>
+<h4 id="设置全局环境变量"><a href="#设置全局环境变量" class="headerlink" title="设置全局环境变量"></a>设置全局环境变量</h4><p>在设定全局环境变量的进程所创建的子进程中，该变量都是可见的。创建全局环境变量的方法是先创建一个局部环境变量，然后再把它导出到全局环境中。通过<code>export</code> 命令使其变成了全局环境变量，子shell甚至无法使用 export 命令改变父shell中全局环境变量的值</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">$ my_variable=<span class="string">"I am Global now"</span></span><br><span class="line">$</span><br><span class="line">$ <span class="built_in">export</span> my_variable</span><br><span class="line">$</span><br><span class="line">$ <span class="built_in">echo</span> <span class="variable">$my_variable</span></span><br><span class="line">I am Global now</span><br><span class="line">$</span><br><span class="line">$ bash </span><br><span class="line">$ </span><br><span class="line">$ <span class="built_in">echo</span> <span class="variable">$my_variable</span> </span><br><span class="line">I am Global now </span><br><span class="line">$ </span><br><span class="line">$ <span class="built_in">exit</span> </span><br><span class="line"><span class="built_in">exit</span> </span><br><span class="line">$ </span><br><span class="line">$ <span class="built_in">echo</span> <span class="variable">$my_variable</span> </span><br><span class="line">I am Global now </span><br><span class="line">$</span><br></pre></td></tr></table></figure>
+<h3 id="删除环境变量"><a href="#删除环境变量" class="headerlink" title="删除环境变量"></a>删除环境变量</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">echo</span> <span class="variable">$my_variable</span></span><br><span class="line">I am Global now</span><br><span class="line">$</span><br><span class="line">$ <span class="built_in">unset</span> my_variable</span><br><span class="line">$</span><br><span class="line">$ <span class="built_in">echo</span> <span class="variable">$my_variable</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果你是在子进程中删除了一个全局环境变量，这只对子进程有效。该全局环境变量在父进程中依然可用。</span></span><br><span class="line">$ my_variable=<span class="string">"I am Global now"</span> </span><br><span class="line">$ </span><br><span class="line">$ <span class="built_in">export</span> my_variable </span><br><span class="line">$ </span><br><span class="line">$ <span class="built_in">echo</span> <span class="variable">$my_variable</span> </span><br><span class="line">I am Global now </span><br><span class="line">$ </span><br><span class="line">$ bash </span><br><span class="line">$ </span><br><span class="line">$ <span class="built_in">echo</span> <span class="variable">$my_variable</span> </span><br><span class="line">I am Global now </span><br><span class="line">$ </span><br><span class="line">$ <span class="built_in">unset</span> my_variable </span><br><span class="line">$ </span><br><span class="line">$ <span class="built_in">echo</span> <span class="variable">$my_variable</span> </span><br><span class="line"> </span><br><span class="line">$ <span class="built_in">exit</span> </span><br><span class="line"><span class="built_in">exit</span> </span><br><span class="line">$ </span><br><span class="line">$ <span class="built_in">echo</span> <span class="variable">$my_variable</span> </span><br><span class="line">I am Global now </span><br><span class="line">$</span><br></pre></td></tr></table></figure>
+<p>如果要用到变量，使用<code>$</code>如果要操作变量，不使用<code>$</code>。这条规则的一个例外就是使用 printenv 显示某个变量的值。</p>
+<h2 id="默认的-shell-环境变量"><a href="#默认的-shell-环境变量" class="headerlink" title="默认的 shell 环境变量"></a>默认的 shell 环境变量</h2><p>默认情况下，bash  shell会用一些特定的环境变量来定义系统环境。bash shell源自当初的Unix Bourne shell，因此也保留了Unix Bourne shell里定义的那些环境变量</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># bash shell支持的Bourne变量(部分)</span></span><br><span class="line">HOME  当前用户的主目录 </span><br><span class="line">IFS  shell用来将文本字符串分割成字段的一系列字符 </span><br><span class="line">OPTARG  <span class="built_in">getopts</span>命令处理的最后一个选项参数值 </span><br><span class="line">OPTIND  <span class="built_in">getopts</span>命令处理的最后一个选项参数的索引号 </span><br><span class="line">PATH  shell查找命令的目录列表，由冒号分隔 </span><br><span class="line">PS1  shell命令行界面的主提示符 </span><br><span class="line">PS2  shell命令行界面的次提示符 </span><br><span class="line"></span><br><span class="line"><span class="comment"># bash shell环境变量(部分)</span></span><br><span class="line">BASH  当前shell实例的全路径名 </span><br><span class="line">BASH_COMMAND  shell正在执行的命令或马上就执行的命令 </span><br><span class="line">BASH_VERSION  当前运行的bash shell的版本号 </span><br><span class="line">BASHPID  当前bash进程的PID </span><br><span class="line">ENV  如果设置了该环境变量，在bash  shell脚本运行之前会先执行已定义的启动文件（仅用于当bash shell以POSIX模式被调用时） </span><br><span class="line">FUNCNAME  当前执行的shell函数的名称</span><br><span class="line">GROUPS  含有当前用户属组列表的数组变量 </span><br><span class="line">HISTSIZE  最多在历史文件中存多少条命令 </span><br><span class="line">HOSTFILE  shell在补全主机名时读取的文件名称 </span><br><span class="line">HOSTNAME  当前主机的名称 </span><br><span class="line">HOSTTYPE  当前运行bash shell的机器 </span><br><span class="line">LANG  shell的语言环境类别</span><br><span class="line">PPID  bash shell父进程的PID </span><br><span class="line">PWD  当前工作目录 </span><br><span class="line">RANDOM  返回一个0～32767的随机数（对其的赋值可作为随机数生成器的种子） </span><br><span class="line">SHELL  bash shell的全路径名 </span><br><span class="line">TMPDIR  目录名，保存bash shell创建的临时文件 </span><br><span class="line">UID  当前用户的真实用户ID（数字形式）</span><br></pre></td></tr></table></figure>
+<h2 id="设置-PATH-环境变量"><a href="#设置-PATH-环境变量" class="headerlink" title="设置 PATH 环境变量"></a>设置 PATH 环境变量</h2><p>当你在shell命令行界面中输入一个外部命令时，shell必须搜索系统来找到对应的程序。 PATH 环境变量定义了用于进行命令和程序查找的目录,PATH 中的目录使用冒号分隔</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># ubuntu PATH</span></span><br><span class="line">$ <span class="built_in">echo</span> <span class="variable">$PATH</span> </span><br><span class="line">/usr/<span class="built_in">local</span>/sbin:/usr/<span class="built_in">local</span>/bin:/usr/sbin:/usr/bin: </span><br><span class="line">/sbin:/bin:/usr/games:/usr/<span class="built_in">local</span>/games </span><br><span class="line">$ </span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果命令或者程序的位置没有包括在 PATH 变量中，那么如果不使用绝对路径的话，shell是没法找到的。如果shell找不到指定的命令或程序，它会产生一个错误信息</span></span><br><span class="line">$ myprog </span><br><span class="line">-bash: myprog: <span class="built_in">command</span> not found </span><br><span class="line"></span><br><span class="line"><span class="comment"># 引用原来的 PATH 值，然后再给这个字符串添加新目录</span></span><br><span class="line">PATH=<span class="variable">$PATH</span>:/home/christine/Scripts</span><br><span class="line"><span class="comment"># 如果希望子shell也能找到你的程序的位置，一定要记得把修改后的 PATH 环境变量导出</span></span><br></pre></td></tr></table></figure>
+<h2 id="定位系统环境变量"><a href="#定位系统环境变量" class="headerlink" title="定位系统环境变量"></a>定位系统环境变量</h2><p>在你登入Linux系统启动一个bash  shell时，默认情况下bash会在几个文件中查找命令。这些文件叫作启动文件或环境文件。bash检查的启动文件取决于你启动bash  shell的方式。启动bash shell有3种方式： </p>
+<ol>
+<li>登录时作为默认登录shell</li>
+<li>作为非登录shell的交互式shell </li>
+<li>作为运行脚本的非交互shell </li>
+</ol>
+<h3 id="1-登录时作为默认登录shell"><a href="#1-登录时作为默认登录shell" class="headerlink" title="1.登录时作为默认登录shell"></a>1.登录时作为默认登录shell</h3><p>当你登录Linux系统时，bash shell会作为登录shell启动。登录shell会从5个不同的启动文件里读取命令：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">/etc/profile </span><br><span class="line"><span class="variable">$HOME</span>/.bash_profile </span><br><span class="line"><span class="variable">$HOME</span>/.bashrc </span><br><span class="line"><span class="variable">$HOME</span>/.bash_login </span><br><span class="line"><span class="variable">$HOME</span>/.profile</span><br></pre></td></tr></table></figure></p>
+<p><code>/etc/profile</code>文件是系统上默认的bash  shell的主启动文件。系统上的每个用户登录时都会执行这个启动文件,另外4个启动文件是针对用户的，可根据个人需求定制。</p>
+<h4 id="etc-profile文件"><a href="#etc-profile文件" class="headerlink" title="/etc/profile文件"></a>/etc/profile文件</h4><p>/etc/profile文件是bash  shell默认的的主启动文件。只要你登录了Linux系统，bash就会执行/etc/profile启动文件中的命令。不同的Linux发行版在这个文件里放了不同的命令。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># centos</span></span><br><span class="line"><span class="comment"># /etc/profile</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># System wide environment and startup programs, for login setup</span></span><br><span class="line"><span class="comment"># Functions and aliases go in /etc/bashrc</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># It's NOT a good idea to change this file unless you know what you</span></span><br><span class="line"><span class="comment"># are doing. It's much better to create a custom.sh shell script in</span></span><br><span class="line"><span class="comment"># /etc/profile.d/ to make custom changes to your environment, as this</span></span><br><span class="line"><span class="comment"># will prevent the need for merging in future updates.</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">pathmunge</span></span> () &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">":<span class="variable">$&#123;PATH&#125;</span>:"</span> <span class="keyword">in</span></span><br><span class="line">        *:<span class="string">"<span class="variable">$1</span>"</span>:*)</span><br><span class="line">            ;;</span><br><span class="line">        *)</span><br><span class="line">            <span class="keyword">if</span> [ <span class="string">"<span class="variable">$2</span>"</span> = <span class="string">"after"</span> ] ; <span class="keyword">then</span></span><br><span class="line">                PATH=<span class="variable">$PATH</span>:<span class="variable">$1</span></span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                PATH=<span class="variable">$1</span>:<span class="variable">$PATH</span></span><br><span class="line">            <span class="keyword">fi</span></span><br><span class="line">    <span class="keyword">esac</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> [ -x /usr/bin/id ]; <span class="keyword">then</span></span><br><span class="line">    <span class="keyword">if</span> [ -z <span class="string">"<span class="variable">$EUID</span>"</span> ]; <span class="keyword">then</span></span><br><span class="line">        <span class="comment"># ksh workaround</span></span><br><span class="line">        EUID=`id -u`</span><br><span class="line">        UID=`id -ru`</span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line">    USER=<span class="string">"`id -un`"</span></span><br><span class="line">    LOGNAME=<span class="variable">$USER</span></span><br><span class="line">    MAIL=<span class="string">"/var/spool/mail/<span class="variable">$USER</span>"</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Path manipulation</span></span><br><span class="line"><span class="keyword">if</span> [ <span class="string">"<span class="variable">$EUID</span>"</span> = <span class="string">"0"</span> ]; <span class="keyword">then</span></span><br><span class="line">    pathmunge /sbin</span><br><span class="line">    pathmunge /usr/sbin</span><br><span class="line">    pathmunge /usr/<span class="built_in">local</span>/sbin</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    pathmunge /usr/<span class="built_in">local</span>/sbin after</span><br><span class="line">    pathmunge /usr/sbin after</span><br><span class="line">    pathmunge /sbin after</span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line">HOSTNAME=`/bin/hostname 2&gt;/dev/null`</span><br><span class="line">HISTSIZE=1000</span><br><span class="line"><span class="keyword">if</span> [ <span class="string">"<span class="variable">$HISTCONTROL</span>"</span> = <span class="string">"ignorespace"</span> ] ; <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">export</span> HISTCONTROL=ignoreboth</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    <span class="built_in">export</span> HISTCONTROL=ignoredups</span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> PATH USER LOGNAME MAIL HOSTNAME HISTSIZE HISTCONTROL</span><br><span class="line"></span><br><span class="line"><span class="comment"># By default, we want umask to get set. This sets it for login shell</span></span><br><span class="line"><span class="comment"># Current threshold for system reserved uid/gids is 200</span></span><br><span class="line"><span class="comment"># You could check uidgid reservation validity in</span></span><br><span class="line"><span class="comment"># /usr/share/doc/setup-*/uidgid file</span></span><br><span class="line"><span class="keyword">if</span> [ <span class="variable">$UID</span> -gt 199 ] &amp;&amp; [ <span class="string">"`id -gn`"</span> = <span class="string">"`id -un`"</span> ]; <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">umask</span> 002</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    <span class="built_in">umask</span> 022</span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> /etc/profile.d/*.sh ; <span class="keyword">do</span></span><br><span class="line">    <span class="keyword">if</span> [ -r <span class="string">"<span class="variable">$i</span>"</span> ]; <span class="keyword">then</span></span><br><span class="line">        <span class="keyword">if</span> [ <span class="string">"<span class="variable">$&#123;-#*i&#125;</span>"</span> != <span class="string">"$-"</span> ]; <span class="keyword">then</span></span><br><span class="line">            . <span class="string">"<span class="variable">$i</span>"</span></span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            . <span class="string">"<span class="variable">$i</span>"</span> &gt;/dev/null 2&gt;&amp;1</span><br><span class="line">        <span class="keyword">fi</span></span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">unset</span> i</span><br><span class="line"><span class="built_in">unset</span> -f pathmunge</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 说明 ubuntu和centos两个发行版的/etc/profile文件都有： for 语句。它用来迭代/etc/profile.d目录下的所有文件。）这为Linux系统提供了一个放置特定应用程序启动文件的地方，当用户登录时，shell会执行这些文件</span></span><br><span class="line">$ ls -l /etc/profile.d </span><br><span class="line">total 80 </span><br><span class="line">-rw-r--r--. 1 root root 1127 Mar  5 07:17 colorls.csh </span><br><span class="line">-rw-r--r--. 1 root root 1143 Mar  5 07:17 colorls.sh </span><br><span class="line">-rw-r--r--. 1 root root   92 Nov 22  2013 cvs.csh </span><br><span class="line"></span><br><span class="line">不难发现，有些文件与系统中的特定应用有关。大部分应用都会创建两个启动文件：一个供bash shell使用（使用.sh扩展名），一个供c shell使用（使用.csh扩展名）。 lang.csh和lang.sh文件会尝试去判定系统上所采用的默认语言字符集，然后设置对应的 LANG环境变量。</span><br></pre></td></tr></table></figure>
+<h4 id="HOME目录下的启动文件"><a href="#HOME目录下的启动文件" class="headerlink" title="$HOME目录下的启动文件"></a>$HOME目录下的启动文件</h4><p>剩下的启动文件都起着同一个作用：提供一个用户专属的启动文件来定义该用户所用到的环境变量。大多数Linux发行版只用这四个启动文件中的一到两个</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$HOME</span>/.bash_profile</span><br><span class="line"><span class="variable">$HOME</span>/.bashrc</span><br><span class="line"><span class="variable">$HOME</span>/.bash_login</span><br><span class="line"><span class="variable">$HOME</span>/.profile</span><br></pre></td></tr></table></figure>
+<p>shell会按照按照下列顺序，运行第一个被找到的文件，余下的则被忽略：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$HOME</span>/.bash_profile</span><br><span class="line"><span class="variable">$HOME</span>/.bash_login</span><br><span class="line"><span class="variable">$HOME</span>/.profile</span><br></pre></td></tr></table></figure>
+<p>注意，这个列表中并没有<code>$HOME/.bashrc</code>文件。这是因为该文件通常通过其他文件运行的。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># .bash_profile</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Get the aliases and functions</span></span><br><span class="line"><span class="keyword">if</span> [ -f ~/.bashrc ]; <span class="keyword">then</span></span><br><span class="line">	. ~/.bashrc</span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># User specific environment and startup programs</span></span><br><span class="line"></span><br><span class="line">PATH=<span class="variable">$PATH</span>:<span class="variable">$HOME</span>/bin</span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> PATH</span><br><span class="line"></span><br><span class="line"><span class="comment"># .bash_profile启动文件会先去检查HOME目录中是不是还有一个叫.bashrc的启动文件。如果有的话，会先执行启动文件里面的命令</span></span><br></pre></td></tr></table></figure>
+<h3 id="2-作为非登录shell的交互式shell"><a href="#2-作为非登录shell的交互式shell" class="headerlink" title="2.作为非登录shell的交互式shell"></a>2.作为非登录shell的交互式shell</h3><p>如果你的bash shell不是登录系统时启动的（比如是在命令行提示符下敲入 bash 时启动），那么你启动的shell叫作交互式shell。交互式shell不会像登录shell一样运行，但它依然提供了命令行提示符来输入命令。<br>如果bash是作为交互式shell启动的，它就不会访问/etc/profile文件，只会检查用户HOME目录中的.bashrc文件。 </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># .bashrc</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># User specific aliases and functions</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">alias</span> rm=<span class="string">'rm -i'</span></span><br><span class="line"><span class="built_in">alias</span> cp=<span class="string">'cp -i'</span></span><br><span class="line"><span class="built_in">alias</span> mv=<span class="string">'mv -i'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Source global definitions</span></span><br><span class="line"><span class="keyword">if</span> [ -f /etc/bashrc ]; <span class="keyword">then</span></span><br><span class="line">	. /etc/bashrc</span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"><span class="comment"># .bashrc文件有两个作用：一是查看/etc目录下通用的bashrc文件，二是为用户提供一个定制自己的命令别名和私有脚本函数的地方。</span></span><br></pre></td></tr></table></figure>
+<h3 id="3-作为运行脚本的非交互shell"><a href="#3-作为运行脚本的非交互shell" class="headerlink" title="3.作为运行脚本的非交互shell"></a>3.作为运行脚本的非交互shell</h3><p>当shell启动一个非交互式shell进程时，它会检查 BASH_ENV 环境变量来查看要执行的启动文件。如果有指定的文件，shell会执行该文件里的命令，这通常包括shell脚本变量设置。 </p>
+<p>如果父shell是登录shell，在/etc/profile、/etc/profile.d/ * .sh和$HOME/.bashrc文件中设置并导出了变量，用于执行脚本的子shell就能够继承这些变量。 </p>
+<h3 id="环境变量持久化"><a href="#环境变量持久化" class="headerlink" title="环境变量持久化"></a>环境变量持久化</h3><p>对全局环境变量来说（Linux系统中所有用户都需要使用的变量），最好是在<code>/etc/profile.d</code>目录中创建一个以.sh结尾的文件。把所有新的或修改过的全局环境变量设置放在这个文件中。<br>对个人用户永久性bash shell变量应该放在<code>$HOME/.bashrc</code>文件。</p>
+<h3 id="数组变量"><a href="#数组变量" class="headerlink" title="数组变量"></a>数组变量</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 要给某个环境变量设置多个值，可以把值放在括号里，值与值之间用空格分隔</span></span><br><span class="line">mytest=(one two three four five)</span><br><span class="line">$ <span class="built_in">echo</span> <span class="variable">$mytest</span></span><br><span class="line">one</span><br><span class="line">$ <span class="built_in">echo</span> <span class="variable">$&#123;mytest[2]&#125;</span></span><br><span class="line">three</span><br><span class="line"><span class="comment"># 要显示整个数组变量，可用星号作为通配符放在索引值的位置</span></span><br><span class="line">$ <span class="built_in">echo</span> <span class="variable">$&#123;mytest[*]&#125;</span></span><br><span class="line">one two three four five</span><br><span class="line"><span class="comment"># 修改</span></span><br><span class="line">mytest[2]=seven</span><br><span class="line"><span class="comment"># 删除</span></span><br><span class="line">$ <span class="built_in">unset</span> mytest[2] </span><br><span class="line">$ </span><br><span class="line">$ <span class="built_in">echo</span> <span class="variable">$&#123;mytest[*]&#125;</span> </span><br><span class="line">one two four five </span><br><span class="line">$ </span><br><span class="line">$ <span class="built_in">echo</span> <span class="variable">$&#123;mytest[2]&#125;</span> </span><br><span class="line"> </span><br><span class="line">$ <span class="built_in">echo</span> <span class="variable">$&#123;mytest[3]&#125;</span> </span><br><span class="line">four </span><br><span class="line"><span class="comment"># 删除整个数组</span></span><br><span class="line">$ <span class="built_in">unset</span> mytest </span><br><span class="line">$ </span><br><span class="line">$ <span class="built_in">echo</span> <span class="variable">$&#123;mytest[*]&#125;</span></span><br></pre></td></tr></table></figure>
+<h2 id="参考书目"><a href="#参考书目" class="headerlink" title="参考书目"></a>参考书目</h2><p>《Linux命令行与shell脚本编程大全》第3版</p>
+	  
+	</div>
+
+	<!-- recommended posts -->
+	
+
+	<div>
+  	<center>
+	<div class="pagination">
+<ul class="pagination">
+	 
+				
+    	<li class="prev"><a href="/2018/02/16/linux-cmd-3-linux-file-permissions/" class="alignleft prev"><i class="fa fa-arrow-circle-o-left"></i>上一页</a></li>
+  		
+
+        <li><a href="/archives"><i class="fa fa-archive"></i>Archive</a></li>
+
+		
+		   <li class="next"><a href="/2018/02/14/linux-cmd-1-bash-shell-command/" class="alignright next">下一页<i class="fa fa-arrow-circle-o-right"></i></a></li>         
+        
+	
+</ul>
+</div>
+
+    </center>
+	</div>
+
+    <!-- share -->
+    
+        
+
+        
+
+    
+	
+	<!-- comment -->
+	
+<section id="comment">
+  <h2 class="title">留言</h2>
+  
+  	 <div id="disqus_thread">
+     <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  	 </div>
+  
+</section>
+
+
+	</div> <!-- col-md-9/col-md-12 -->
+		
+	
+	<div id="side_meta">
+		<div class="col-md-3" id="post_meta"> 
+
+	<!-- date -->
+	
+	<div class="meta-widget">
+	<i class="fa fa-clock-o"></i>
+	2018-02-15 
+	</div>
+	
+
+	<!-- categories -->
+    
+
+	<!-- tags -->
+	
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#tags"><i class="fa fa-tags"></i></a>		  
+    <ul id="tags" class="tag_box list-unstyled collapse in">	  
+	    
+  <li><a href="/tags/Linux/">Linux<span>11</span></a></li> <li><a href="/tags/Shell/">Shell<span>11</span></a></li>
+    </ul>
+	</div>
+	
+
+	<!-- toc -->
+	<div class="meta-widget">
+	
+	   <a data-toggle="collapse" data-target="#toc"><i class="fa fa-bars"></i></a>
+	   <div id="toc" class="toc collapse in">
+			<ol class="toc-article"><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#全局环境变量"><span class="toc-article-text">全局环境变量</span></a><ol class="toc-article-child"><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#查看全局变量"><span class="toc-article-text">查看全局变量</span></a></li><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#显示个别环境变量的值"><span class="toc-article-text">显示个别环境变量的值</span></a></li></ol></li><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#局部环境变量"><span class="toc-article-text">局部环境变量</span></a><ol class="toc-article-child"><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#设置用户定义变量"><span class="toc-article-text">设置用户定义变量</span></a><ol class="toc-article-child"><li class="toc-article-item toc-article-level-4"><a class="toc-article-link" href="#设置局部用户定义变量"><span class="toc-article-text">设置局部用户定义变量</span></a></li><li class="toc-article-item toc-article-level-4"><a class="toc-article-link" href="#设置全局环境变量"><span class="toc-article-text">设置全局环境变量</span></a></li></ol></li><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#删除环境变量"><span class="toc-article-text">删除环境变量</span></a></li></ol></li><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#默认的-shell-环境变量"><span class="toc-article-text">默认的 shell 环境变量</span></a></li><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#设置-PATH-环境变量"><span class="toc-article-text">设置 PATH 环境变量</span></a></li><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#定位系统环境变量"><span class="toc-article-text">定位系统环境变量</span></a><ol class="toc-article-child"><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#1-登录时作为默认登录shell"><span class="toc-article-text">1.登录时作为默认登录shell</span></a><ol class="toc-article-child"><li class="toc-article-item toc-article-level-4"><a class="toc-article-link" href="#etc-profile文件"><span class="toc-article-text">/etc/profile文件</span></a></li><li class="toc-article-item toc-article-level-4"><a class="toc-article-link" href="#HOME目录下的启动文件"><span class="toc-article-text">$HOME目录下的启动文件</span></a></li></ol></li><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#2-作为非登录shell的交互式shell"><span class="toc-article-text">2.作为非登录shell的交互式shell</span></a></li><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#3-作为运行脚本的非交互shell"><span class="toc-article-text">3.作为运行脚本的非交互shell</span></a></li><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#环境变量持久化"><span class="toc-article-text">环境变量持久化</span></a></li><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#数组变量"><span class="toc-article-text">数组变量</span></a></li></ol></li><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#参考书目"><span class="toc-article-text">参考书目</span></a></li></ol>
+		</div>
+	
+	</div>
+	
+    <hr>
+	
+</div><!-- col-md-3 -->
+
+	</div>
+		
+
+</div><!-- row -->
+
+<script type="text/javascript">
+var disqus_shortname = 'technonacgithub';
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+	</div>
+  </div>
+  <div class="container-narrow">
+  <footer> <p>
+  &copy; 2018 technonac
+  
+      with help from <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="http://getbootstrap.com/" target="_blank">Twitter Bootstrap</a>. Theme by <a href="http://github.com/wzpan/hexo-theme-freemind/">Freemind</a>.    
+</p> </footer>
+</div> <!-- container-narrow -->
+  
+
+
+  
+<a id="gotop" href="#">   
+  <span>▲</span> 
+</a>
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script> 
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+   <script type="text/javascript">      
+     var search_path = "search.xml";
+	 if (search_path.length == 0) {
+	 	search_path = "search.xml";
+	 }
+	 var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+   </script>
+
+
+<!-- syntax highlighting -->
+
+
+</body>
+   </html>

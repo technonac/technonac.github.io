@@ -1,0 +1,408 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Thymeleaf 3 学习 | Canon&#39;s Blog</title>
+  <meta name="author" content="technonac">
+  
+  <meta name="description" content="Java,Android Blog">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Thymeleaf 3 学习"/>
+  <meta property="og:site_name" content="Canon&#39;s Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  
+  
+    <link href="/favicon.png" rel="icon">
+  
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/css/themes/sandstone.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight-default.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/comment.css" media="screen" type="text/css">
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.9/es5-shim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-sham.min.js"></script>
+  <![endif]-->
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+  
+  <!-- analytics -->
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-114131858-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?99f21b353655df817afcb7d4d21a0688";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</head>
+
+ <body>  
+  <nav id="main-nav" class="navbar  navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+	<span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+       <a class="navbar-brand" href="/">Canon&#39;s Blog</a>
+      <div class="collapse navbar-collapse nav-menu">
+		<ul class="nav navbar-nav">
+		  
+		  <li>
+			<a href="/archives" title="All the articles.">
+			  <i class="fa fa-archive"></i>Archives
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/categories" title="All the categories.">
+			  <i class="fa fa-folder"></i>Categories
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/tags" title="All the tags.">
+			  <i class="fa fa-tags"></i>Tags
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/about" title="About me.">
+			  <i class="fa fa-user"></i>About
+			</a>
+		  </li>
+		  
+		</ul>
+      </div>
+    </div> <!-- container -->
+</nav>
+<div class="clearfix"></div>
+
+  <div class="container">
+  	<div class="content">
+    	 
+
+
+	
+		<div class="page-header ">		
+			<h1 class="title "> Thymeleaf 3 学习</h1>
+		</div>		
+	
+
+
+
+
+
+
+<div class="row post">
+	<!-- cols -->
+	
+	<div id="top_meta"></div>
+	<div class="col-md-9">
+	
+
+	<!-- content -->
+	<div class="mypage">		
+	  		
+
+	  <h2 id="1-介绍"><a href="#1-介绍" class="headerlink" title="1.介绍"></a>1.介绍</h2><p>Thymeleaf (麝香草叶子), <strong>/ˈtaɪmˌlɪːf/</strong> 是一个服务端java模板引擎框架,它能够处理多种数据格式，包括HTML, XML, JavaScript, CSS以及普通文本。</p>
+<h2 id="2-简单的示例"><a href="#2-简单的示例" class="headerlink" title="2.简单的示例"></a>2.简单的示例</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="comment">&lt;!--声明 th 名称空间--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">xmlns:th</span>=<span class="string">"http://www.thymeleaf.org"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Good Thymes Virtual Grocery<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"Content-Type"</span> <span class="attr">content</span>=<span class="string">"text/html; charset=UTF-8"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">type</span>=<span class="string">"text/css"</span> <span class="attr">media</span>=<span class="string">"all"</span> </span></span><br><span class="line"><span class="tag">          <span class="attr">href</span>=<span class="string">"../../css/gtvg.css"</span> <span class="attr">th:href</span>=<span class="string">"@&#123;/css/gtvg.css&#125;"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 引用文本--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">th:text</span>=<span class="string">"#&#123;home.welcome&#125;"</span>&gt;</span>Welcome to our grocery store!<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>Thymeleaf使用<code>th:*</code> 给现有HTML标签增加属性,因此直接打开模板也能预览效果,很方便 。使用时首先需要像在jsp中一样，在<code>html</code>标签内声明th名称空间，然后就可以使用了。</p>
+<h2 id="3-Standard-Expression-Syntax-标准表达式语法"><a href="#3-Standard-Expression-Syntax-标准表达式语法" class="headerlink" title="3.Standard Expression Syntax(标准表达式语法)"></a>3.Standard Expression Syntax(标准表达式语法)</h2><ul>
+<li>Variable Expressions(变量表达式): <code>${...}</code></li>
+<li>Selection Variable Expressions(选择变量表达式): <code>*{...}</code></li>
+<li>Message Expressions(消息表达式): <code>#{...}</code></li>
+<li>Link URL Expressions(链接url表达式): <code>@{...}</code></li>
+<li>Fragment Expressions(代码片段表达式): <code>~{...}</code></li>
+</ul>
+<h3 id="1-Messages-信息"><a href="#1-Messages-信息" class="headerlink" title="(1).Messages (信息)"></a>(1).Messages (信息)</h3><p>该表达书主要为了实现i18n国际化，需要将多语言的文本放在<code>/WEB-INF/templates</code>目录下，如下</p>
+<ul>
+<li><code>/WEB-INF/templates/home_en.properties</code> 英文的翻译.</li>
+<li><code>/WEB-INF/templates/home.properties</code> 默认的文本</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--常用使用方法--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span> <span class="attr">th:text</span>=<span class="string">"#&#123;home.welcome&#125;"</span>&gt;</span>Hello World<span class="tag">&lt;/<span class="name">p</span>&gt;</span> </span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!--unescaped text 不转义文本--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span> <span class="attr">th:utext</span>=<span class="string">"#&#123;home.welcome&#125;"</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>也可以传参给文本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#home.properties文件</span><br><span class="line">home.welcome=hello, &#123;0&#125;!</span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- Thymeleaf解析后会将p标签中的Welcome User!替换为th:text指定的文本 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span> <span class="attr">th:text</span>=<span class="string">"#&#123;home.welcome($&#123;session.user.name&#125;)&#125;"</span>&gt;</span></span><br><span class="line">  Welcome User!</span><br><span class="line"><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--消息的key也可以通过动态去获取  --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span> <span class="attr">th:utext</span>=<span class="string">"#&#123;$&#123;welcomeMsgKey&#125;($&#123;session.user.name&#125;)&#125;"</span>&gt;</span></span><br><span class="line">  Welcome User!</span><br><span class="line"><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>###(2).Variables(变量)</p>
+<p>Thymeleaf的 ${…}是OGNL (Object-Graph Navigation Language) expressions 语法格式，跟jsp中使用方法差不多,使用示例</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">/*</span><br><span class="line">* Access to properties using the point (.). Equivalent to calling property getters.</span><br><span class="line">*/</span><br><span class="line">$&#123;person.father.name&#125;</span><br><span class="line"></span><br><span class="line">/*</span><br><span class="line">* Access to properties can also be made by using brackets ([]) and writing </span><br><span class="line">* the name of the property as a variable or between single quotes.</span><br><span class="line">*/</span><br><span class="line">$&#123;person[&apos;father&apos;][&apos;name&apos;]&#125;</span><br><span class="line"></span><br><span class="line">/*</span><br><span class="line">* If the object is a map, both dot and bracket syntax will be equivalent to </span><br><span class="line">* executing a call on its get(...) method.</span><br><span class="line">*/</span><br><span class="line">$&#123;countriesByCode.ES&#125;</span><br><span class="line">$&#123;personsByName[&apos;Stephen Zucchini&apos;].age&#125;</span><br><span class="line"></span><br><span class="line">/*</span><br><span class="line">* Indexed access to arrays or collections is also performed with brackets, </span><br><span class="line">* writing the index without quotes.</span><br><span class="line">*/</span><br><span class="line">$&#123;personsArray[0].name&#125;</span><br><span class="line"></span><br><span class="line">/*</span><br><span class="line">* Methods can be called, even with arguments.</span><br><span class="line">*/</span><br><span class="line">$&#123;person.createCompleteName()&#125;</span><br><span class="line">$&#123;person.createCompleteNameWithSeparator(&apos;-&apos;)&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="表达式基本对象-Expression-Basic-Objects-，-开始"><a href="#表达式基本对象-Expression-Basic-Objects-，-开始" class="headerlink" title="表达式基本对象(Expression Basic Objects)，#开始"></a>表达式基本对象(Expression Basic Objects)，#开始</h4><ul>
+<li><p><code>#ctx</code>: the context object. </p>
+</li>
+<li><p><code>#vars:</code> the context variables.</p>
+</li>
+<li><p><code>#locale</code>: the context locale.</p>
+</li>
+<li><p><code>#request</code>: (only in Web Contexts) the <code>HttpServletRequest</code> object.</p>
+</li>
+<li><p><code>#response</code>: (only in Web Contexts) the <code>HttpServletResponse</code> object.</p>
+</li>
+<li><p><code>#session</code>: (only in Web Contexts) the <code>HttpSession</code> object.</p>
+</li>
+<li><p><code>#servletContext</code>: (only in Web Contexts) the <code>ServletContext</code> object.</p>
+</li>
+</ul>
+<h5 id="表达式工具对象"><a href="#表达式工具对象" class="headerlink" title="表达式工具对象"></a>表达式工具对象</h5><ul>
+<li><code>#execInfo</code>: information about the template being processed. </li>
+<li><code>#messages</code>: methods for obtaining externalized messages inside variables expressions, in the same way as they would be obtained using #{…} syntax.</li>
+<li><code>#uris</code>: methods for escaping parts of URLs/URIs</li>
+<li><code>#conversions</code>: methods for executing the configured <em>conversion service</em> (if any).</li>
+<li><code>#dates</code>: methods for <code>java.util.Date</code> objects: formatting, component extraction, etc.</li>
+<li><code>#calendars</code>: analogous to <code>#dates</code>, but for <code>java.util.Calendar</code> objects.</li>
+<li><code>#numbers</code>: methods for formatting numeric objects.</li>
+<li><code>#strings</code>: methods for <code>String</code> objects: contains, startsWith, prepending/appending, etc.</li>
+<li><code>#objects</code>: methods for objects in general.</li>
+<li><code>#bools</code>: methods for boolean evaluation.</li>
+<li><code>#arrays</code>: methods for arrays.</li>
+<li><code>#lists</code>: methods for lists.</li>
+<li><code>#sets</code>: methods for sets.</li>
+<li><code>#maps</code>: methods for maps.</li>
+<li><code>#aggregates</code>: methods for creating aggregates on arrays or collections.</li>
+<li><code>#ids</code>: methods for dealing with id attributes that might be repeated (for example, as a result of an iteration).</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--表达式工具对象的使用--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span></span><br><span class="line">  Today is: <span class="tag">&lt;<span class="name">span</span> <span class="attr">th:text</span>=<span class="string">"$&#123;#calendars.format(today,'dd MMMM yyyy')&#125;"</span>&gt;</span>13 May 2011<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="3-Expressions-on-selections-asterisk-syntax-选择表达式-星号语法"><a href="#3-Expressions-on-selections-asterisk-syntax-选择表达式-星号语法" class="headerlink" title="(3).Expressions on selections (asterisk syntax)(选择表达式 - 星号语法)"></a>(3).Expressions on selections (asterisk syntax)(选择表达式 - 星号语法)</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">th:object</span>=<span class="string">"$&#123;session.user&#125;"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>Name: <span class="tag">&lt;<span class="name">span</span> <span class="attr">th:text</span>=<span class="string">"*&#123;firstName&#125;"</span>&gt;</span>Sebastian<span class="tag">&lt;/<span class="name">span</span>&gt;</span>.<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>Surname: <span class="tag">&lt;<span class="name">span</span> <span class="attr">th:text</span>=<span class="string">"*&#123;lastName&#125;"</span>&gt;</span>Pepper<span class="tag">&lt;/<span class="name">span</span>&gt;</span>.<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>Nationality: <span class="tag">&lt;<span class="name">span</span> <span class="attr">th:text</span>=<span class="string">"*&#123;nationality&#125;"</span>&gt;</span>Saturn<span class="tag">&lt;/<span class="name">span</span>&gt;</span>.<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 等价于 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">p</span>&gt;</span>Name: <span class="tag">&lt;<span class="name">span</span> <span class="attr">th:text</span>=<span class="string">"$&#123;session.user.firstName&#125;"</span>&gt;</span>Sebastian<span class="tag">&lt;/<span class="name">span</span>&gt;</span>.<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">p</span>&gt;</span>Surname: <span class="tag">&lt;<span class="name">span</span> <span class="attr">th:text</span>=<span class="string">"$&#123;session.user.lastName&#125;"</span>&gt;</span>Pepper<span class="tag">&lt;/<span class="name">span</span>&gt;</span>.<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">p</span>&gt;</span>Nationality: <span class="tag">&lt;<span class="name">span</span> <span class="attr">th:text</span>=<span class="string">"$&#123;session.user.nationality&#125;"</span>&gt;</span>Saturn<span class="tag">&lt;/<span class="name">span</span>&gt;</span>.<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 还可以混合使用--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">th:object</span>=<span class="string">"$&#123;session.user&#125;"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">p</span>&gt;</span>Name: <span class="tag">&lt;<span class="name">span</span> <span class="attr">th:text</span>=<span class="string">"*&#123;firstName&#125;"</span>&gt;</span>Sebastian<span class="tag">&lt;/<span class="name">span</span>&gt;</span>.<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">p</span>&gt;</span>Surname: <span class="tag">&lt;<span class="name">span</span> <span class="attr">th:text</span>=<span class="string">"$&#123;session.user.lastName&#125;"</span>&gt;</span>Pepper<span class="tag">&lt;/<span class="name">span</span>&gt;</span>.<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">p</span>&gt;</span>Nationality: <span class="tag">&lt;<span class="name">span</span> <span class="attr">th:text</span>=<span class="string">"*&#123;nationality&#125;"</span>&gt;</span>Saturn<span class="tag">&lt;/<span class="name">span</span>&gt;</span>.<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- #object 引用表达式的对象 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">th:object</span>=<span class="string">"$&#123;session.user&#125;"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">p</span>&gt;</span>Name: <span class="tag">&lt;<span class="name">span</span> <span class="attr">th:text</span>=<span class="string">"$&#123;#object.firstName&#125;"</span>&gt;</span>Sebastian<span class="tag">&lt;/<span class="name">span</span>&gt;</span>.<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">p</span>&gt;</span>Surname: <span class="tag">&lt;<span class="name">span</span> <span class="attr">th:text</span>=<span class="string">"$&#123;session.user.lastName&#125;"</span>&gt;</span>Pepper<span class="tag">&lt;/<span class="name">span</span>&gt;</span>.<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">p</span>&gt;</span>Nationality: <span class="tag">&lt;<span class="name">span</span> <span class="attr">th:text</span>=<span class="string">"*&#123;nationality&#125;"</span>&gt;</span>Saturn<span class="tag">&lt;/<span class="name">span</span>&gt;</span>.<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><code>th:object</code>定义选择的对象,在标签内使用<code>*{...}</code>来取出对象中相应的数据，如果没有选择的对象直接使用<code>*{...}</code>等价于<code>#{...}</code></p>
+<p>###(4).Link URLs(链接URL)</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- Will produce 'http://localhost:8080/gtvg/order/details?orderId=3' (plus rewriting) --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"details.html"</span> </span></span><br><span class="line"><span class="tag">  <span class="attr">th:href</span>=<span class="string">"@&#123;http://localhost:8080/gtvg/order/details(orderId=$&#123;o.id&#125;)&#125;"</span>&gt;</span>view<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- Will produce '/gtvg/order/details?orderId=3' (plus rewriting) --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"details.html"</span> <span class="attr">th:href</span>=<span class="string">"@&#123;/order/details(orderId=$&#123;o.id&#125;)&#125;"</span>&gt;</span>view<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- Will produce '/gtvg/order/3/details' (plus rewriting) --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"details.html"</span> <span class="attr">th:href</span>=<span class="string">"@&#123;/order/&#123;orderId&#125;/details(orderId=$&#123;o.id&#125;)&#125;"</span>&gt;</span>view<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="5-Literals-文本"><a href="#5-Literals-文本" class="headerlink" title="(5).Literals(文本)"></a>(5).Literals(文本)</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 基本的使用--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span></span><br><span class="line">  Now you are looking at a <span class="tag">&lt;<span class="name">span</span> <span class="attr">th:text</span>=<span class="string">"'working web application'"</span>&gt;</span>template file<span class="tag">&lt;/<span class="name">span</span>&gt;</span>.</span><br><span class="line"><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>The year is <span class="tag">&lt;<span class="name">span</span> <span class="attr">th:text</span>=<span class="string">"2013"</span>&gt;</span>1492<span class="tag">&lt;/<span class="name">span</span>&gt;</span>.<span class="tag">&lt;/<span class="name">p</span>&gt;</span> </span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- ==false 需要写在&#123;&#125;外面才交由thymeleaf处理，写在里面时交由 OGNL/SpringEL处理 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">th:if</span>=<span class="string">"$&#123;user.isAdmin()&#125; == false"</span>&gt;</span> <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">th:if</span>=<span class="string">"$&#123;user.isAdmin() == false&#125;"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--判空--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">th:if</span>=<span class="string">"$&#123;variable.something&#125; == null"</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 文本链接 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">span</span> <span class="attr">th:text</span>=<span class="string">"'The name of the user is ' + $&#123;user.name&#125;"</span>&gt;</span></span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">  <span class="comment">&lt;!-- 文本替换,(免去+号链接字符串),需要写在 || 之间</span></span><br><span class="line"><span class="comment">        仅变量，信息表达式可以使用$&#123;...&#125;, *&#123;...&#125;, #&#123;...&#125;</span></span><br><span class="line"><span class="comment">--&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">span</span> <span class="attr">th:text</span>=<span class="string">"|Welcome to our application, $&#123;user.name&#125;!|"</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="6-Arithmetic-operations-算术操作"><a href="#6-Arithmetic-operations-算术操作" class="headerlink" title="(6).Arithmetic operations(算术操作)"></a>(6).Arithmetic operations(算术操作)</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 也可以使用文本 div (/), mod (%).--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">th:with</span>=<span class="string">"isEven=($&#123;prodStat.count&#125; % 2 == 0)"</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="7-Comparators-and-Equality-比较"><a href="#7-Comparators-and-Equality-比较" class="headerlink" title="(7).Comparators and Equality(比较)"></a>(7).Comparators and Equality(比较)</h3><p>html起止标签的缘故，大于，小于等需要使用转义</p>
+<p><code>gt</code> (<code>&gt;</code>), <code>lt</code> (<code>&lt;</code>), <code>ge</code> (<code>&gt;=</code>), <code>le</code> (<code>&lt;=</code>), <code>not</code> (<code>!</code>) <code>eq</code> (<code>==</code>), <code>neq</code>/<code>ne</code> (<code>!=</code>).</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">th:if</span>=<span class="string">"$&#123;prodStat.count&#125; &amp;gt; 1"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">span</span> <span class="attr">th:text</span>=<span class="string">"'Execution mode is ' + ( ($&#123;execMode&#125; == 'dev')? 'Development' : 'Production')"</span></span></span><br></pre></td></tr></table></figure>
+<h3 id="8-Conditional-expressions-条件表达式"><a href="#8-Conditional-expressions-条件表达式" class="headerlink" title="(8).Conditional expressions(条件表达式)"></a>(8).Conditional expressions(条件表达式)</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--C中的三元运算符 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">tr</span> <span class="attr">th:class</span>=<span class="string">"$&#123;row.even&#125;? 'even' : 'odd'"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 省略--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">tr</span> <span class="attr">th:class</span>=<span class="string">"$&#123;row.even&#125;? 'alt'"</span>&gt;</span></span><br><span class="line">  ...</span><br><span class="line"><span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="9-Default-expressions-Elvis-operator-默认表达式"><a href="#9-Default-expressions-Elvis-operator-默认表达式" class="headerlink" title="(9). Default expressions (Elvis operator) 默认表达式"></a>(9). Default expressions (Elvis operator) 默认表达式</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">th:object</span>=<span class="string">"$&#123;session.user&#125;"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">p</span>&gt;</span>Age: <span class="tag">&lt;<span class="name">span</span> <span class="attr">th:text</span>=<span class="string">"*&#123;age&#125;?: '(no age specified)'"</span>&gt;</span>27<span class="tag">&lt;/<span class="name">span</span>&gt;</span>.<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 等价于,省略表达式为true时的语句 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>Age: <span class="tag">&lt;<span class="name">span</span> <span class="attr">th:text</span>=<span class="string">"*&#123;age != null&#125;? *&#123;age&#125; : '(no age specified)'"</span>&gt;</span>27<span class="tag">&lt;/<span class="name">span</span>&gt;</span>.<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="10-The-No-Operation-token-空操作符"><a href="#10-The-No-Operation-token-空操作符" class="headerlink" title="(10). The No-Operation token(空操作符)"></a>(10). The No-Operation token(空操作符)</h3><p>空操作符( No-Operation token)使用下划线表示<code>_</code>，它允许原生页面定义的文本为默认值,便于模板的设计</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">span</span> <span class="attr">th:text</span>=<span class="string">"$&#123;user.name&#125; ?: 'no user authenticated'"</span>&gt;</span>...<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">span</span> <span class="attr">th:text</span>=<span class="string">"$&#123;user.name&#125; ?: _"</span>&gt;</span>no user authenticated<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="11-Data-Conversion-Formatting-数据转换-格式化"><a href="#11-Data-Conversion-Formatting-数据转换-格式化" class="headerlink" title="(11). Data Conversion / Formatting (数据转换/格式化)"></a>(11). Data Conversion / Formatting (数据转换/格式化)</h3><p>Thymeleaf 定义了双花括号语法用于变量<code>${...}</code>和选择表达式<code>*{...}</code></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">td</span> <span class="attr">th:text</span>=<span class="string">"$&#123;&#123;user.lastAccessDate&#125;&#125;"</span>&gt;</span>...<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="4-Iteration-遍历"><a href="#4-Iteration-遍历" class="headerlink" title="4.Iteration(遍历)"></a>4.Iteration(遍历)</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">table</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">th</span>&gt;</span>NAME<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">th</span>&gt;</span>PRICE<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">th</span>&gt;</span>IN STOCK<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">tr</span> <span class="attr">th:each</span>=<span class="string">"prod,iterStat : $&#123;prods&#125;"</span> <span class="attr">th:class</span>=<span class="string">"$&#123;iterStat.odd&#125;? 'odd'"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">td</span> <span class="attr">th:text</span>=<span class="string">"$&#123;prod.name&#125;"</span>&gt;</span>Onions<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">td</span> <span class="attr">th:text</span>=<span class="string">"$&#123;prod.price&#125;"</span>&gt;</span>2.41<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">td</span> <span class="attr">th:text</span>=<span class="string">"$&#123;prod.inStock&#125;? #&#123;true&#125; : #&#123;false&#125;"</span>&gt;</span>yes<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="th-each说明"><a href="#th-each说明" class="headerlink" title="th:each说明"></a>th:each说明</h3><p><code>prod</code>保存每次遍历的对象，<code>iterStat</code>保存遍历的相关信息</p>
+<ul>
+<li>The current <em>iteration index</em>, starting with 0. This is the <code>index</code> property. 遍历索引，从0开始</li>
+<li>The current <em>iteration index</em>, starting with 1. This is the <code>count</code> property. 遍历计数，从1开始</li>
+<li>The total amount of elements in the iterated variable. This is the <code>size</code> property.  被遍历对象的大小 </li>
+<li>The <em>iter variable</em> for each iteration. This is the <code>current</code> property. 当前遍历的对象</li>
+<li>Whether the current iteration is even or odd. These are the <code>even/odd</code> boolean properties. 奇偶布尔值</li>
+<li>Whether the current iteration is the first one. This is the <code>first</code> boolean property. 是否是遍历第一个</li>
+<li>Whether the current iteration is the last one. This is the <code>last</code> boolean property. 是否是遍历最后一个</li>
+</ul>
+<h3 id="被遍历的对象类型"><a href="#被遍历的对象类型" class="headerlink" title="被遍历的对象类型"></a>被遍历的对象类型</h3><ul>
+<li>Any object implementing <code>java.util.Iterable</code></li>
+<li>Any object implementing <code>java.util.Enumeration</code>.</li>
+<li>Any object implementing <code>java.util.Iterator</code>, whose values will be used as they are returned by the iterator, without the need to cache all values in memory.</li>
+<li>Any object implementing <code>java.util.Map</code>. When iterating maps, iter variables will be of class <code>java.util.Map.Entry</code>.</li>
+<li>Any array.</li>
+<li>Any other object will be treated as if it were a single-valued list containing the object itself.</li>
+</ul>
+<h2 id="5-Conditional-Evaluation-条件表达式"><a href="#5-Conditional-Evaluation-条件表达式" class="headerlink" title="5.Conditional Evaluation(条件表达式)"></a>5.Conditional Evaluation(条件表达式)</h2><h3 id="if和unless语句"><a href="#if和unless语句" class="headerlink" title="if和unless语句"></a>if和unless语句</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 如果if表达式成立则显示该标签--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"comments.html"</span></span></span><br><span class="line"><span class="tag">  <span class="attr">th:href</span>=<span class="string">"@&#123;/product/comments(prodId=$&#123;prod.id&#125;)&#125;"</span> </span></span><br><span class="line"><span class="tag">  <span class="attr">th:if</span>=<span class="string">"$&#123;not #lists.isEmpty(prod.comments)&#125;"</span>&gt;</span>view<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!--还可以使用相反的表达式unless --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"comments.html"</span></span></span><br><span class="line"><span class="tag">  <span class="attr">th:href</span>=<span class="string">"@&#123;/comments(prodId=$&#123;prod.id&#125;)&#125;"</span> </span></span><br><span class="line"><span class="tag">  <span class="attr">th:unless</span>=<span class="string">"$&#123;#lists.isEmpty(prod.comments)&#125;"</span>&gt;</span>view<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="if遵循的规则"><a href="#if遵循的规则" class="headerlink" title="if遵循的规则"></a>if遵循的规则</h4><ul>
+<li>If value is not null:<ul>
+<li>If value is a boolean and is <code>true</code>.</li>
+<li>If value is a number and is non-zero</li>
+<li>If value is a character and is non-zero</li>
+<li>If value is a String and is not “false”, “off” or “no”</li>
+<li>If value is not a boolean, a number, a character or a String.</li>
+</ul>
+</li>
+<li>(If value is null, th:if will evaluate to false).<h3 id="switch-case语句"><a href="#switch-case语句" class="headerlink" title="switch/case语句"></a>switch/case语句</h3></li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">th:switch</span>=<span class="string">"$&#123;user.role&#125;"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">p</span> <span class="attr">th:case</span>=<span class="string">"'admin'"</span>&gt;</span>User is an administrator<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">p</span> <span class="attr">th:case</span>=<span class="string">"#&#123;roles.manager&#125;"</span>&gt;</span>User is a manager<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">p</span> <span class="attr">th:case</span>=<span class="string">"*"</span>&gt;</span>User is some other thing<span class="tag">&lt;/<span class="name">p</span>&gt;</span> <span class="comment">&lt;!--默认值--&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="6-Template-Layout-模板布局"><a href="#6-Template-Layout-模板布局" class="headerlink" title="6.Template Layout (模板布局)"></a>6.Template Layout (模板布局)</h2><p>使用<code>th:fragment</code>定义需要复用的代码片段，<code>th:insert</code>或<code>th:replac</code>引用片段</p>
+<p><code>~{templatename::selector}</code> 引用片段 </p>
+<p><code>~{templatename}</code>引用整个文件 </p>
+<p><code>~{::selector}</code>或<code>~{this::selector}</code>引用自身的代码片段 </p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--定义代码片段 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">xmlns:th</span>=<span class="string">"http://www.thymeleaf.org"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">th:fragment</span>=<span class="string">"copy"</span>&gt;</span></span><br><span class="line">      &amp;copy; 2011 The Good Thymes Virtual Grocery</span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 引用代码片 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">th:insert</span>=<span class="string">"footer :: copy"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 根据条件引用--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">th:insert</span>=<span class="string">"footer :: ($&#123;user.isAdmin&#125;? #&#123;footer.admin&#125; : #&#123;footer.normaluser&#125;)"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 根据id引用 css选择器语法类似--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"copy-section"</span>&gt;</span></span><br><span class="line">  &amp;copy; 2011 The Good Thymes Virtual Grocery</span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">th:insert</span>=<span class="string">"~&#123;footer :: #copy-section&#125;"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h5 id="th-insert-th-replace-th-include"><a href="#th-insert-th-replace-th-include" class="headerlink" title="th:insert , th:replace ,th:include"></a><code>th:insert</code> , <code>th:replace</code> ,<code>th:include</code></h5><ul>
+<li><p><code>th:insert</code> is the simplest: it will simply insert the specified fragment as the body of its host tag. (在定义的标签体内引用代码片段)</p>
+</li>
+<li><p><code>th:replace</code> actually <em>replaces</em> its host tag with the specified fragment.(将定义标签替换为引用的代码片段)</p>
+</li>
+<li><p><code>th:include</code> is similar to <code>th:insert</code>, but instead of inserting the fragment it only inserts the <em>contents</em> of this fragment.(Thymeleaf 3.0后不推荐使用)</p>
+<h5 id="参数化方式引用代码片段-Parameterizable-fragment-signatures"><a href="#参数化方式引用代码片段-Parameterizable-fragment-signatures" class="headerlink" title="参数化方式引用代码片段(Parameterizable fragment signatures)"></a>参数化方式引用代码片段(Parameterizable fragment signatures)</h5><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--定义参数化代码片段--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">th:fragment</span>=<span class="string">"frag (onevar,twovar)"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">th:text</span>=<span class="string">"$&#123;onevar&#125; + ' - ' + $&#123;twovar&#125;"</span>&gt;</span>...<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--使用 使用参数名时顺序不重要 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">th:replace</span>=<span class="string">"::frag ($&#123;value1&#125;,$&#123;value2&#125;)"</span>&gt;</span>...<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">th:replace</span>=<span class="string">"::frag (onevar=$&#123;value1&#125;,twovar=$&#123;value2&#125;)"</span>&gt;</span>...<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">th:replace</span>=<span class="string">"::frag (twovar=$&#123;value2&#125;,onevar=$&#123;value1&#125;)"</span>&gt;</span>...<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="7-Local-Variables-局部变量"><a href="#7-Local-Variables-局部变量" class="headerlink" title="7.Local Variables(局部变量)"></a>7.Local Variables(局部变量)</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 使用th:with定义,可以再标签体中使用--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">th:with</span>=<span class="string">"firstPer=$&#123;persons[0]&#125;"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">p</span>&gt;</span></span><br><span class="line">    The name of the first person is <span class="tag">&lt;<span class="name">span</span> <span class="attr">th:text</span>=<span class="string">"$&#123;firstPer.name&#125;"</span>&gt;</span>Julius Caesar<span class="tag">&lt;/<span class="name">span</span>&gt;</span>.</span><br><span class="line">  <span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="8-参考资料"><a href="#8-参考资料" class="headerlink" title="8.参考资料"></a>8.参考资料</h2><p>1.Thymleaf Document(<a href="http://www.thymeleaf.org/documentation.html" target="_blank" rel="noopener">http://www.thymeleaf.org/documentation.html</a>)</p>
+<p>2.属性优先级(<a href="http://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html#attribute-precedence" target="_blank" rel="noopener">http://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html#attribute-precedence</a>)</p>
+<p>3.可用属性(<a href="http://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html#setting-value-to-specific-attributes" target="_blank" rel="noopener">http://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html#setting-value-to-specific-attributes</a>)</p>
+	  
+	</div>
+
+	<!-- recommended posts -->
+	
+
+	<div>
+  	<center>
+	<div class="pagination">
+<ul class="pagination">
+	 
+				
+    	<li class="prev"><a href="/2018/02/14/linux-cmd-1-bash-shell-command/" class="alignleft prev"><i class="fa fa-arrow-circle-o-left"></i>上一页</a></li>
+  		
+
+        <li><a href="/archives"><i class="fa fa-archive"></i>Archive</a></li>
+
+		
+          <li class="next disabled"><a>下一页<i class="fa fa-arrow-circle-o-right"></i></a></li>
+        
+	
+</ul>
+</div>
+
+    </center>
+	</div>
+
+    <!-- share -->
+    
+        
+
+        
+
+    
+	
+	<!-- comment -->
+	
+<section id="comment">
+  <h2 class="title">留言</h2>
+  
+  	 <div id="disqus_thread">
+     <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  	 </div>
+  
+</section>
+
+
+	</div> <!-- col-md-9/col-md-12 -->
+		
+	
+	<div id="side_meta">
+		<div class="col-md-3" id="post_meta"> 
+
+	<!-- date -->
+	
+	<div class="meta-widget">
+	<i class="fa fa-clock-o"></i>
+	2017-11-28 
+	</div>
+	
+
+	<!-- categories -->
+    
+
+	<!-- tags -->
+	
+
+	<!-- toc -->
+	<div class="meta-widget">
+	
+	   <a data-toggle="collapse" data-target="#toc"><i class="fa fa-bars"></i></a>
+	   <div id="toc" class="toc collapse in">
+			<ol class="toc-article"><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#1-介绍"><span class="toc-article-text">1.介绍</span></a></li><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#2-简单的示例"><span class="toc-article-text">2.简单的示例</span></a></li><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#3-Standard-Expression-Syntax-标准表达式语法"><span class="toc-article-text">3.Standard Expression Syntax(标准表达式语法)</span></a><ol class="toc-article-child"><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#1-Messages-信息"><span class="toc-article-text">(1).Messages (信息)</span></a><ol class="toc-article-child"><li class="toc-article-item toc-article-level-4"><a class="toc-article-link" href="#表达式基本对象-Expression-Basic-Objects-，-开始"><span class="toc-article-text">表达式基本对象(Expression Basic Objects)，#开始</span></a><ol class="toc-article-child"><li class="toc-article-item toc-article-level-5"><a class="toc-article-link" href="#表达式工具对象"><span class="toc-article-text">表达式工具对象</span></a></li></ol></li></ol></li><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#3-Expressions-on-selections-asterisk-syntax-选择表达式-星号语法"><span class="toc-article-text">(3).Expressions on selections (asterisk syntax)(选择表达式 - 星号语法)</span></a></li><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#5-Literals-文本"><span class="toc-article-text">(5).Literals(文本)</span></a></li><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#6-Arithmetic-operations-算术操作"><span class="toc-article-text">(6).Arithmetic operations(算术操作)</span></a></li><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#7-Comparators-and-Equality-比较"><span class="toc-article-text">(7).Comparators and Equality(比较)</span></a></li><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#8-Conditional-expressions-条件表达式"><span class="toc-article-text">(8).Conditional expressions(条件表达式)</span></a></li><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#9-Default-expressions-Elvis-operator-默认表达式"><span class="toc-article-text">(9). Default expressions (Elvis operator) 默认表达式</span></a></li><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#10-The-No-Operation-token-空操作符"><span class="toc-article-text">(10). The No-Operation token(空操作符)</span></a></li><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#11-Data-Conversion-Formatting-数据转换-格式化"><span class="toc-article-text">(11). Data Conversion / Formatting (数据转换/格式化)</span></a></li></ol></li><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#4-Iteration-遍历"><span class="toc-article-text">4.Iteration(遍历)</span></a><ol class="toc-article-child"><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#th-each说明"><span class="toc-article-text">th:each说明</span></a></li><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#被遍历的对象类型"><span class="toc-article-text">被遍历的对象类型</span></a></li></ol></li><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#5-Conditional-Evaluation-条件表达式"><span class="toc-article-text">5.Conditional Evaluation(条件表达式)</span></a><ol class="toc-article-child"><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#if和unless语句"><span class="toc-article-text">if和unless语句</span></a><ol class="toc-article-child"><li class="toc-article-item toc-article-level-4"><a class="toc-article-link" href="#if遵循的规则"><span class="toc-article-text">if遵循的规则</span></a></li></ol></li><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#switch-case语句"><span class="toc-article-text">switch/case语句</span></a></li></ol></li><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#6-Template-Layout-模板布局"><span class="toc-article-text">6.Template Layout (模板布局)</span></a><ol class="toc-article-child"><li class="toc-article-item toc-article-level-5"><a class="toc-article-link" href="#th-insert-th-replace-th-include"><span class="toc-article-text">th:insert , th:replace ,th:include</span></a></li><li class="toc-article-item toc-article-level-5"><a class="toc-article-link" href="#参数化方式引用代码片段-Parameterizable-fragment-signatures"><span class="toc-article-text">参数化方式引用代码片段(Parameterizable fragment signatures)</span></a></li></ol></li></ol></li></ol></li><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#7-Local-Variables-局部变量"><span class="toc-article-text">7.Local Variables(局部变量)</span></a></li><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#8-参考资料"><span class="toc-article-text">8.参考资料</span></a></li></ol>
+		</div>
+	
+	</div>
+	
+    <hr>
+	
+</div><!-- col-md-3 -->
+
+	</div>
+		
+
+</div><!-- row -->
+
+<script type="text/javascript">
+var disqus_shortname = 'technonacgithub';
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+	</div>
+  </div>
+  <div class="container-narrow">
+  <footer> <p>
+  &copy; 2018 technonac
+  
+      with help from <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="http://getbootstrap.com/" target="_blank">Twitter Bootstrap</a>. Theme by <a href="http://github.com/wzpan/hexo-theme-freemind/">Freemind</a>.    
+</p> </footer>
+</div> <!-- container-narrow -->
+  
+
+
+  
+<a id="gotop" href="#">   
+  <span>▲</span> 
+</a>
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script> 
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+   <script type="text/javascript">      
+     var search_path = "search.xml";
+	 if (search_path.length == 0) {
+	 	search_path = "search.xml";
+	 }
+	 var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+   </script>
+
+
+<!-- syntax highlighting -->
+
+
+</body>
+   </html>

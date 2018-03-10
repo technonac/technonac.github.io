@@ -1,0 +1,333 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>shell脚本(6)创建函数 | Canon&#39;s Blog</title>
+  <meta name="author" content="technonac">
+  
+  <meta name="description" content="Java,Android Blog">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="shell脚本(6)创建函数"/>
+  <meta property="og:site_name" content="Canon&#39;s Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  
+  
+    <link href="/favicon.png" rel="icon">
+  
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/css/themes/sandstone.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight-default.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/comment.css" media="screen" type="text/css">
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.9/es5-shim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-sham.min.js"></script>
+  <![endif]-->
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+  
+  <!-- analytics -->
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-114131858-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?99f21b353655df817afcb7d4d21a0688";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</head>
+
+ <body>  
+  <nav id="main-nav" class="navbar  navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+	<span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+       <a class="navbar-brand" href="/">Canon&#39;s Blog</a>
+      <div class="collapse navbar-collapse nav-menu">
+		<ul class="nav navbar-nav">
+		  
+		  <li>
+			<a href="/archives" title="All the articles.">
+			  <i class="fa fa-archive"></i>Archives
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/categories" title="All the categories.">
+			  <i class="fa fa-folder"></i>Categories
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/tags" title="All the tags.">
+			  <i class="fa fa-tags"></i>Tags
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/about" title="About me.">
+			  <i class="fa fa-user"></i>About
+			</a>
+		  </li>
+		  
+		</ul>
+      </div>
+    </div> <!-- container -->
+</nav>
+<div class="clearfix"></div>
+
+  <div class="container">
+  	<div class="content">
+    	 
+
+
+	
+		<div class="page-header ">		
+			<h1 class="title "> shell脚本(6)创建函数</h1>
+		</div>		
+	
+
+
+
+
+
+
+<div class="row post">
+	<!-- cols -->
+	
+	<div id="top_meta"></div>
+	<div class="col-md-9">
+	
+
+	<!-- content -->
+	<div class="mypage">		
+	  		
+
+	  <h2 id="基本的脚本函数"><a href="#基本的脚本函数" class="headerlink" title="基本的脚本函数"></a>基本的脚本函数</h2><p>函数是一个脚本代码块，你可以为其命名并在代码中任何位置重用。</p>
+<h3 id="创建函数"><a href="#创建函数" class="headerlink" title="创建函数"></a>创建函数</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">第一种格式采用关键字 <span class="keyword">function</span>：</span><br><span class="line"><span class="keyword">function</span> name &#123; </span><br><span class="line">    commands </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line">第二种格式更接近于其他编程语言:</span><br><span class="line"><span class="comment"># 函数名后的空括号表明正在定义的是一个函数</span></span><br><span class="line"><span class="function"><span class="title">name</span></span>() &#123; </span><br><span class="line">commands </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="使用函数"><a href="#使用函数" class="headerlink" title="使用函数"></a>使用函数</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> func1 &#123; </span><br><span class="line">   <span class="built_in">echo</span> <span class="string">"This is an example of a function"</span> </span><br><span class="line">&#125; </span><br><span class="line"> </span><br><span class="line">func1 <span class="comment"># 使用函数名调用函数 </span></span><br><span class="line"><span class="comment"># 函数需要先定义后使用</span></span><br><span class="line"><span class="comment"># 同名函数，使用最后定义的函数</span></span><br></pre></td></tr></table></figure>
+<h2 id="返回值"><a href="#返回值" class="headerlink" title="返回值"></a>返回值</h2><p>bash  shell会把函数当作一个小型脚本，运行结束时会返回一个退出状态码</p>
+<h3 id="默认退出状态码"><a href="#默认退出状态码" class="headerlink" title="默认退出状态码"></a>默认退出状态码</h3><p>默认情况下，函数的退出状态码是函数中最后一条命令返回的退出状态码。在函数执行结束后，可以用标准变量 <code>$?</code>来确定函数的退出状态码。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">$ cat test4 </span><br><span class="line"><span class="meta">#!/bin/bash </span></span><br><span class="line"><span class="comment"># testing the exit status of a function </span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">func1</span></span>() &#123; </span><br><span class="line">   <span class="built_in">echo</span> <span class="string">"trying to display a non-existent file"</span> </span><br><span class="line">   ls -l badfile </span><br><span class="line">&#125; </span><br><span class="line"> </span><br><span class="line"><span class="built_in">echo</span> <span class="string">"testing the function: "</span> </span><br><span class="line">func1 </span><br><span class="line"><span class="built_in">echo</span> <span class="string">"The exit status is: $?"</span> </span><br><span class="line">$  </span><br><span class="line">$ ./test4 </span><br><span class="line">testing the <span class="keyword">function</span>: </span><br><span class="line">trying to display a non-existent file </span><br><span class="line">ls: badfile: No such file or directory </span><br><span class="line">The <span class="built_in">exit</span> status is: 1 </span><br><span class="line">$</span><br></pre></td></tr></table></figure>
+<h3 id="使用-return-命令"><a href="#使用-return-命令" class="headerlink" title="使用 return 命令"></a>使用 return 命令</h3><p>bash shell使用 return 命令来退出函数并返回特定的退出状态码。 return 命令允许指定一个整数值来定义函数的退出状态码，从而提供了一种简单的途径来编程设定函数退出状态码。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">$ cat test5 </span><br><span class="line"><span class="meta">#!/bin/bash </span></span><br><span class="line"><span class="comment"># using the return command in a function </span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">function</span> dbl &#123; </span><br><span class="line">   <span class="built_in">read</span> -p <span class="string">"Enter a value: "</span> value </span><br><span class="line">   <span class="built_in">echo</span> <span class="string">"doubling the value"</span> </span><br><span class="line">   <span class="built_in">return</span> $[ <span class="variable">$value</span> * 2 ] </span><br><span class="line">&#125; </span><br><span class="line"> </span><br><span class="line">dbl </span><br><span class="line"><span class="built_in">echo</span> <span class="string">"The new value is $?"</span> </span><br><span class="line">$ </span><br><span class="line"><span class="comment"># 函数一结束就取返回值</span></span><br><span class="line"><span class="comment"># 退出状态码必须是0~255</span></span><br></pre></td></tr></table></figure>
+<h3 id="使用函数输出"><a href="#使用函数输出" class="headerlink" title="使用函数输出"></a>使用函数输出</h3><p>可以将函数的输出保存到变量中</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">$ cat test5b </span><br><span class="line"><span class="meta">#!/bin/bash </span></span><br><span class="line"><span class="comment"># using the echo to return a value </span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">function</span> dbl &#123; </span><br><span class="line">   <span class="built_in">read</span> -p <span class="string">"Enter a value: "</span> value </span><br><span class="line">   <span class="built_in">echo</span> $[ <span class="variable">$value</span> * 2 ] </span><br><span class="line">&#125; </span><br><span class="line"> </span><br><span class="line">result=$(dbl) </span><br><span class="line"><span class="built_in">echo</span> <span class="string">"The new value is <span class="variable">$result</span>"</span> </span><br><span class="line">$  </span><br><span class="line">$ ./test5b </span><br><span class="line">Enter a value: 200 </span><br><span class="line">The new value is 400 </span><br><span class="line">$</span><br></pre></td></tr></table></figure>
+<h2 id="在函数中使用变量"><a href="#在函数中使用变量" class="headerlink" title="在函数中使用变量"></a>在函数中使用变量</h2><h3 id="向函数传递参数"><a href="#向函数传递参数" class="headerlink" title="向函数传递参数"></a>向函数传递参数</h3><p>bash shell会将函数当作小型脚本来对待,这意味着你可以像普通脚本那样向函数传递参数。函数可以使用标准的参数环境变量来表示命令行上传给函数的参数。例如，函数名会在 <code>$0</code>变量中定义，函数命令行上的任何参数都会通过 <code>$1</code> 、 <code>$2</code> 等定义。也可以用特殊变量<code>$#</code> 来判断传给函数的参数数目</p>
+<p>在脚本中指定函数时，必须将参数和函数放在同一行，像这样： </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">func1 <span class="variable">$value1</span> 10</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash </span></span><br><span class="line"><span class="comment"># passing parameters to a function </span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">function</span> addem &#123; </span><br><span class="line">   <span class="keyword">if</span> [ <span class="variable">$#</span> -eq 0 ] || [ <span class="variable">$#</span> -gt 2 ] </span><br><span class="line">   <span class="keyword">then</span> </span><br><span class="line">      <span class="built_in">echo</span> -1 </span><br><span class="line">   <span class="keyword">elif</span> [ <span class="variable">$#</span> -eq 1 ] </span><br><span class="line">   <span class="keyword">then</span> </span><br><span class="line">      <span class="built_in">echo</span> $[ <span class="variable">$1</span> + <span class="variable">$1</span> ] </span><br><span class="line">   <span class="keyword">else</span> </span><br><span class="line">      <span class="built_in">echo</span> $[ <span class="variable">$1</span> + <span class="variable">$2</span> ] </span><br><span class="line">   <span class="keyword">fi</span> </span><br><span class="line">   &#125; </span><br><span class="line"><span class="built_in">echo</span> -n <span class="string">"Adding 10 and 15: "</span> </span><br><span class="line">value=$(addem 10 15) </span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$value</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 获取命令行中的参数 传递给函数</span></span><br><span class="line">$ cat test7 </span><br><span class="line"><span class="meta">#!/bin/bash </span></span><br><span class="line"><span class="comment"># trying to access script parameters inside a function </span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">function</span> func7 &#123; </span><br><span class="line">   <span class="built_in">echo</span> $[ <span class="variable">$1</span> * <span class="variable">$2</span> ] </span><br><span class="line">&#125; </span><br><span class="line"> </span><br><span class="line"><span class="keyword">if</span> [ <span class="variable">$#</span> -eq 2 ] </span><br><span class="line"><span class="keyword">then</span> </span><br><span class="line">   value=$(func7 <span class="variable">$1</span> <span class="variable">$2</span>) </span><br><span class="line">   <span class="built_in">echo</span> <span class="string">"The result is <span class="variable">$value</span>"</span> </span><br><span class="line"><span class="keyword">else</span> </span><br><span class="line">   <span class="built_in">echo</span> <span class="string">"Usage: badtest1 a b"</span> </span><br><span class="line"><span class="keyword">fi</span> </span><br><span class="line">$  </span><br><span class="line">$ ./test7 </span><br><span class="line">Usage: badtest1 a b </span><br><span class="line">$ ./test7 10 15 </span><br><span class="line">The result is 150 </span><br><span class="line">$</span><br></pre></td></tr></table></figure>
+<h3 id="在函数中处理变量"><a href="#在函数中处理变量" class="headerlink" title="在函数中处理变量"></a>在函数中处理变量</h3><h4 id="1-全局变量"><a href="#1-全局变量" class="headerlink" title="1.全局变量"></a>1.全局变量</h4><p>全局变量是在shell脚本中任何地方都有效的变量。默认情况下，你在脚本中定义的任何变量都是全局变量。在函数外定义的变量可在函数内正常访问。 </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">$ cat test8 </span><br><span class="line"><span class="meta">#!/bin/bash </span></span><br><span class="line"><span class="comment"># using a global variable to pass a value </span></span><br><span class="line"><span class="keyword">function</span> dbl &#123; </span><br><span class="line">   value=$[ <span class="variable">$value</span> * 2 ] </span><br><span class="line">&#125; </span><br><span class="line"> </span><br><span class="line"><span class="built_in">read</span> -p <span class="string">"Enter a value: "</span> value </span><br><span class="line">dbl </span><br><span class="line"><span class="built_in">echo</span> <span class="string">"The new value is: <span class="variable">$value</span>"</span> </span><br><span class="line">$  </span><br><span class="line">$ ./test8 </span><br><span class="line">Enter a value: 450 </span><br><span class="line">The new value is: 900 </span><br><span class="line">$</span><br></pre></td></tr></table></figure>
+<h4 id="2-局部变量"><a href="#2-局部变量" class="headerlink" title="2.局部变量"></a>2.局部变量</h4><p>函数内部使用的任何变量都可以被声明成局部变量。定义局部变量时，需要在变量名前加上local关键字</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">$ cat test9 </span><br><span class="line"><span class="meta">#!/bin/bash </span></span><br><span class="line"><span class="comment"># demonstrating the local keyword </span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">function</span> func1 &#123; </span><br><span class="line">   <span class="built_in">local</span> temp=$[ <span class="variable">$value</span> + 5 ] </span><br><span class="line">   result=$[ <span class="variable">$temp</span> * 2 ] </span><br><span class="line">&#125; </span><br><span class="line"> </span><br><span class="line">temp=4 </span><br><span class="line">value=6 </span><br><span class="line"> </span><br><span class="line">func1 </span><br><span class="line"><span class="built_in">echo</span> <span class="string">"The result is <span class="variable">$result</span>"</span> </span><br><span class="line"><span class="keyword">if</span> [ <span class="variable">$temp</span> -gt <span class="variable">$value</span> ] </span><br><span class="line"><span class="keyword">then</span> </span><br><span class="line">   <span class="built_in">echo</span> <span class="string">"temp is larger"</span> </span><br><span class="line"><span class="keyword">else</span> </span><br><span class="line">   <span class="built_in">echo</span> <span class="string">"temp is smaller"</span> </span><br><span class="line"><span class="keyword">fi</span> </span><br><span class="line">$  </span><br><span class="line">$ ./test9 </span><br><span class="line">The result is 22 </span><br><span class="line">temp is smaller </span><br><span class="line">$</span><br></pre></td></tr></table></figure>
+<h2 id="数组变量和函数"><a href="#数组变量和函数" class="headerlink" title="数组变量和函数"></a>数组变量和函数</h2><h3 id="向函数传数组参数"><a href="#向函数传数组参数" class="headerlink" title="向函数传数组参数"></a>向函数传数组参数</h3><p>需要将数组变量的值分解成单个的值，然后将这些值作为函数参数使用。在函数内部，可以将所有的参数重新组合成一个新的变量。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">$ cat test11 </span><br><span class="line"><span class="meta">#!/bin/bash </span></span><br><span class="line"><span class="comment"># adding values in an array </span></span><br><span class="line"><span class="keyword">function</span> addarray &#123; </span><br><span class="line">   <span class="built_in">local</span> sum=0 </span><br><span class="line">   <span class="built_in">local</span> newarray </span><br><span class="line">   newarray=($(<span class="built_in">echo</span> <span class="string">"<span class="variable">$@</span>"</span>)) </span><br><span class="line">   <span class="keyword">for</span> value <span class="keyword">in</span> <span class="variable">$&#123;newarray[*]&#125;</span> </span><br><span class="line">   <span class="keyword">do</span> </span><br><span class="line">      sum=$[ <span class="variable">$sum</span> + <span class="variable">$value</span> ] </span><br><span class="line">   <span class="keyword">done</span> </span><br><span class="line">   <span class="built_in">echo</span> <span class="variable">$sum</span> </span><br><span class="line">&#125; </span><br><span class="line"> </span><br><span class="line">myarray=(1 2 3 4 5) </span><br><span class="line"><span class="built_in">echo</span> <span class="string">"The original array is: <span class="variable">$&#123;myarray[*]&#125;</span>"</span> </span><br><span class="line">arg1=$(<span class="built_in">echo</span> <span class="variable">$&#123;myarray[*]&#125;</span>) </span><br><span class="line">result=$(addarray <span class="variable">$arg1</span>) </span><br><span class="line"><span class="built_in">echo</span> <span class="string">"The result is <span class="variable">$result</span>"</span> </span><br><span class="line">$  </span><br><span class="line">$ ./test11 </span><br><span class="line">The original array is: 1 2 3 4 5 </span><br><span class="line">The result is 15 </span><br><span class="line">$</span><br></pre></td></tr></table></figure>
+<h3 id="从函数返回数组"><a href="#从函数返回数组" class="headerlink" title="从函数返回数组"></a>从函数返回数组</h3><p>从函数里向shell脚本传回数组变量也用类似的方法。函数用 echo 语句来按正确顺序输出单个数组值，然后脚本再将它们重新放进一个新的数组变量中。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">$ cat test12 </span><br><span class="line"><span class="meta">#!/bin/bash </span></span><br><span class="line"><span class="comment"># returning an array value </span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">function</span> arraydblr &#123; </span><br><span class="line">   <span class="built_in">local</span> origarray </span><br><span class="line">   <span class="built_in">local</span> newarray </span><br><span class="line">   <span class="built_in">local</span> elements </span><br><span class="line">   <span class="built_in">local</span> i </span><br><span class="line">   origarray=($(<span class="built_in">echo</span> <span class="string">"<span class="variable">$@</span>"</span>)) </span><br><span class="line">   newarray=($(<span class="built_in">echo</span> <span class="string">"<span class="variable">$@</span>"</span>)) </span><br><span class="line">   elements=$[ <span class="variable">$#</span> - 1 ] </span><br><span class="line">   <span class="keyword">for</span> (( i = 0; i &lt;= <span class="variable">$elements</span>; i++ )) </span><br><span class="line">   &#123; </span><br><span class="line">      newarray[<span class="variable">$i</span>]=$[ <span class="variable">$&#123;origarray[$i]&#125;</span> * 2 ] </span><br><span class="line">   &#125; </span><br><span class="line">   <span class="built_in">echo</span> <span class="variable">$&#123;newarray[*]&#125;</span> </span><br><span class="line">&#125; </span><br><span class="line"> </span><br><span class="line">myarray=(1 2 3 4 5) </span><br><span class="line"><span class="built_in">echo</span> <span class="string">"The original array is: <span class="variable">$&#123;myarray[*]&#125;</span>"</span> </span><br><span class="line">arg1=$(<span class="built_in">echo</span> <span class="variable">$&#123;myarray[*]&#125;</span>) </span><br><span class="line">result=($(arraydblr <span class="variable">$arg1</span>)) </span><br><span class="line"><span class="built_in">echo</span> <span class="string">"The new array is: <span class="variable">$&#123;result[*]&#125;</span>"</span> </span><br><span class="line">$  </span><br><span class="line">$ ./test12 </span><br><span class="line">The original array is: 1 2 3 4 5 </span><br><span class="line">The new array is: 2 4 6 8 10</span><br></pre></td></tr></table></figure>
+<h2 id="函数递归"><a href="#函数递归" class="headerlink" title="函数递归"></a>函数递归</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 阶乘</span></span><br><span class="line">$ cat test13 </span><br><span class="line"><span class="meta">#!/bin/bash </span></span><br><span class="line"><span class="comment"># using recursion </span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">function</span> factorial &#123; </span><br><span class="line">   <span class="keyword">if</span> [ <span class="variable">$1</span> -eq 1 ] </span><br><span class="line">   <span class="keyword">then</span> </span><br><span class="line">      <span class="built_in">echo</span> 1 </span><br><span class="line">   <span class="keyword">else</span> </span><br><span class="line">      <span class="built_in">local</span> temp=$[ <span class="variable">$1</span> - 1 ] </span><br><span class="line">      <span class="built_in">local</span> result=$(factorial <span class="variable">$temp</span>) </span><br><span class="line">      <span class="built_in">echo</span> $[ <span class="variable">$result</span> * <span class="variable">$1</span> ] </span><br><span class="line">   <span class="keyword">fi</span> </span><br><span class="line">&#125;   </span><br><span class="line"><span class="built_in">read</span> -p <span class="string">"Enter value: "</span> value </span><br><span class="line">result=$(factorial <span class="variable">$value</span>) </span><br><span class="line"><span class="built_in">echo</span> <span class="string">"The factorial of <span class="variable">$value</span> is: <span class="variable">$result</span>"</span> </span><br><span class="line">$  </span><br><span class="line">$ ./test13 </span><br><span class="line">Enter value: 5 </span><br><span class="line">The factorial of 5 is: 120 </span><br><span class="line">$</span><br></pre></td></tr></table></figure>
+<h2 id="创建库"><a href="#创建库" class="headerlink" title="创建库"></a>创建库</h2><p>bash shell允许创建函数库文件，然后在多个脚本中引用该库文件。</p>
+<p>第一步是创建一个包含脚本中所需函数的公用库文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">$ cat myfuncs </span><br><span class="line"><span class="comment"># my script functions </span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">function</span> addem &#123; </span><br><span class="line">   <span class="built_in">echo</span> $[ <span class="variable">$1</span> + <span class="variable">$2</span> ] </span><br><span class="line">&#125; </span><br><span class="line"> </span><br><span class="line"><span class="keyword">function</span> multem &#123; </span><br><span class="line">   <span class="built_in">echo</span> $[ <span class="variable">$1</span> * <span class="variable">$2</span> ] </span><br><span class="line">&#125; </span><br><span class="line"> </span><br><span class="line"><span class="keyword">function</span> divem &#123; </span><br><span class="line">   <span class="keyword">if</span> [ <span class="variable">$2</span> -ne 0 ] </span><br><span class="line">   <span class="keyword">then</span> </span><br><span class="line">      <span class="built_in">echo</span> $[ <span class="variable">$1</span> / <span class="variable">$2</span> ] </span><br><span class="line">   <span class="keyword">else</span> </span><br><span class="line">      <span class="built_in">echo</span> -1 </span><br><span class="line">   <span class="keyword">fi</span> </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>下一步是在用到这些函数的脚本文件中包含myfuncs库文件。</p>
+<p>和环境变量一样，shell函数仅在定义它的shell会话内有效。如果你在shell命令行界面的提示符下运行myfuncs  shell脚本，shell会创建一个新的shell并在其中运行这个脚本。它会为那个新shell定义这三个函数，但当你运行另外一个要用到这些函数的脚本时，它们是无法使用的。</p>
+<p>使用函数库的关键在于 source 命令。 source 命令会在当前shell上下文中执行命令，而不是创建一个新shell。可以用 source 命令来在shell脚本中运行库文件脚本。这样脚本就可以使用库中的函数了。</p>
+<p>source 命令有个快捷的别名，称作点操作符（dot  operator）。要在shell脚本中运行myfuncs库文件，只需添加下面这行： </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">. ./myfuncs  <span class="comment"># 第1个点表示点操作符， 第2个点表示当前目录</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">$ cat test14 </span><br><span class="line"><span class="meta">#!/bin/bash </span></span><br><span class="line"><span class="comment"># using functions defined in a library file </span></span><br><span class="line">. ./myfuncs </span><br><span class="line"> </span><br><span class="line">value1=10 </span><br><span class="line">value2=5 </span><br><span class="line">result1=$(addem <span class="variable">$value1</span> <span class="variable">$value2</span>) </span><br><span class="line">result2=$(multem <span class="variable">$value1</span> <span class="variable">$value2</span>) </span><br><span class="line">result3=$(divem <span class="variable">$value1</span> <span class="variable">$value2</span>) </span><br><span class="line"><span class="built_in">echo</span> <span class="string">"The result of adding them is: <span class="variable">$result1</span>"</span> </span><br><span class="line"><span class="built_in">echo</span> <span class="string">"The result of multiplying them is: <span class="variable">$result2</span>"</span> </span><br><span class="line"><span class="built_in">echo</span> <span class="string">"The result of dividing them is: <span class="variable">$result3</span>"</span> </span><br><span class="line">$  </span><br><span class="line">$ ./test14 </span><br><span class="line">The result of adding them is: 15 </span><br><span class="line">The result of multiplying them is: 50 </span><br><span class="line">The result of dividing them is: 2 </span><br><span class="line">$</span><br></pre></td></tr></table></figure>
+<h2 id="在命令行上使用函数"><a href="#在命令行上使用函数" class="headerlink" title="在命令行上使用函数"></a>在命令行上使用函数</h2><h3 id="在-bashrc-文件中定义函数"><a href="#在-bashrc-文件中定义函数" class="headerlink" title="在.bashrc 文件中定义函数"></a>在.bashrc 文件中定义函数</h3><p>bash shell在每次启动时都会在主目录下查找.bashrc文件并运行</p>
+<h4 id="1-直接定义函数"><a href="#1-直接定义函数" class="headerlink" title="1.直接定义函数"></a>1.直接定义函数</h4><p>可以直接在主目录下的.bashrc文件中定义函数。把你写的函数放在文件末尾就行了</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">$ cat .bashrc </span><br><span class="line"><span class="comment"># .bashrc </span></span><br><span class="line"> </span><br><span class="line"><span class="comment"># Source global definitions </span></span><br><span class="line"><span class="keyword">if</span> [ -r /etc/bashrc ]; <span class="keyword">then</span> </span><br><span class="line">        . /etc/bashrc </span><br><span class="line"><span class="keyword">fi</span> </span><br><span class="line"></span><br><span class="line"><span class="comment"># 该函数会在下次启动新bash shell时生效。</span></span><br><span class="line"><span class="keyword">function</span> addem &#123; </span><br><span class="line">   <span class="built_in">echo</span> $[ <span class="variable">$1</span> + <span class="variable">$2</span> ] </span><br><span class="line">&#125; </span><br><span class="line">$</span><br></pre></td></tr></table></figure>
+<h4 id="2-读取函数文件"><a href="#2-读取函数文件" class="headerlink" title="2.读取函数文件"></a>2.读取函数文件</h4><p>只要是在shell脚本中，都可以用 source 命令（点操作符）将库文件中的函数添加到你的.bashrc脚本中。shell还会将定义好的函数传给子shell进程</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ cat .bashrc </span><br><span class="line"><span class="comment"># .bashrc </span></span><br><span class="line"> </span><br><span class="line"><span class="comment"># Source global definitions </span></span><br><span class="line"><span class="keyword">if</span> [ -r /etc/bashrc ]; <span class="keyword">then</span> </span><br><span class="line">        . /etc/bashrc </span><br><span class="line"><span class="keyword">fi</span> </span><br><span class="line"> </span><br><span class="line">. /home/rich/libraries/myfuncs </span><br><span class="line">$</span><br></pre></td></tr></table></figure>
+<h2 id="参考书目"><a href="#参考书目" class="headerlink" title="参考书目"></a>参考书目</h2><p>《Linux命令行与shell脚本编程大全》第3版</p>
+	  
+	</div>
+
+	<!-- recommended posts -->
+	
+
+	<div>
+  	<center>
+	<div class="pagination">
+<ul class="pagination">
+	 
+		
+          <li class="prev disabled"><a><i class="fa fa-arrow-circle-o-left"></i>上一页</a></li>
+        
+
+        <li><a href="/archives"><i class="fa fa-archive"></i>Archive</a></li>
+
+		
+		   <li class="next"><a href="/2018/02/23/shell-script-5-script-control/" class="alignright next">下一页<i class="fa fa-arrow-circle-o-right"></i></a></li>         
+        
+	
+</ul>
+</div>
+
+    </center>
+	</div>
+
+    <!-- share -->
+    
+        
+
+        
+
+    
+	
+	<!-- comment -->
+	
+<section id="comment">
+  <h2 class="title">留言</h2>
+  
+  	 <div id="disqus_thread">
+     <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  	 </div>
+  
+</section>
+
+
+	</div> <!-- col-md-9/col-md-12 -->
+		
+	
+	<div id="side_meta">
+		<div class="col-md-3" id="post_meta"> 
+
+	<!-- date -->
+	
+	<div class="meta-widget">
+	<i class="fa fa-clock-o"></i>
+	2018-02-24 
+	</div>
+	
+
+	<!-- categories -->
+    
+
+	<!-- tags -->
+	
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#tags"><i class="fa fa-tags"></i></a>		  
+    <ul id="tags" class="tag_box list-unstyled collapse in">	  
+	    
+  <li><a href="/tags/Linux/">Linux<span>11</span></a></li> <li><a href="/tags/Shell/">Shell<span>11</span></a></li>
+    </ul>
+	</div>
+	
+
+	<!-- toc -->
+	<div class="meta-widget">
+	
+	   <a data-toggle="collapse" data-target="#toc"><i class="fa fa-bars"></i></a>
+	   <div id="toc" class="toc collapse in">
+			<ol class="toc-article"><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#基本的脚本函数"><span class="toc-article-text">基本的脚本函数</span></a><ol class="toc-article-child"><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#创建函数"><span class="toc-article-text">创建函数</span></a></li><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#使用函数"><span class="toc-article-text">使用函数</span></a></li></ol></li><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#返回值"><span class="toc-article-text">返回值</span></a><ol class="toc-article-child"><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#默认退出状态码"><span class="toc-article-text">默认退出状态码</span></a></li><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#使用-return-命令"><span class="toc-article-text">使用 return 命令</span></a></li><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#使用函数输出"><span class="toc-article-text">使用函数输出</span></a></li></ol></li><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#在函数中使用变量"><span class="toc-article-text">在函数中使用变量</span></a><ol class="toc-article-child"><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#向函数传递参数"><span class="toc-article-text">向函数传递参数</span></a></li><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#在函数中处理变量"><span class="toc-article-text">在函数中处理变量</span></a><ol class="toc-article-child"><li class="toc-article-item toc-article-level-4"><a class="toc-article-link" href="#1-全局变量"><span class="toc-article-text">1.全局变量</span></a></li><li class="toc-article-item toc-article-level-4"><a class="toc-article-link" href="#2-局部变量"><span class="toc-article-text">2.局部变量</span></a></li></ol></li></ol></li><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#数组变量和函数"><span class="toc-article-text">数组变量和函数</span></a><ol class="toc-article-child"><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#向函数传数组参数"><span class="toc-article-text">向函数传数组参数</span></a></li><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#从函数返回数组"><span class="toc-article-text">从函数返回数组</span></a></li></ol></li><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#函数递归"><span class="toc-article-text">函数递归</span></a></li><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#创建库"><span class="toc-article-text">创建库</span></a></li><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#在命令行上使用函数"><span class="toc-article-text">在命令行上使用函数</span></a><ol class="toc-article-child"><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#在-bashrc-文件中定义函数"><span class="toc-article-text">在.bashrc 文件中定义函数</span></a><ol class="toc-article-child"><li class="toc-article-item toc-article-level-4"><a class="toc-article-link" href="#1-直接定义函数"><span class="toc-article-text">1.直接定义函数</span></a></li><li class="toc-article-item toc-article-level-4"><a class="toc-article-link" href="#2-读取函数文件"><span class="toc-article-text">2.读取函数文件</span></a></li></ol></li></ol></li><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#参考书目"><span class="toc-article-text">参考书目</span></a></li></ol>
+		</div>
+	
+	</div>
+	
+    <hr>
+	
+</div><!-- col-md-3 -->
+
+	</div>
+		
+
+</div><!-- row -->
+
+<script type="text/javascript">
+var disqus_shortname = 'technonacgithub';
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+	</div>
+  </div>
+  <div class="container-narrow">
+  <footer> <p>
+  &copy; 2018 technonac
+  
+      with help from <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="http://getbootstrap.com/" target="_blank">Twitter Bootstrap</a>. Theme by <a href="http://github.com/wzpan/hexo-theme-freemind/">Freemind</a>.    
+</p> </footer>
+</div> <!-- container-narrow -->
+  
+
+
+  
+<a id="gotop" href="#">   
+  <span>▲</span> 
+</a>
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script> 
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+   <script type="text/javascript">      
+     var search_path = "search.xml";
+	 if (search_path.length == 0) {
+	 	search_path = "search.xml";
+	 }
+	 var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+   </script>
+
+
+<!-- syntax highlighting -->
+
+
+</body>
+   </html>

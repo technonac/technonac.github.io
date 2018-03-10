@@ -1,0 +1,309 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>shell脚本(3)处理用户输入 | Canon&#39;s Blog</title>
+  <meta name="author" content="technonac">
+  
+  <meta name="description" content="Java,Android Blog">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="shell脚本(3)处理用户输入"/>
+  <meta property="og:site_name" content="Canon&#39;s Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  
+  
+    <link href="/favicon.png" rel="icon">
+  
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/css/themes/sandstone.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight-default.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/comment.css" media="screen" type="text/css">
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.9/es5-shim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-sham.min.js"></script>
+  <![endif]-->
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+  
+  <!-- analytics -->
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-114131858-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?99f21b353655df817afcb7d4d21a0688";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</head>
+
+ <body>  
+  <nav id="main-nav" class="navbar  navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+	<span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+       <a class="navbar-brand" href="/">Canon&#39;s Blog</a>
+      <div class="collapse navbar-collapse nav-menu">
+		<ul class="nav navbar-nav">
+		  
+		  <li>
+			<a href="/archives" title="All the articles.">
+			  <i class="fa fa-archive"></i>Archives
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/categories" title="All the categories.">
+			  <i class="fa fa-folder"></i>Categories
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/tags" title="All the tags.">
+			  <i class="fa fa-tags"></i>Tags
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/about" title="About me.">
+			  <i class="fa fa-user"></i>About
+			</a>
+		  </li>
+		  
+		</ul>
+      </div>
+    </div> <!-- container -->
+</nav>
+<div class="clearfix"></div>
+
+  <div class="container">
+  	<div class="content">
+    	 
+
+
+	
+		<div class="page-header ">		
+			<h1 class="title "> shell脚本(3)处理用户输入</h1>
+		</div>		
+	
+
+
+
+
+
+
+<div class="row post">
+	<!-- cols -->
+	
+	<div id="top_meta"></div>
+	<div class="col-md-9">
+	
+
+	<!-- content -->
+	<div class="mypage">		
+	  		
+
+	  <p>bash shell提供了一些不同的方法来从用户处获得数据，包括命令行参数(添加在命令后的数据)、命令行选项(可修改命令行为的单个字母)以及键盘输入</p>
+<h2 id="命令行参数"><a href="#命令行参数" class="headerlink" title="命令行参数"></a>命令行参数</h2><h3 id="读取参数"><a href="#读取参数" class="headerlink" title="读取参数"></a>读取参数</h3><p>bash shell会将一些称为位置参数(positional parameter)的特殊变量分配给输入到命令行中的所有参数位置参数变量是标准的数字:<code>$0</code>是程序名,<code>$1</code>是第一个参数,<code>$2</code> 是第二个参数,依次类推,直到第九个参数<code>$9</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">$ cat test2.sh</span><br><span class="line"><span class="comment"># !/bin/bash</span></span><br><span class="line"><span class="comment"># testing two command line parameters</span></span><br><span class="line"><span class="comment"># </span></span><br><span class="line">total=$[ <span class="variable">$1</span> * <span class="variable">$2</span> ]</span><br><span class="line"><span class="built_in">echo</span> The first parameter is <span class="variable">$1</span>.</span><br><span class="line"><span class="built_in">echo</span> The second parameter is <span class="variable">$2</span>.</span><br><span class="line"><span class="built_in">echo</span> The total value is <span class="variable">$total</span>.</span><br><span class="line">$ </span><br><span class="line">$ ./test2.sh 2 5</span><br><span class="line">The first parameter is 2.</span><br><span class="line">The second parameter is 5.</span><br><span class="line">The total value is 10.</span><br></pre></td></tr></table></figure>
+<p>每个参数都是用空格分隔的，要在参数值中包含空格，必须要用引号(单引号或双引号均可)<br>如果脚本需要的命令行参数不止9个，你仍然可以处理，但是需要稍微修改一下变量名。在第9个变量之后，你必须在变量数字周围加上花括号，比如<code>${10}</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">$ cat test4.sh </span><br><span class="line"><span class="meta">#!/bin/bash </span></span><br><span class="line"><span class="comment"># handling lots of parameters </span></span><br><span class="line"><span class="comment"># </span></span><br><span class="line">total=$[ <span class="variable">$&#123;10&#125;</span> * <span class="variable">$&#123;11&#125;</span> ] </span><br><span class="line"><span class="built_in">echo</span> The tenth parameter is <span class="variable">$&#123;10&#125;</span> </span><br><span class="line"><span class="built_in">echo</span> The eleventh parameter is <span class="variable">$&#123;11&#125;</span> </span><br><span class="line"><span class="built_in">echo</span> The total is <span class="variable">$total</span> </span><br><span class="line">$  </span><br><span class="line">$ ./test4.sh 1 2 3 4 5 6 7 8 9 10 11 12 </span><br><span class="line">The tenth parameter is 10 </span><br><span class="line">The eleventh parameter is 11 </span><br><span class="line">The total is 110 </span><br><span class="line">$</span><br></pre></td></tr></table></figure>
+<h3 id="读取脚本名"><a href="#读取脚本名" class="headerlink" title="读取脚本名"></a>读取脚本名</h3><p>用<code>$0</code>参数获取shell在命令行启动的脚本名</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">$ cat test5b.sh</span><br><span class="line"><span class="comment"># !/bin/bash</span></span><br><span class="line"><span class="comment"># Using basename with the $0 parameter</span></span><br><span class="line"><span class="comment"># </span></span><br><span class="line">name=$(basename <span class="variable">$0</span>) <span class="comment"># basename 命令会返回不包含路径的脚本名</span></span><br><span class="line"><span class="built_in">echo</span></span><br><span class="line"><span class="built_in">echo</span> The script name is: <span class="variable">$name</span></span><br><span class="line"><span class="comment"># </span></span><br><span class="line"></span><br><span class="line">$ bash /home/Christine/test5b.sh </span><br><span class="line">The script name is: test5b.sh </span><br><span class="line">$ ./test5b.sh </span><br><span class="line">The script name is: test5b.sh</span><br></pre></td></tr></table></figure>
+<h3 id="测试参数"><a href="#测试参数" class="headerlink" title="测试参数"></a>测试参数</h3><p>在使用参数前一定要检查其中是否存在数据。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ cat test7.sh </span><br><span class="line"><span class="meta">#!/bin/bash </span></span><br><span class="line"><span class="comment"># testing parameters before use </span></span><br><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="keyword">if</span> [ -n <span class="string">"<span class="variable">$1</span>"</span> ]  <span class="comment"># -n测试来检查命令行参数 $1 中是否有数据</span></span><br><span class="line"><span class="keyword">then</span> </span><br><span class="line">   <span class="built_in">echo</span> Hello <span class="variable">$1</span>, glad to meet you. </span><br><span class="line"><span class="keyword">else</span> </span><br><span class="line">   <span class="built_in">echo</span> <span class="string">"Sorry, you did not identify yourself. "</span> </span><br><span class="line"><span class="keyword">fi</span> </span><br><span class="line">$</span><br></pre></td></tr></table></figure>
+<h2 id="特殊参数变量"><a href="#特殊参数变量" class="headerlink" title="特殊参数变量"></a>特殊参数变量</h2><h3 id="参数统计"><a href="#参数统计" class="headerlink" title="参数统计"></a>参数统计</h3><p>特殊变量<code>$#</code>含有脚本运行时携带的命令行参数的个数</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ cat test8.sh </span><br><span class="line"><span class="meta">#!/bin/bash </span></span><br><span class="line"><span class="comment"># getting the number of parameters </span></span><br><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="built_in">echo</span> There were <span class="variable">$#</span> parameters supplied. </span><br><span class="line">$  </span><br><span class="line">$ ./test8.sh </span><br><span class="line">There were 0 parameters supplied. </span><br><span class="line">$  </span><br><span class="line">$ ./test8.sh 1 2 3 4 5 </span><br><span class="line">There were 5 parameters supplied.</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 获取最后一个参数 $&#123;!#&#125;</span></span><br><span class="line"></span><br><span class="line">$ cat test10.sh</span><br><span class="line"><span class="comment"># !/bin/bash</span></span><br><span class="line"><span class="comment"># Grabbing the last parameter</span></span><br><span class="line"><span class="comment"># </span></span><br><span class="line">params=<span class="variable">$#</span></span><br><span class="line"><span class="built_in">echo</span></span><br><span class="line"><span class="built_in">echo</span> The last parameter is <span class="variable">$params</span></span><br><span class="line"><span class="built_in">echo</span> The last parameter is <span class="variable">$&#123;!#&#125;</span></span><br><span class="line"><span class="built_in">echo</span></span><br><span class="line"><span class="comment"># </span></span><br><span class="line">$ bash test10.sh 1 2 3 4 5 </span><br><span class="line">The last parameter is 5 </span><br><span class="line">The last parameter is 5 </span><br><span class="line"></span><br><span class="line">$ bash test10.sh </span><br><span class="line">The last parameter is 0 </span><br><span class="line">The last parameter is test10.sh </span><br><span class="line"></span><br><span class="line"><span class="comment"># 注意，当命令行上没有任何参数时，$#的值为 0 ，params 变量的值也一样，但$&#123;!#&#125;变量会返回命令行用到的脚本名</span></span><br></pre></td></tr></table></figure>
+<h3 id="抓取所有的数据"><a href="#抓取所有的数据" class="headerlink" title="抓取所有的数据"></a>抓取所有的数据</h3><p><code>$*</code>和 <code>$@</code>变量可以用来轻松访问所有的参数。这两个变量都能够在单个变量中存储所有的命令行参数</p>
+<p><code>$*</code> 变量会将命令行上提供的所有参数当作一个单词保存。这个单词包含了命令行中出现的一个参数值。基本上<code>$*</code> 变量会将这些参数视为一个整体，而不是多个个体。</p>
+<p><code>$@</code> 变量会将命令行上提供的所有参数当作同一字符串中的多个独立的单词。这样你就能够遍历所有的参数值，得到每个参数。这通常通过 for 命令完成。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">$ cat test12.sh</span><br><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="comment"># testing $* and $@</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="built_in">echo</span></span><br><span class="line">count=1</span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="keyword">for</span> param <span class="keyword">in</span> <span class="string">"$*"</span></span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">  <span class="built_in">echo</span> <span class="string">"\$* Parameter #<span class="variable">$count</span> = <span class="variable">$param</span>"</span></span><br><span class="line">  count=$[ <span class="variable">$count</span> + 1 ]</span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="built_in">echo</span></span><br><span class="line">count=1</span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="keyword">for</span> param <span class="keyword">in</span> <span class="string">"<span class="variable">$@</span>"</span></span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">  <span class="built_in">echo</span> <span class="string">"\$@ Parameter #<span class="variable">$count</span> = <span class="variable">$param</span>"</span></span><br><span class="line">  count=$[ <span class="variable">$count</span> + 1 ]</span><br><span class="line"><span class="keyword">done</span></span><br><span class="line">$ </span><br><span class="line">$ ./test12.sh rich barbara katie jessica</span><br><span class="line"> </span><br><span class="line">$* Parameter <span class="comment">#1 = rich barbara katie jessica</span></span><br><span class="line"> </span><br><span class="line"><span class="variable">$@</span> Parameter <span class="comment">#1 = rich</span></span><br><span class="line"><span class="variable">$@</span> Parameter <span class="comment">#2 = barbara</span></span><br><span class="line"><span class="variable">$@</span> Parameter <span class="comment">#3 = katie</span></span><br><span class="line"><span class="variable">$@</span> Parameter <span class="comment">#4 = jessica</span></span><br><span class="line">$</span><br></pre></td></tr></table></figure></p>
+	  
+	</div>
+
+	<!-- recommended posts -->
+	
+
+	<div>
+  	<center>
+	<div class="pagination">
+<ul class="pagination">
+	 
+				
+    	<li class="prev"><a href="/2018/02/22/shell-script-4-presenting-data/" class="alignleft prev"><i class="fa fa-arrow-circle-o-left"></i>上一页</a></li>
+  		
+
+        <li><a href="/archives"><i class="fa fa-archive"></i>Archive</a></li>
+
+		
+		   <li class="next"><a href="/2018/02/20/shell-script-2-structed-command/" class="alignright next">下一页<i class="fa fa-arrow-circle-o-right"></i></a></li>         
+        
+	
+</ul>
+</div>
+
+    </center>
+	</div>
+
+    <!-- share -->
+    
+        
+
+        
+
+    
+	
+	<!-- comment -->
+	
+<section id="comment">
+  <h2 class="title">留言</h2>
+  
+  	 <div id="disqus_thread">
+     <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  	 </div>
+  
+</section>
+
+
+	</div> <!-- col-md-9/col-md-12 -->
+		
+	
+	<div id="side_meta">
+		<div class="col-md-3" id="post_meta"> 
+
+	<!-- date -->
+	
+	<div class="meta-widget">
+	<i class="fa fa-clock-o"></i>
+	2018-02-21 
+	</div>
+	
+
+	<!-- categories -->
+    
+
+	<!-- tags -->
+	
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#tags"><i class="fa fa-tags"></i></a>		  
+    <ul id="tags" class="tag_box list-unstyled collapse in">	  
+	    
+  <li><a href="/tags/Linux/">Linux<span>11</span></a></li> <li><a href="/tags/Shell/">Shell<span>11</span></a></li>
+    </ul>
+	</div>
+	
+
+	<!-- toc -->
+	<div class="meta-widget">
+	
+	   <a data-toggle="collapse" data-target="#toc"><i class="fa fa-bars"></i></a>
+	   <div id="toc" class="toc collapse in">
+			<ol class="toc-article"><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#命令行参数"><span class="toc-article-text">命令行参数</span></a><ol class="toc-article-child"><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#读取参数"><span class="toc-article-text">读取参数</span></a></li><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#读取脚本名"><span class="toc-article-text">读取脚本名</span></a></li><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#测试参数"><span class="toc-article-text">测试参数</span></a></li></ol></li><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#特殊参数变量"><span class="toc-article-text">特殊参数变量</span></a><ol class="toc-article-child"><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#参数统计"><span class="toc-article-text">参数统计</span></a></li><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#抓取所有的数据"><span class="toc-article-text">抓取所有的数据</span></a></li></ol></li></ol>
+		</div>
+	
+	</div>
+	
+    <hr>
+	
+</div><!-- col-md-3 -->
+
+	</div>
+		
+
+</div><!-- row -->
+
+<script type="text/javascript">
+var disqus_shortname = 'technonacgithub';
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+	</div>
+  </div>
+  <div class="container-narrow">
+  <footer> <p>
+  &copy; 2018 technonac
+  
+      with help from <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="http://getbootstrap.com/" target="_blank">Twitter Bootstrap</a>. Theme by <a href="http://github.com/wzpan/hexo-theme-freemind/">Freemind</a>.    
+</p> </footer>
+</div> <!-- container-narrow -->
+  
+
+
+  
+<a id="gotop" href="#">   
+  <span>▲</span> 
+</a>
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script> 
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+   <script type="text/javascript">      
+     var search_path = "search.xml";
+	 if (search_path.length == 0) {
+	 	search_path = "search.xml";
+	 }
+	 var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+   </script>
+
+
+<!-- syntax highlighting -->
+
+
+</body>
+   </html>

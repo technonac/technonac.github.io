@@ -1,0 +1,349 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>shell脚本(5)控制脚本 | Canon&#39;s Blog</title>
+  <meta name="author" content="technonac">
+  
+  <meta name="description" content="Java,Android Blog">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="shell脚本(5)控制脚本"/>
+  <meta property="og:site_name" content="Canon&#39;s Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  
+  
+    <link href="/favicon.png" rel="icon">
+  
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/css/themes/sandstone.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight-default.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/comment.css" media="screen" type="text/css">
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.9/es5-shim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-sham.min.js"></script>
+  <![endif]-->
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+  
+  <!-- analytics -->
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-114131858-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?99f21b353655df817afcb7d4d21a0688";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</head>
+
+ <body>  
+  <nav id="main-nav" class="navbar  navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+	<span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+       <a class="navbar-brand" href="/">Canon&#39;s Blog</a>
+      <div class="collapse navbar-collapse nav-menu">
+		<ul class="nav navbar-nav">
+		  
+		  <li>
+			<a href="/archives" title="All the articles.">
+			  <i class="fa fa-archive"></i>Archives
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/categories" title="All the categories.">
+			  <i class="fa fa-folder"></i>Categories
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/tags" title="All the tags.">
+			  <i class="fa fa-tags"></i>Tags
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/about" title="About me.">
+			  <i class="fa fa-user"></i>About
+			</a>
+		  </li>
+		  
+		</ul>
+      </div>
+    </div> <!-- container -->
+</nav>
+<div class="clearfix"></div>
+
+  <div class="container">
+  	<div class="content">
+    	 
+
+
+	
+		<div class="page-header ">		
+			<h1 class="title "> shell脚本(5)控制脚本</h1>
+		</div>		
+	
+
+
+
+
+
+
+<div class="row post">
+	<!-- cols -->
+	
+	<div id="top_meta"></div>
+	<div class="col-md-9">
+	
+
+	<!-- content -->
+	<div class="mypage">		
+	  		
+
+	  <h2 id="处理信号"><a href="#处理信号" class="headerlink" title="处理信号"></a>处理信号</h2><p>Linux利用信号与运行在系统中的进程进行通信。</p>
+<h3 id="Linux-信号"><a href="#Linux-信号" class="headerlink" title="Linux 信号"></a>Linux 信号</h3><p>Linux系统和应用程序可以生成超过30个信号，一下是常用的Linux系统信号。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">1  SIGHUP  挂起进程 </span><br><span class="line">2  SIGINT  终止进程</span><br><span class="line">3  SIGQUIT  停止进程 </span><br><span class="line">9  SIGKILL  无条件终止进程 </span><br><span class="line">15  SIGTERM  尽可能终止进程 </span><br><span class="line">17  SIGSTOP  无条件停止进程，但不是终止进程 </span><br><span class="line">18  SIGTSTP  停止或暂停进程，但不终止进程 </span><br><span class="line">19  SIGCONT  继续运行停止的进程</span><br></pre></td></tr></table></figure>
+<p>默认情况下，bash shell会忽略收到的任何 <code>SIGQUIT (3)</code> 和 <code>SIGTERM (5)</code>信号（正因为这样，交互式shell才不会被意外终止）。但是bash shell会处理收到的 <code>SIGHUP (1)</code> 和<code>SIGINT (2)</code> 信号。</p>
+<p>如果bash  shell收到了 SIGHUP 信号，比如当你要离开一个交互式shell，它就会退出。但在退出之前，它会将 SIGHUP 信号传给所有由该shell所启动的进程（包括正在运行的shell脚本）。 </p>
+<p>通过 SIGINT 信号，可以中断shell。Linux内核会停止为shell分配CPU处理时间。这种情况发生时，shell会将 SIGINT 信号传给所有由它所启动的进程，以此告知出现的状况。 </p>
+<h3 id="生成信号"><a href="#生成信号" class="headerlink" title="生成信号"></a>生成信号</h3><p>bash  shell允许用键盘上的组合键生成两种基本的Linux信号。</p>
+<h4 id="中断进程"><a href="#中断进程" class="headerlink" title="中断进程"></a>中断进程</h4><p><code>Ctrl</code>+<code>C</code>组合键会生成 <code>SIGINT</code>信号，并将其发送给当前在shell中运行的所有进程。</p>
+<h4 id="暂停进程"><a href="#暂停进程" class="headerlink" title="暂停进程"></a>暂停进程</h4><p><code>Ctrl</code>+<code>Z</code>组合键会生成一个 <code>SIGTSTP</code> 信号，停止shell中运行的任何进程。停止（stopping）进程跟终止（terminating）进程不同：停止进程会让程序继续保留在内存中，并能从上次停止的位置继续运行。</p>
+<h3 id="捕获信号"><a href="#捕获信号" class="headerlink" title="捕获信号"></a>捕获信号</h3><p><code>trap</code>命令允许你来指定shell脚本要监看并从shell中拦截的Linux信号。如果脚本收到了 trap 命令中列出的信号，该信号不再由shell处理，而是交由本地处理。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># trap 命令的格式是： </span></span><br><span class="line"><span class="built_in">trap</span> commands signals</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">$ cat test1.sh </span><br><span class="line"><span class="meta">#!/bin/bash </span></span><br><span class="line"><span class="comment"># Testing signal trapping </span></span><br><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="built_in">trap</span> <span class="string">"echo ' Sorry! I have trapped Ctrl-C'"</span> SIGINT </span><br><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="built_in">echo</span> This is a <span class="built_in">test</span> script </span><br><span class="line"><span class="comment"># </span></span><br><span class="line">count=1 </span><br><span class="line"><span class="keyword">while</span> [ <span class="variable">$count</span> -le 10 ] </span><br><span class="line"><span class="keyword">do</span> </span><br><span class="line">   <span class="built_in">echo</span> <span class="string">"Loop #<span class="variable">$count</span>"</span> </span><br><span class="line">   sleep 1 </span><br><span class="line">   count=$[ <span class="variable">$count</span> + 1 ] </span><br><span class="line"><span class="keyword">done</span> </span><br><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"This is the end of the test script"</span> </span><br><span class="line"><span class="comment"># </span></span><br><span class="line"></span><br><span class="line">$ ./test1.sh </span><br><span class="line">This is a <span class="built_in">test</span> script </span><br><span class="line">Loop <span class="comment">#1 </span></span><br><span class="line">Loop <span class="comment">#2 </span></span><br><span class="line">^C Sorry! I have trapped Ctrl-C</span><br></pre></td></tr></table></figure>
+<h3 id="捕获脚本退出"><a href="#捕获脚本退出" class="headerlink" title="捕获脚本退出"></a>捕获脚本退出</h3><p>要捕获shell脚本的退出，只要在 trap 命令后加上 EXIT 信号。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">$ cat test2.sh </span><br><span class="line"><span class="meta">#!/bin/bash </span></span><br><span class="line"><span class="comment"># Trapping the script exit </span></span><br><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="built_in">trap</span> <span class="string">"echo Goodbye..."</span> EXIT </span><br><span class="line"><span class="comment"># </span></span><br><span class="line">count=1 </span><br><span class="line"><span class="keyword">while</span> [ <span class="variable">$count</span> -le 5 ] </span><br><span class="line"><span class="keyword">do</span> </span><br><span class="line">   <span class="built_in">echo</span> <span class="string">"Loop #<span class="variable">$count</span>"</span> </span><br><span class="line">   sleep 1 </span><br><span class="line">   count=$[ <span class="variable">$count</span> + 1 ] </span><br><span class="line"><span class="keyword">done</span> </span><br><span class="line"><span class="comment"># </span></span><br><span class="line">$ </span><br><span class="line">$ ./test2.sh </span><br><span class="line">Loop <span class="comment">#1 </span></span><br><span class="line">Loop <span class="comment">#2 </span></span><br><span class="line">Loop <span class="comment">#3 </span></span><br><span class="line">Loop <span class="comment">#4 </span></span><br><span class="line">Loop <span class="comment">#5 </span></span><br><span class="line">Goodbye... </span><br><span class="line">$ </span><br><span class="line"><span class="comment"># 提前退出脚本，同样能够捕获到 EXIT</span></span><br><span class="line">$ ./test2.sh </span><br><span class="line">Loop <span class="comment">#1 </span></span><br><span class="line">Loop <span class="comment">#2 </span></span><br><span class="line">Loop <span class="comment">#3 </span></span><br><span class="line">^CGoodbye...</span><br></pre></td></tr></table></figure>
+<h3 id="修改或移除捕获"><a href="#修改或移除捕获" class="headerlink" title="修改或移除捕获"></a>修改或移除捕获</h3><p>要想在脚本中的不同位置进行不同的捕获处理，只需重新使用带有新选项的 trap 命令。 </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">$ cat test3.sh </span><br><span class="line"><span class="meta">#!/bin/bash </span></span><br><span class="line"><span class="comment"># Modifying a set trap </span></span><br><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="built_in">trap</span> <span class="string">"echo ' Sorry... Ctrl-C is trapped.'"</span> SIGINT </span><br><span class="line"><span class="comment"># </span></span><br><span class="line">count=1 </span><br><span class="line"><span class="keyword">while</span> [ <span class="variable">$count</span> -le 5 ] </span><br><span class="line"><span class="keyword">do</span> </span><br><span class="line">   <span class="built_in">echo</span> <span class="string">"Loop #<span class="variable">$count</span>"</span> </span><br><span class="line">   sleep 1 </span><br><span class="line">   count=$[ <span class="variable">$count</span> + 1 ] </span><br><span class="line"><span class="keyword">done</span> </span><br><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="built_in">trap</span> <span class="string">"echo ' I modified the trap!'"</span> SIGINT </span><br><span class="line"><span class="comment"># </span></span><br><span class="line">count=1 </span><br><span class="line"><span class="keyword">while</span> [ <span class="variable">$count</span> -le 5 ] </span><br><span class="line"><span class="keyword">do</span> </span><br><span class="line">   <span class="built_in">echo</span> <span class="string">"Second Loop #<span class="variable">$count</span>"</span> </span><br><span class="line">   sleep 1 </span><br><span class="line">   count=$[ <span class="variable">$count</span> + 1 ] </span><br><span class="line"><span class="keyword">done</span> </span><br><span class="line"><span class="comment"># </span></span><br><span class="line">$ </span><br><span class="line">$ ./test3.sh </span><br><span class="line">Loop <span class="comment">#1 </span></span><br><span class="line">Loop <span class="comment">#2 </span></span><br><span class="line">Loop <span class="comment">#3 </span></span><br><span class="line">^C Sorry... Ctrl-C is trapped. </span><br><span class="line">Loop <span class="comment">#4 </span></span><br><span class="line">Loop <span class="comment">#5 </span></span><br><span class="line">Second Loop <span class="comment">#1 </span></span><br><span class="line">Second Loop <span class="comment">#2 </span></span><br><span class="line">^C I modified the <span class="built_in">trap</span>! </span><br><span class="line">Second Loop <span class="comment">#3 </span></span><br><span class="line">Second Loop <span class="comment">#4 </span></span><br><span class="line">Second Loop <span class="comment">#5 </span></span><br><span class="line">$ </span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除已设置好的捕获。在trap 命令与希望恢复默认行为的信号列表之间加上两个破折号</span></span><br><span class="line"><span class="comment"># 也可以在 trap 命令后使用单破折号来恢复信号的默认行为,单破折号和双破折号都可以正常发挥作用。</span></span><br><span class="line"><span class="comment"># Remove the trap </span></span><br><span class="line"><span class="built_in">trap</span> -- SIGINT</span><br></pre></td></tr></table></figure>
+<h2 id="以后台模式运行脚本"><a href="#以后台模式运行脚本" class="headerlink" title="以后台模式运行脚本"></a>以后台模式运行脚本</h2><p>在后台模式中，进程运行时不会和终端会话上的 <code>STDIN</code> 、 <code>STDOUT</code>以及<code>STDERR</code>关联</p>
+<h3 id="后台运行脚本"><a href="#后台运行脚本" class="headerlink" title="后台运行脚本"></a>后台运行脚本</h3><p>以后台模式运行shell脚本非常简单。只要在命令后加个<code>&amp;</code>符就行了。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">command</span> &amp;</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">$ cat test4.sh </span><br><span class="line"><span class="meta">#!/bin/bash </span></span><br><span class="line"><span class="comment"># Test running in the background </span></span><br><span class="line"><span class="comment"># </span></span><br><span class="line">count=1 </span><br><span class="line"><span class="keyword">while</span> [ <span class="variable">$count</span> -le 10 ] </span><br><span class="line"><span class="keyword">do</span> </span><br><span class="line">   sleep 1 </span><br><span class="line">   count=$[ <span class="variable">$count</span> + 1 ] </span><br><span class="line"><span class="keyword">done</span> </span><br><span class="line"><span class="comment"># </span></span><br><span class="line">$ </span><br><span class="line">$ ./test4.sh &amp;  <span class="comment"># 将命令作为系统中的一个独立的后台进程运行</span></span><br><span class="line">[1] 3231  <span class="comment"># [shell分配给后台进程的作业号] Linux系统分配给进程的进程ID（PID）</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 当后台进程结束时，它会在终端上显示出一条消息</span></span><br><span class="line">[1]   Done                    ./test4.sh </span><br><span class="line"></span><br><span class="line"><span class="comment"># 当后台进程运行时，它仍然会使用终端显示器来显示STDOUT和STDERR消息</span></span><br></pre></td></tr></table></figure>
+<h2 id="在非控制台下运行脚本"><a href="#在非控制台下运行脚本" class="headerlink" title="在非控制台下运行脚本"></a>在非控制台下运行脚本</h2><p><code>nohup</code>命令运行了另外一个命令来阻断所有发送给该进程的 SIGHUP 信号。这会在退出终端会话时阻止进程退出。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ nohup ./test1.sh &amp; </span><br><span class="line">[1] 3856 </span><br><span class="line">$ nohup: ignoring input and appending output to <span class="string">'nohup.out'</span> </span><br><span class="line"> </span><br><span class="line"><span class="comment"># 由于 nohup命令会解除终端与进程的关联，进程也就不再同STDOUT和STDERR联系在一起。为了保存该命令产生的输出，nohup命令会自动将STDOUT和STDERR的消息重定向到一个名为nohup.out的文件中。</span></span><br></pre></td></tr></table></figure>
+<h2 id="作业控制"><a href="#作业控制" class="headerlink" title="作业控制"></a>作业控制</h2><p>启动、停止、终止以及恢复作业的这些功能统称为作业控制。</p>
+<h3 id="查看作业"><a href="#查看作业" class="headerlink" title="查看作业"></a>查看作业</h3><p>作业控制中的关键命令是 jobs 命令。 jobs 命令允许查看shell当前正在处理的作业。 </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">jobs</span> -l </span><br><span class="line">[1]+  1897 Stopped                 ./test10.sh </span><br><span class="line">[2]-  1917 Running                 ./test10.sh &gt; test10.out &amp; </span><br><span class="line"></span><br><span class="line"><span class="comment"># jobs命令参数</span></span><br><span class="line">-l  列出进程的PID以及作业号 </span><br><span class="line">-n  只列出上次shell发出的通知后改变了状态的作业 </span><br><span class="line">-p  只列出作业的PID </span><br><span class="line">-r  只列出运行中的作业 </span><br><span class="line">-s  只列出已停止的作业 </span><br><span class="line"><span class="comment"># +-号解释</span></span><br><span class="line">带加号的作业会被当做默认作业。在使用作业控制命令时，如果未在命令行指定任何作业号，该作业会被当成作业控制命令的操作对象。</span><br><span class="line">当前的默认作业完成处理后，带减号的作业成为下一个默认作业。</span><br><span class="line">任何时候都只有一个带加号的作业和一个带减号的作业，不管shell中有多少个正在运行的作业。</span><br></pre></td></tr></table></figure>
+<h3 id="重启停止的作业"><a href="#重启停止的作业" class="headerlink" title="重启停止的作业"></a>重启停止的作业</h3><p>在bash作业控制中，可以将已停止的作业作为后台进程或前台进程重启。要以后台模式重启一个作业，可用<code>bg</code>命令加上作业号。 </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ ./test11.sh </span><br><span class="line">^Z </span><br><span class="line">[1]+  Stopped                 ./test11.sh </span><br><span class="line">$ </span><br><span class="line"><span class="comment"># 因为该作业是默认作业（带+号），只需要使用 bg 命令就可以将其以后台模式重启</span></span><br><span class="line">$ <span class="built_in">bg</span> </span><br><span class="line">[1]+ ./test11.sh &amp; </span><br><span class="line">$ </span><br><span class="line">$ <span class="built_in">jobs</span> </span><br><span class="line">[1]+  Running                 ./test11.sh &amp; </span><br><span class="line">$</span><br></pre></td></tr></table></figure>
+<p>要以前台模式重启作业，可用带有作业号的 <code>fg</code> 命令。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">fg</span> 2 </span><br><span class="line">./test12.sh </span><br><span class="line">This is the script<span class="string">'s end... </span></span><br><span class="line"><span class="string">$</span></span><br></pre></td></tr></table></figure>
+<h2 id="调整谦让度"><a href="#调整谦让度" class="headerlink" title="调整谦让度"></a>调整谦让度</h2><p>在多任务操作系统中(Linux)，内核负责将CPU时间分配给系统上运行的每个进程。调度优先级（scheduling  priority）是内核分配给进程的CPU时间（相对于其他进程）。在Linux系统中，由shell启动的所有进程的调度优先级默认都是相同的。<br>调度优先级是个整数值，从-20（最高优先级）到+19（最低优先级）。默认情况下，bash shell以优先级0来启动所有进程。</p>
+<h3 id="nice-命令"><a href="#nice-命令" class="headerlink" title="nice 命令"></a>nice 命令</h3><p>nice 命令允许你设置命令启动时的调度优先级。要让命令以更低的优先级运行，只要用 nice的 -n 命令行来指定新的优先级级别。 </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ nice -n 10 ./test4.sh &gt; test4.out &amp; </span><br><span class="line">[1] 4973 </span><br><span class="line">$ </span><br><span class="line">$ ps -p 4973 -o pid,ppid,ni,cmd </span><br><span class="line">  PID  PPID  NI CMD </span><br><span class="line"> 4973  4721  10 /bin/bash ./test4.sh </span><br><span class="line">$</span><br><span class="line"><span class="comment"># nice 命令阻止普通系统用户来提高命令的优先级</span></span><br><span class="line"><span class="comment"># nice命令可以在破折号后面跟上优先级</span></span><br><span class="line">$ nice -10 ./test4.sh &gt; test4.out &amp;</span><br></pre></td></tr></table></figure>
+<h3 id="renice-命令"><a href="#renice-命令" class="headerlink" title="renice 命令"></a>renice 命令</h3><p>renice命令可以修改系统上已运行命令的优先级。renice 命令会自动更新当前运行进程的调度优先级。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -n 指定优先级 -p指定进程号</span></span><br><span class="line">$ renice -n 10 -p 5055 </span><br><span class="line">5055: old priority 0, new priority 10 </span><br><span class="line">$ </span><br><span class="line"><span class="comment"># renice命令有一些限制：</span></span><br><span class="line">1.只能对属于你的进程执行 renice</span><br><span class="line">2.只能通过 renice 降低进程的优先级</span><br><span class="line">3. root用户可以通过 renice 来任意调整进程的优先级</span><br></pre></td></tr></table></figure>
+<h2 id="定时运行作业"><a href="#定时运行作业" class="headerlink" title="定时运行作业"></a>定时运行作业</h2><h3 id="用-at-命令来计划执行作业"><a href="#用-at-命令来计划执行作业" class="headerlink" title="用 at 命令来计划执行作业"></a>用 at 命令来计划执行作业</h3><p>​    at 命令允许指定Linux系统何时运行脚本。 at 命令会将作业提交到队列中，指定shell何时运行该作业。 at 的守护进程 atd 会以后台模式运行，检查作业队列来运行作业。大多数Linux发行版会在启动时运行此守护进程。</p>
+<p>​    atd 守护进程会检查系统上的一个特殊目录（通常位于/var/spool/at）来获取用 at 命令提交的作业。默认情况下， atd 守护进程会每60秒检查一下这个目录。有作业时， atd 守护进程会检查作业设置运行的时间。如果时间跟当前时间匹配， atd 守护进程就会运行此作业。 </p>
+<h4 id="1-at命令的格式"><a href="#1-at命令的格式" class="headerlink" title="1.at命令的格式"></a>1.at命令的格式</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">at [-f filename] time </span><br><span class="line">----------------------------</span><br><span class="line">默认情况下， at 命令会将 STDIN 的输入放到队列中。用-f参数来指定用于读取命令（脚本文件）的文件名</span><br><span class="line">time 参数指定了Linux系统何时运行该作业。如果你指定的时间已经错过， at 命令会在第二天的那个时间运行指定的作业。</span><br><span class="line">时间格式:</span><br><span class="line">标准的小时和分钟格式，比如10:15。 </span><br><span class="line">AM/PM指示符，比如10:15 PM。 </span><br><span class="line">特定可命名时间，比如now、noon、midnight或者teatime（4 PM）。 </span><br><span class="line">除了指定运行作业的时间，也可以通过不同的日期格式指定特定的日期。 </span><br><span class="line">标准日期格式，比如MMDDYY、MM/DD/YY或DD.MM.YY。 </span><br><span class="line">文本日期，比如Jul 4或Dec 25，加不加年份均可。 </span><br><span class="line">你也可以指定时间增量。 </span><br><span class="line">  当前时间+25 min </span><br><span class="line">  明天10:15 PM </span><br><span class="line">  10:15+7天 </span><br><span class="line">  </span><br><span class="line">作业会被提交到作业队列（job queue）。作业队列会保存通过at命令提交的待处理的作业。</span><br><span class="line">针对不同优先级，存在26种不同的作业队列。作业队列通常用小写字母a~z和大写字母A~Z来指代。</span><br><span class="line">作业队列的字母排序越高，作业运行的优先级就越低（更高的 nice 值）。默认情况下，at 的作业会被提交到 a作业队列。如果想以更高优先级运行作业，可以用 -q 参数指定不同的队列字母。</span><br></pre></td></tr></table></figure>
+<h4 id="2-获取作业的输出"><a href="#2-获取作业的输出" class="headerlink" title="2.获取作业的输出"></a>2.获取作业的输出</h4><p>当作业在Linux系统上运行时，显示器并不会关联到该作业。Linux系统会将提交该作业的用户的电子邮件地址作为 STDOUT 和 STDERR 。任何发到 STDOUT 或 STDERR 的输出都会通过邮件系统发送给该用户。 </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ at -f test13.sh now </span><br><span class="line"><span class="comment"># at 命令利用 sendmail 应用程序来发送邮件。最好在脚本中对 STDOUT 和 STDERR 进行重定向</span></span><br></pre></td></tr></table></figure>
+<h4 id="3-列出等待的作业"><a href="#3-列出等待的作业" class="headerlink" title="3.列出等待的作业"></a>3.列出等待的作业</h4><p>atq 命令可以查看系统中有哪些作业在等待。 </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ atq </span><br><span class="line">20      2015-07-14 13:03 = Christine</span><br></pre></td></tr></table></figure>
+<h4 id="4-删除作业"><a href="#4-删除作业" class="headerlink" title="4.删除作业"></a>4.删除作业</h4><p>atrm 命令来删除等待中的作业</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">$ atq </span><br><span class="line">18      2015-07-15 13:03 a Christine </span><br><span class="line">17      2015-07-14 16:00 a Christine </span><br><span class="line">19      2015-07-14 13:30 a Christine </span><br><span class="line">$ </span><br><span class="line"><span class="comment"># 指定想要删除的作业号</span></span><br><span class="line"><span class="comment"># 只能删除你提交的作业</span></span><br><span class="line">$ atrm 18 </span><br><span class="line">$ </span><br><span class="line">$ atq </span><br><span class="line">17      2015-07-14 16:00 a Christine </span><br><span class="line">19      2015-07-14 13:30 a Christine </span><br><span class="line">$</span><br></pre></td></tr></table></figure>
+<h3 id="安排需要定期执行的脚本"><a href="#安排需要定期执行的脚本" class="headerlink" title="安排需要定期执行的脚本"></a>安排需要定期执行的脚本</h3><p>Linux系统使用cron程序来安排要定期执行的作业。cron程序会在后台运行并检查一个特殊的表（被称作cron时间表），以获知已安排执行的作业。</p>
+<h4 id="1-cron时间表"><a href="#1-cron时间表" class="headerlink" title="1.cron时间表"></a>1.cron时间表</h4><p>cron时间表采用一种特别的格式来指定作业何时运行。其格式如下： </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">min hour dayofmonth month dayofweek <span class="built_in">command</span></span><br><span class="line">----------------------------------------------------------------------------------</span><br><span class="line">文本值（mon、tue、wed、thu、fri、sat、sun）或数值（0为周日，6为周六）来指定dayofweek表项。</span><br><span class="line">*通配符</span><br><span class="line"></span><br><span class="line"><span class="comment"># 每天的10:15运行一个命令</span></span><br><span class="line">15 10 * * * <span class="built_in">command</span> </span><br><span class="line"><span class="comment"># 每周一4:15 PM运行的命令</span></span><br><span class="line">15 16 * * 1 <span class="built_in">command</span></span><br><span class="line"><span class="comment"># 命令列表必须指定要运行的命令或脚本的全路径名</span></span><br><span class="line">15 10 * * * /home/rich/test4.sh &gt; test4out</span><br></pre></td></tr></table></figure>
+<h4 id="2-构建cron时间表"><a href="#2-构建cron时间表" class="headerlink" title="2.构建cron时间表"></a>2.构建cron时间表</h4><p>每个系统用户（包括root用户）都可以用自己的cron时间表来运行安排好的任务。Linux提供了 crontab 命令来处理cron时间表。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ crontab -l </span><br><span class="line">no crontab <span class="keyword">for</span> rich </span><br><span class="line">$ </span><br><span class="line"><span class="comment"># 默认情况下，用户的cron时间表文件并不存在。</span></span><br><span class="line"><span class="comment"># 要为cron时间表添加条目，可以用 -e 选项。在添加条目时， crontab 命令会启用一个文本编辑器，使用已有的cron时间表作为文件内容（或者是一个空文件，如果时间表不存在的话） </span></span><br><span class="line"><span class="variable">$crontab</span> -e</span><br></pre></td></tr></table></figure>
+<h4 id="3-浏览cron目录"><a href="#3-浏览cron目录" class="headerlink" title="3.浏览cron目录"></a>3.浏览cron目录</h4><p>如果你创建的脚本对精确的执行时间要求不高，用预配置的cron脚本目录会更方便。有4个基本目录：hourly、daily、monthly和weekly</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ ls /etc/cron.*ly </span><br><span class="line">/etc/cron.daily: </span><br><span class="line">/etc/cron.hourly: </span><br><span class="line">/etc/cron.monthly:</span><br><span class="line">/etc/cron.weekly: </span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果脚本需要每天运行一次，只要将脚本复制到daily目录，cron就会每天执行它</span></span><br></pre></td></tr></table></figure>
+<h4 id="4-anacron程序"><a href="#4-anacron程序" class="headerlink" title="4.anacron程序"></a>4.anacron程序</h4><p>cron程序的唯一问题是它假定Linux系统是7×24小时运行的。如果某个作业在cron时间表中安排运行的时间已到，但这时候Linux系统处于关机状态，那么这个作业就不会被运行。当系统开机时，cron程序不会再去运行那些错过的作业。</p>
+<p>如果anacron知道某个作业错过了执行时间，它会尽快运行该作业。这意味着如果Linux系统关机了几天，当它再次开机时，原定在关机期间运行的作业会自动运行。</p>
+<p>anacron程序只会处理位于cron目录的程序，比如/etc/cron.monthly。它用时间戳来决定作业是否在正确的计划间隔内运行了。每个cron目录都有个时间戳文件，该文件位于/var/spool/ anacron</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$ sudo cat /var/spool/anacron/cron.monthly </span><br><span class="line">20150626 </span><br><span class="line">$ </span><br><span class="line"><span class="comment"># anacron程序使用自己的时间表（通常位于/etc/anacrontab）来检查作业目录。</span></span><br><span class="line">$ sudo cat /etc/anacrontab </span><br><span class="line"><span class="comment">#period in days   delay in minutes   job-identifier   command </span></span><br><span class="line">1       5       cron.daily              nice run-parts /etc/cron.daily </span><br><span class="line"></span><br><span class="line">anacron时间表的基本格式： </span><br><span class="line">period delay identifier <span class="built_in">command</span> </span><br><span class="line"><span class="comment"># run-parts程序负责运行目录中传给它的任何脚本</span></span><br><span class="line"><span class="comment"># anacron不会运行位于/etc/cron.hourly的脚本。程序不会处理执行时间需求小于一天的脚本。</span></span><br></pre></td></tr></table></figure>
+<h2 id="参考书目"><a href="#参考书目" class="headerlink" title="参考书目"></a>参考书目</h2><p>《Linux命令行与shell脚本编程大全》第3版</p>
+	  
+	</div>
+
+	<!-- recommended posts -->
+	
+
+	<div>
+  	<center>
+	<div class="pagination">
+<ul class="pagination">
+	 
+				
+    	<li class="prev"><a href="/2018/02/24/shell-script-6-function/" class="alignleft prev"><i class="fa fa-arrow-circle-o-left"></i>上一页</a></li>
+  		
+
+        <li><a href="/archives"><i class="fa fa-archive"></i>Archive</a></li>
+
+		
+		   <li class="next"><a href="/2018/02/22/shell-script-4-presenting-data/" class="alignright next">下一页<i class="fa fa-arrow-circle-o-right"></i></a></li>         
+        
+	
+</ul>
+</div>
+
+    </center>
+	</div>
+
+    <!-- share -->
+    
+        
+
+        
+
+    
+	
+	<!-- comment -->
+	
+<section id="comment">
+  <h2 class="title">留言</h2>
+  
+  	 <div id="disqus_thread">
+     <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  	 </div>
+  
+</section>
+
+
+	</div> <!-- col-md-9/col-md-12 -->
+		
+	
+	<div id="side_meta">
+		<div class="col-md-3" id="post_meta"> 
+
+	<!-- date -->
+	
+	<div class="meta-widget">
+	<i class="fa fa-clock-o"></i>
+	2018-02-23 
+	</div>
+	
+
+	<!-- categories -->
+    
+
+	<!-- tags -->
+	
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#tags"><i class="fa fa-tags"></i></a>		  
+    <ul id="tags" class="tag_box list-unstyled collapse in">	  
+	    
+  <li><a href="/tags/Linux/">Linux<span>11</span></a></li> <li><a href="/tags/Shell/">Shell<span>11</span></a></li>
+    </ul>
+	</div>
+	
+
+	<!-- toc -->
+	<div class="meta-widget">
+	
+	   <a data-toggle="collapse" data-target="#toc"><i class="fa fa-bars"></i></a>
+	   <div id="toc" class="toc collapse in">
+			<ol class="toc-article"><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#处理信号"><span class="toc-article-text">处理信号</span></a><ol class="toc-article-child"><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#Linux-信号"><span class="toc-article-text">Linux 信号</span></a></li><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#生成信号"><span class="toc-article-text">生成信号</span></a><ol class="toc-article-child"><li class="toc-article-item toc-article-level-4"><a class="toc-article-link" href="#中断进程"><span class="toc-article-text">中断进程</span></a></li><li class="toc-article-item toc-article-level-4"><a class="toc-article-link" href="#暂停进程"><span class="toc-article-text">暂停进程</span></a></li></ol></li><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#捕获信号"><span class="toc-article-text">捕获信号</span></a></li><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#捕获脚本退出"><span class="toc-article-text">捕获脚本退出</span></a></li><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#修改或移除捕获"><span class="toc-article-text">修改或移除捕获</span></a></li></ol></li><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#以后台模式运行脚本"><span class="toc-article-text">以后台模式运行脚本</span></a><ol class="toc-article-child"><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#后台运行脚本"><span class="toc-article-text">后台运行脚本</span></a></li></ol></li><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#在非控制台下运行脚本"><span class="toc-article-text">在非控制台下运行脚本</span></a></li><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#作业控制"><span class="toc-article-text">作业控制</span></a><ol class="toc-article-child"><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#查看作业"><span class="toc-article-text">查看作业</span></a></li><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#重启停止的作业"><span class="toc-article-text">重启停止的作业</span></a></li></ol></li><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#调整谦让度"><span class="toc-article-text">调整谦让度</span></a><ol class="toc-article-child"><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#nice-命令"><span class="toc-article-text">nice 命令</span></a></li><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#renice-命令"><span class="toc-article-text">renice 命令</span></a></li></ol></li><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#定时运行作业"><span class="toc-article-text">定时运行作业</span></a><ol class="toc-article-child"><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#用-at-命令来计划执行作业"><span class="toc-article-text">用 at 命令来计划执行作业</span></a><ol class="toc-article-child"><li class="toc-article-item toc-article-level-4"><a class="toc-article-link" href="#1-at命令的格式"><span class="toc-article-text">1.at命令的格式</span></a></li><li class="toc-article-item toc-article-level-4"><a class="toc-article-link" href="#2-获取作业的输出"><span class="toc-article-text">2.获取作业的输出</span></a></li><li class="toc-article-item toc-article-level-4"><a class="toc-article-link" href="#3-列出等待的作业"><span class="toc-article-text">3.列出等待的作业</span></a></li><li class="toc-article-item toc-article-level-4"><a class="toc-article-link" href="#4-删除作业"><span class="toc-article-text">4.删除作业</span></a></li></ol></li><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#安排需要定期执行的脚本"><span class="toc-article-text">安排需要定期执行的脚本</span></a><ol class="toc-article-child"><li class="toc-article-item toc-article-level-4"><a class="toc-article-link" href="#1-cron时间表"><span class="toc-article-text">1.cron时间表</span></a></li><li class="toc-article-item toc-article-level-4"><a class="toc-article-link" href="#2-构建cron时间表"><span class="toc-article-text">2.构建cron时间表</span></a></li><li class="toc-article-item toc-article-level-4"><a class="toc-article-link" href="#3-浏览cron目录"><span class="toc-article-text">3.浏览cron目录</span></a></li><li class="toc-article-item toc-article-level-4"><a class="toc-article-link" href="#4-anacron程序"><span class="toc-article-text">4.anacron程序</span></a></li></ol></li></ol></li><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#参考书目"><span class="toc-article-text">参考书目</span></a></li></ol>
+		</div>
+	
+	</div>
+	
+    <hr>
+	
+</div><!-- col-md-3 -->
+
+	</div>
+		
+
+</div><!-- row -->
+
+<script type="text/javascript">
+var disqus_shortname = 'technonacgithub';
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+	</div>
+  </div>
+  <div class="container-narrow">
+  <footer> <p>
+  &copy; 2018 technonac
+  
+      with help from <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="http://getbootstrap.com/" target="_blank">Twitter Bootstrap</a>. Theme by <a href="http://github.com/wzpan/hexo-theme-freemind/">Freemind</a>.    
+</p> </footer>
+</div> <!-- container-narrow -->
+  
+
+
+  
+<a id="gotop" href="#">   
+  <span>▲</span> 
+</a>
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script> 
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+   <script type="text/javascript">      
+     var search_path = "search.xml";
+	 if (search_path.length == 0) {
+	 	search_path = "search.xml";
+	 }
+	 var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+   </script>
+
+
+<!-- syntax highlighting -->
+
+
+</body>
+   </html>

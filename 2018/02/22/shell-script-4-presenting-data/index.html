@@ -1,0 +1,366 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>shell脚本(4)呈现数据 | Canon&#39;s Blog</title>
+  <meta name="author" content="technonac">
+  
+  <meta name="description" content="Java,Android Blog">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="shell脚本(4)呈现数据"/>
+  <meta property="og:site_name" content="Canon&#39;s Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  
+  
+    <link href="/favicon.png" rel="icon">
+  
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/css/themes/sandstone.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight-default.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/comment.css" media="screen" type="text/css">
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.9/es5-shim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-sham.min.js"></script>
+  <![endif]-->
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+  
+  <!-- analytics -->
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-114131858-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?99f21b353655df817afcb7d4d21a0688";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</head>
+
+ <body>  
+  <nav id="main-nav" class="navbar  navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+	<span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+       <a class="navbar-brand" href="/">Canon&#39;s Blog</a>
+      <div class="collapse navbar-collapse nav-menu">
+		<ul class="nav navbar-nav">
+		  
+		  <li>
+			<a href="/archives" title="All the articles.">
+			  <i class="fa fa-archive"></i>Archives
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/categories" title="All the categories.">
+			  <i class="fa fa-folder"></i>Categories
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/tags" title="All the tags.">
+			  <i class="fa fa-tags"></i>Tags
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/about" title="About me.">
+			  <i class="fa fa-user"></i>About
+			</a>
+		  </li>
+		  
+		</ul>
+      </div>
+    </div> <!-- container -->
+</nav>
+<div class="clearfix"></div>
+
+  <div class="container">
+  	<div class="content">
+    	 
+
+
+	
+		<div class="page-header ">		
+			<h1 class="title "> shell脚本(4)呈现数据</h1>
+		</div>		
+	
+
+
+
+
+
+
+<div class="row post">
+	<!-- cols -->
+	
+	<div id="top_meta"></div>
+	<div class="col-md-9">
+	
+
+	<!-- content -->
+	<div class="mypage">		
+	  		
+
+	  <h2 id="理解输入和输出"><a href="#理解输入和输出" class="headerlink" title="理解输入和输出"></a>理解输入和输出</h2><p>目前有两种显示脚本输出的方法： 1.在显示器屏幕上显示输出 2.将输出重定向到文件中 </p>
+<h3 id="标准文件描述符"><a href="#标准文件描述符" class="headerlink" title="标准文件描述符"></a>标准文件描述符</h3><p>Linux系统将每个对象当作文件处理。这包括输入和输出进程。Linux用文件描述符(file  descriptor)来标识每个文件对象。文件描述符是一个非负整数，可以唯一标识会话中打开的文件。每个进程一次最多可以有九个文件描述符。出于特殊目的，bash shell保留了前三个文件描述符（ 0 、 1 和 2 ）</p>
+<p> Linux的标准文件描述符</p>
+<table>
+<thead>
+<tr>
+<th>文件描述符</th>
+<th>缩 写</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>STDIN</td>
+<td>标准输入</td>
+</tr>
+<tr>
+<td>1</td>
+<td>STDOUT</td>
+<td>标准输出</td>
+</tr>
+<tr>
+<td>2</td>
+<td>STDERR</td>
+<td>标准错误</td>
+</tr>
+</tbody>
+</table>
+<h4 id="1-STDIN"><a href="#1-STDIN" class="headerlink" title="1.STDIN"></a>1.STDIN</h4><p><code>STDIN</code>文件描述符代表shell的标准输入。对终端界面来说，标准输入是键盘。shell从<code>STDIN</code>文件描述符对应的键盘获得输入，在用户输入时处理每个字符。</p>
+<p>在使用输入重定向符号（ &lt; ）时，Linux会用重定向指定的文件来替换标准输入文件描述符,许多bash命令能接受 STDIN 的输入，尤其是没有在命令行上指定文件的话</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 当在命令行上只输入cat命令时，它会从STDIN接受输入。输入一行，cat命令就会显示出一行。</span></span><br><span class="line">$ cat </span><br><span class="line">this is a <span class="built_in">test</span> </span><br><span class="line">this is a <span class="built_in">test</span></span><br><span class="line"><span class="comment"># 重定向 用testfile文件中的行作为输入</span></span><br><span class="line">$ cat &lt; testfile</span><br></pre></td></tr></table></figure>
+<h4 id="2-STDOUT"><a href="#2-STDOUT" class="headerlink" title="2.STDOUT"></a>2.STDOUT</h4><p><code>STDOUT</code> 文件描述符代表shell的标准输出。在终端界面上，标准输出就是终端显示器。shell的所有输出（包括shell中运行的程序和脚本）会被定向到标准输出中，也就是显示器。默认情况下，大多数bash命令会将输出导向 <code>STDOUT</code>文件描述符</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 输出重定向</span></span><br><span class="line">$ ls -l &gt; test2 </span><br><span class="line"><span class="comment"># 输出追加</span></span><br><span class="line">$ who &gt;&gt; test2 </span><br><span class="line"><span class="comment"># 输出错误时</span></span><br><span class="line">$ ls -al badfile &gt; test3 </span><br><span class="line">ls: cannot access badfile: No such file or directory </span><br><span class="line">$ cat test3 </span><br><span class="line">$ </span><br><span class="line"></span><br><span class="line">当命令生成错误消息时，shell并未将错误消息重定向到输出重定向文件。shell创建了输出重定向文件，但错误消息却显示在了显示器屏幕上。注意，在显示test3文件的内容时并没有任何错误。test3文件创建成功了，只是里面是空的。 </span><br><span class="line">shell对于错误消息的处理是跟普通输出分开的。如果你创建了在后台模式下运行的shell脚本，通常你必须依赖发送到日志文件的输出消息。用这种方法的话，如果出现了错误信息，这些信息是不会出现在日志文件中的。</span><br></pre></td></tr></table></figure>
+<h4 id="3-STDERR"><a href="#3-STDERR" class="headerlink" title="3.STDERR"></a>3.STDERR</h4><p>shell通过特殊的 <code>STDERR</code> 文件描述符来处理错误消息。<code>STDERR</code>文件描述符代表shell的标准错误输出。shell或shell中运行的程序和脚本出错时生成的错误消息都会发送到这个位置。 默认情况下， <code>STDERR</code>文件描述符会和 <code>STDOUT</code>文件描述符指向同样的地方。也就是说，默认情况下，错误消息也会输出到显示器输出中。</p>
+<h3 id="重定向错误"><a href="#重定向错误" class="headerlink" title="重定向错误"></a>重定向错误</h3><h4 id="1-只重定向错误"><a href="#1-只重定向错误" class="headerlink" title="1.只重定向错误"></a>1.只重定向错误</h4><p><code>STDERR</code>文件描述符被设成 2 。可以选择只重定向错误消息，将该文件描述符值放在重定向符号前。该值必须紧紧地放在重定向符号前，否则不会工作。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ ls -al badfile 2&gt; test4 </span><br><span class="line">$ cat test4 </span><br><span class="line">ls: cannot access badfile: No such file or directory </span><br><span class="line">$ </span><br><span class="line"><span class="comment"># 只有错误消息被重定向到文件</span></span><br><span class="line">$ ls -al <span class="built_in">test</span> badtest test2 2&gt; test5 </span><br><span class="line">-rw-rw-r-- 1 rich rich 158 2014-10-16 11:32 test2 </span><br><span class="line">$ cat test5 </span><br><span class="line">ls: cannot access <span class="built_in">test</span>: No such file or directory </span><br><span class="line">ls: cannot access badtest: No such file or directory </span><br><span class="line">$</span><br></pre></td></tr></table></figure>
+<h4 id="2-重定向错误和数据"><a href="#2-重定向错误和数据" class="headerlink" title="2. 重定向错误和数据"></a>2. 重定向错误和数据</h4><p>如果想重定向错误和正常输出，必须用两个重定向符号。需要在符号前面放上待重定向数据所对应的文件描述符，然后指向用于保存数据的输出文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 正常输出STDOUT 重定向到test7文件</span></span><br><span class="line"><span class="comment"># 错误消息STDERR 重定向到test6文件</span></span><br><span class="line">$ ls -al <span class="built_in">test</span> test2 test3 badtest 2&gt; test6 1&gt; test7 </span><br><span class="line">$ cat test6 </span><br><span class="line">ls: cannot access <span class="built_in">test</span>: No such file or directory </span><br><span class="line">ls: cannot access badtest: No such file or directory </span><br><span class="line">$ cat test7 </span><br><span class="line">-rw-rw-r-- 1 rich rich 158 2014-10-16 11:32 test2 </span><br><span class="line">-rw-rw-r-- 1 rich rich   0 2014-10-16 11:33 test3 </span><br><span class="line">$ </span><br><span class="line"></span><br><span class="line"><span class="comment"># 将STDERR和STDOUT的输出重定向到同一个输出文件,使用特殊的重定向符号 &amp;&gt;</span></span><br><span class="line">$ ls -al <span class="built_in">test</span> test2 test3 badtest &amp;&gt; test7 </span><br><span class="line">$ cat test7 </span><br><span class="line">ls: cannot access <span class="built_in">test</span>: No such file or directory </span><br><span class="line">ls: cannot access badtest: No such file or directory </span><br><span class="line">-rw-rw-r-- 1 rich rich 158 2014-10-16 11:32 test2 </span><br><span class="line">-rw-rw-r-- 1 rich rich   0 2014-10-16 11:33 test3 </span><br><span class="line">$ </span><br><span class="line"><span class="comment"># 当使用 &amp;&gt; 符时，命令生成的所有输出都会发送到同一位置，包括数据和错误。</span></span><br><span class="line"><span class="comment"># 为了避免错误信息散落在输出文件中，相较于标准输出，bash shell自动赋予了错误消息更高的优先级。</span></span><br></pre></td></tr></table></figure>
+<h2 id="在脚本中重定向输出"><a href="#在脚本中重定向输出" class="headerlink" title="在脚本中重定向输出"></a>在脚本中重定向输出</h2><h3 id="临时重定向"><a href="#临时重定向" class="headerlink" title="临时重定向"></a>临时重定向</h3><p>如果想在脚本中生成错误消息，可以将单独的一行输出重定向到 STDERR 。使用输出重定向符来将输出信息重定向到 STDERR 文件描述符。在重定向到文件描述符时，你必须在文件描述符数字之前加一个 &amp;</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">$ cat test8 </span><br><span class="line"><span class="meta">#!/bin/bash </span></span><br><span class="line"><span class="comment"># testing STDERR messages </span></span><br><span class="line"> </span><br><span class="line"><span class="built_in">echo</span> <span class="string">"This is an error"</span> &gt;&amp;2 </span><br><span class="line"><span class="built_in">echo</span> <span class="string">"This is normal output"</span> </span><br><span class="line">$ </span><br><span class="line">$ ./test8 </span><br><span class="line">This is an error </span><br><span class="line">This is normal output </span><br><span class="line"><span class="comment"># 默认情况下，Linux会将 STDERR 导向 STDOUT 。所以上面的结果输出正常，但是，如果你在运行脚本时重定向了STDERR ，脚本中所有导向 STDERR 的文本都会被重定向。</span></span><br><span class="line"></span><br><span class="line">$ ./test8 2&gt; test9 </span><br><span class="line">This is normal output </span><br><span class="line">$ cat test9 </span><br><span class="line">This is an error </span><br><span class="line">$</span><br></pre></td></tr></table></figure>
+<h3 id="永久重定向"><a href="#永久重定向" class="headerlink" title="永久重定向"></a>永久重定向</h3><p>如果脚本中有大量数据需要重定向，那重定向每个 echo 语句就会很烦琐。可以用 exec 命令告诉shell在脚本执行期间重定向某个特定文件描述符</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">$ cat test10 </span><br><span class="line"><span class="meta">#!/bin/bash </span></span><br><span class="line"><span class="comment"># redirecting all output to a file </span></span><br><span class="line"><span class="built_in">exec</span> 1&gt;testout </span><br><span class="line"> </span><br><span class="line"><span class="built_in">echo</span> <span class="string">"This is a test of redirecting all output"</span> </span><br><span class="line"><span class="built_in">echo</span> <span class="string">"from a script to another file."</span> </span><br><span class="line"><span class="built_in">echo</span> <span class="string">"without having to redirect every individual line"</span> </span><br><span class="line">$ ./test10 </span><br><span class="line">$ cat testout </span><br><span class="line">This is a <span class="built_in">test</span> of redirecting all output </span><br><span class="line">from a script to another file. </span><br><span class="line">without having to redirect every individual line </span><br><span class="line">$ </span><br><span class="line"><span class="comment"># exec 命令会启动一个新shell并将 STDOUT 文件描述符重定向到文件。脚本中发给 STDOUT 的所有输出会被重定向到文件。</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 可以在脚本执行过程中重定向 STDOUT</span></span><br><span class="line">$ cat test11 </span><br><span class="line"><span class="meta">#!/bin/bash </span></span><br><span class="line"><span class="comment"># redirecting output to different locations </span></span><br><span class="line"> </span><br><span class="line"><span class="built_in">exec</span> 2&gt;testerror </span><br><span class="line"> </span><br><span class="line"><span class="built_in">echo</span> <span class="string">"This is the start of the script"</span> </span><br><span class="line"><span class="built_in">echo</span> <span class="string">"now redirecting all output to another location"</span> </span><br><span class="line"> </span><br><span class="line"><span class="built_in">exec</span> 1&gt;testout </span><br><span class="line"> </span><br><span class="line"><span class="built_in">echo</span> <span class="string">"This output should go to the testout file"</span> </span><br><span class="line"><span class="built_in">echo</span> <span class="string">"but this should go to the testerror file"</span> &gt;&amp;2 </span><br><span class="line">$ </span><br><span class="line">$ ./test11 </span><br><span class="line">This is the start of the script </span><br><span class="line">now redirecting all output to another location </span><br><span class="line">$ cat testout </span><br><span class="line">This output should go to the testout file </span><br><span class="line">$ cat testerror </span><br><span class="line">but this should go to the testerror file </span><br><span class="line">$</span><br></pre></td></tr></table></figure>
+<h2 id="在脚本中重定向输入"><a href="#在脚本中重定向输入" class="headerlink" title="在脚本中重定向输入"></a>在脚本中重定向输入</h2><p>可以使用与脚本中重定向 STDOUT 和 STDERR 相同的方法来将 STDIN 从键盘重定向到其他位置。 exec 命令允许你将 STDIN 重定向到Linux系统上的文件中.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">$ cat test12 </span><br><span class="line"><span class="meta">#!/bin/bash </span></span><br><span class="line"><span class="comment"># redirecting file input </span></span><br><span class="line"><span class="comment"># 重定向输入，从文件testfile中获得输入，而不是STDIN</span></span><br><span class="line"><span class="built_in">exec</span> 0&lt; testfile </span><br><span class="line">count=1 </span><br><span class="line"> </span><br><span class="line"><span class="keyword">while</span> <span class="built_in">read</span> line </span><br><span class="line"><span class="keyword">do</span> </span><br><span class="line">   <span class="built_in">echo</span> <span class="string">"Line #<span class="variable">$count</span>: <span class="variable">$line</span>"</span> </span><br><span class="line">   count=$[ <span class="variable">$count</span> + 1 ] </span><br><span class="line"><span class="keyword">done</span> </span><br><span class="line">$ ./test12 </span><br><span class="line">Line <span class="comment">#1: This is the first line. </span></span><br><span class="line">Line <span class="comment">#2: This is the second line. </span></span><br><span class="line">Line <span class="comment">#3: This is the third line.</span></span><br></pre></td></tr></table></figure>
+<h2 id="创建自己的重定向"><a href="#创建自己的重定向" class="headerlink" title="创建自己的重定向"></a>创建自己的重定向</h2><p>在脚本中重定向输入和输出时，并不局限于这3个默认的文件描述符。在shell中最多可以有9个打开的文件描述符。其他6个从 3 ~ 8 的文件描述符均可用作输入或输出重定向。可以将这些文件描述符中的任意一个分配给文件，然后在脚本中使用它们。</p>
+<h3 id="创建输出文件描述符"><a href="#创建输出文件描述符" class="headerlink" title="创建输出文件描述符"></a>创建输出文件描述符</h3><p>使用 exec 命令来给输出分配文件描述符。和标准的文件描述符一样，一旦将另一个文件描述符分配给一个文件，这个重定向就会一直有效，直到你重新分配。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">$ cat test13 </span><br><span class="line"><span class="meta">#!/bin/bash </span></span><br><span class="line"><span class="comment"># using an alternative file descriptor </span></span><br><span class="line"><span class="comment"># 将文件描述符3 重定向到另一个文件</span></span><br><span class="line"><span class="built_in">exec</span> 3&gt;test13out </span><br><span class="line"> </span><br><span class="line"><span class="built_in">echo</span> <span class="string">"This should display on the monitor"</span> </span><br><span class="line"><span class="built_in">echo</span> <span class="string">"and this should be stored in the file"</span> &gt;&amp;3 </span><br><span class="line"><span class="built_in">echo</span> <span class="string">"Then this should be back on the monitor"</span> </span><br><span class="line">$ ./test13 </span><br><span class="line">This should display on the monitor </span><br><span class="line">Then this should be back on the monitor </span><br><span class="line">$ cat test13out </span><br><span class="line">and this should be stored <span class="keyword">in</span> the file </span><br><span class="line">$</span><br></pre></td></tr></table></figure>
+<h3 id="重定向文件描述符"><a href="#重定向文件描述符" class="headerlink" title="重定向文件描述符"></a>重定向文件描述符</h3><p>如果要恢复已重定向的文件描述符，你可以分配另外一个文件描述符给标准文件描述符。这意味着你可以将 STDOUT 的原来位置重定向到另一个文件描述符，然后再利用该文件描述符重定向回 STDOUT。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">$ cat test14 </span><br><span class="line"><span class="meta">#!/bin/bash </span></span><br><span class="line"><span class="comment"># storing STDOUT, then coming back to it </span></span><br><span class="line"><span class="comment"># 将文件描述符 3 重定向到文件描述符1的当前位置，也就是STDOUT。这意味着任何发送给文件描述符3的输出都将出现在显示器上。</span></span><br><span class="line"><span class="built_in">exec</span> 3&gt;&amp;1 </span><br><span class="line"><span class="comment"># 将STDOUT重定向到文件，shell现在会将发送给STDOUT 的输出直接重定向到输出文件中。但是，文件描述符 3仍然指向STDOUT原来的位置，也就是显示器。如果此时将输出数据发送给文件描述符3，它仍然会出现在显示器上</span></span><br><span class="line"><span class="built_in">exec</span> 1&gt;test14out </span><br><span class="line"><span class="built_in">echo</span> <span class="string">"This should store in the output file"</span> </span><br><span class="line"><span class="built_in">echo</span> <span class="string">"along with this line."</span> </span><br><span class="line"><span class="comment"># 在向 STDOUT （现在指向一个文件）发送一些输出之后，脚本将 STDOUT 重定向到文件描述符3的当前位置（现在仍然是显示器）。这意味着现在 STDOUT 又指向了它原来的位置：显示器。 </span></span><br><span class="line"><span class="built_in">exec</span> 1&gt;&amp;3 </span><br><span class="line"><span class="built_in">echo</span> <span class="string">"Now things should be back to normal"</span> </span><br><span class="line">$ </span><br><span class="line">$ ./test14 </span><br><span class="line">Now things should be back to normal </span><br><span class="line">$ cat test14out </span><br><span class="line">This should store <span class="keyword">in</span> the output file </span><br><span class="line">along with this line. </span><br><span class="line">$</span><br></pre></td></tr></table></figure>
+<h3 id="创建输入文件描述符"><a href="#创建输入文件描述符" class="headerlink" title="创建输入文件描述符"></a>创建输入文件描述符</h3><p>可以用和重定向输出文件描述符同样的办法重定向输入文件描述符。在重定向到文件之前，先将 STDIN 文件描述符保存到另外一个文件描述符，然后在读取完文件之后再将 STDIN 恢复到它原来的位置。 </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">$ cat test15 </span><br><span class="line"><span class="meta">#!/bin/bash </span></span><br><span class="line"><span class="comment"># redirecting input file descriptors </span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 文件描述符6用来保存 STDIN 的位置</span></span><br><span class="line"><span class="built_in">exec</span> 6&lt;&amp;0 </span><br><span class="line"><span class="comment"># 将 STDIN 重定向到一个文件,read 命令的所有输入都来自重定向后的 STDIN （也就是输入文件）。</span></span><br><span class="line"><span class="built_in">exec</span> 0&lt; testfile </span><br><span class="line"> </span><br><span class="line">count=1 </span><br><span class="line"><span class="keyword">while</span> <span class="built_in">read</span> line </span><br><span class="line"><span class="keyword">do</span> </span><br><span class="line">   <span class="built_in">echo</span> <span class="string">"Line #<span class="variable">$count</span>: <span class="variable">$line</span>"</span> </span><br><span class="line">   count=$[ <span class="variable">$count</span> + 1 ] </span><br><span class="line"><span class="keyword">done</span> </span><br><span class="line"><span class="comment"># 将 STDIN 重定向到文件描述符 6 ，从而将STDIN恢复到原先的位置。</span></span><br><span class="line"><span class="built_in">exec</span> 0&lt;&amp;6 </span><br><span class="line"><span class="built_in">read</span> -p <span class="string">"Are you done now? "</span> answer </span><br><span class="line"><span class="keyword">case</span> <span class="variable">$answer</span> <span class="keyword">in</span> </span><br><span class="line">Y|y) <span class="built_in">echo</span> <span class="string">"Goodbye"</span>;; </span><br><span class="line">N|n) <span class="built_in">echo</span> <span class="string">"Sorry, this is the end."</span>;; </span><br><span class="line"><span class="keyword">esac</span> </span><br><span class="line">$ ./test15 </span><br><span class="line">Line <span class="comment">#1: This is the first line. </span></span><br><span class="line">Line <span class="comment">#2: This is the second line. </span></span><br><span class="line">Line <span class="comment">#3: This is the third line. </span></span><br><span class="line">Are you <span class="keyword">done</span> now? y </span><br><span class="line">Goodbye</span><br></pre></td></tr></table></figure>
+<h3 id="关闭文件描述符"><a href="#关闭文件描述符" class="headerlink" title="关闭文件描述符"></a>关闭文件描述符</h3><p>如果你创建了新的输入或输出文件描述符，shell会在脚本退出时自动关闭它们。然而在有些情况下，你需要在脚本结束前手动关闭文件描述符.</p>
+<p>要关闭文件描述符，将它重定向到特殊符号 <code>&amp;-</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 关闭文件描述符 3 ，不再在脚本中使用它</span></span><br><span class="line"><span class="built_in">exec</span> 3&gt;&amp;-</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ cat badtest </span><br><span class="line"><span class="meta">#!/bin/bash </span></span><br><span class="line"><span class="comment"># testing closing file descriptors </span></span><br><span class="line"><span class="built_in">exec</span> 3&gt; test17file </span><br><span class="line"><span class="built_in">echo</span> <span class="string">"This is a test line of data"</span> &gt;&amp;3 </span><br><span class="line"><span class="built_in">exec</span> 3&gt;&amp;- </span><br><span class="line"><span class="built_in">echo</span> <span class="string">"This won't work"</span> &gt;&amp;3 </span><br><span class="line">$ ./badtest </span><br><span class="line">./badtest: 3: Bad file descriptor </span><br><span class="line">$</span><br></pre></td></tr></table></figure>
+<h2 id="列出打开的文件描述符"><a href="#列出打开的文件描述符" class="headerlink" title="列出打开的文件描述符"></a>列出打开的文件描述符</h2><p>lsof 命令会列出整个Linux系统打开的所有文件描述符。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">$ /usr/sbin/lsof -a -p $$ -d 0,1,2 </span><br><span class="line">COMMAND  PID USER   FD   TYPE DEVICE SIZE NODE NAME </span><br><span class="line">bash    3344 rich    0u   CHR  136,0         2 /dev/pts/0 </span><br><span class="line">bash    3344 rich    1u   CHR  136,0         2 /dev/pts/0 </span><br><span class="line">bash    3344 rich    2u   CHR  136,0         2 /dev/pts/0 </span><br><span class="line">------------------------------------------------------------------</span><br><span class="line">-p 指定进程ID,PID</span><br><span class="line">-d 指定要显示的文件描述符编号</span><br><span class="line">-a 对两个选项结果进行AND运算</span><br><span class="line">$$ 当前pid</span><br><span class="line"></span><br><span class="line"><span class="comment"># lsof的默认输出 </span></span><br><span class="line">COMMAND  正在运行的命令名的前9个字符 </span><br><span class="line">PID  进程的PID </span><br><span class="line">USER  进程属主的登录名 </span><br><span class="line">FD  文件描述符号以及访问类型（r代表读，w代表写，u代表读写） </span><br><span class="line">TYPE  文件的类型（CHR代表字符型，BLK代表块型，DIR代表目录，REG代表常规文件） </span><br><span class="line">DEVICE  设备的设备号（主设备号和从设备号）</span><br><span class="line">SIZE  如果有的话，表示文件的大小 </span><br><span class="line">NODE  本地文件的节点号 </span><br><span class="line">NAME  文件名 </span><br><span class="line"></span><br><span class="line">与STDIN、STDOUT和STDERR关联的文件类型是字符型。因为STDIN、STDOUT和STDERR文件描述符都指向终端，所以输出文件的名称就是终端的设备名。</span><br></pre></td></tr></table></figure>
+<h2 id="阻止命令输出"><a href="#阻止命令输出" class="headerlink" title="阻止命令输出"></a>阻止命令输出</h2><p>可以将 <code>STDERR</code> 重定向到一个叫作null文件的特殊文件。null文件里什么都没有。shell输出到null文件的任何数据都不会保存，全部都被丢掉了。<br>在Linux系统上null文件的标准位置是<code>/dev/null</code>。你重定向到该位置的任何数据都会被丢掉，不会显示。 </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ ls -al &gt; /dev/null </span><br><span class="line">$ cat /dev/null </span><br><span class="line">$ </span><br><span class="line"><span class="comment"># 避免错误消息</span></span><br><span class="line">$ ls -al badfile test16 2&gt; /dev/null </span><br><span class="line">-rwxr--r--    1 rich     rich          135 Oct 29 19:57 test16* </span><br><span class="line">$ </span><br><span class="line"><span class="comment"># 快速清除现有文件的数据,清除日志文件的常用方法</span></span><br><span class="line">$ cat /dev/null &gt; testfile </span><br><span class="line">$ cat testfile </span><br><span class="line">$ 清除日志文件的一个常用方法</span><br></pre></td></tr></table></figure>
+<h2 id="创建临时文件"><a href="#创建临时文件" class="headerlink" title="创建临时文件"></a>创建临时文件</h2><p>Linux系统有特殊的目录，专供临时文件使用。Linux使用<code>/tmp</code>目录来存放不需要永久保留的文件。大多数Linux发行版配置了系统在启动时自动删除<code>/tmp</code>目录的所有文件。系统上的任何用户账户都有权限在读写<code>/tmp</code>目录中的文件。有个特殊命令可以用来创建临时文件。 <code>mktemp</code>命令可以在<code>/tmp</code>目录中创建一个唯一的临时文件。shell会创建这个文件，但不用默认的<code>umask</code> 值。它会将文件的读和写权限分配给文件的属主，并将你设成文件的属主。</p>
+<h3 id="创建本地临时文件"><a href="#创建本地临时文件" class="headerlink" title="创建本地临时文件"></a>创建本地临时文件</h3><p>默认情况下， <code>mktemp</code> 会在本地目录中创建一个文件。要用 <code>mktemp</code> 命令在本地目录中创建一个临时文件，你需要指定一个文件名模板。模板可以包含任意文本文件名，在文件名末尾加上6个 X </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ mktemp testing.XXXXXX </span><br><span class="line">testing.1DRLuV </span><br><span class="line"></span><br><span class="line"><span class="comment"># shell脚本中保存文件名称</span></span><br><span class="line">tempfile=$(mktemp test.XXXXXX)</span><br></pre></td></tr></table></figure>
+<h3 id="在-tmp-目录创建临时文件"><a href="#在-tmp-目录创建临时文件" class="headerlink" title="在/tmp 目录创建临时文件"></a>在/tmp 目录创建临时文件</h3><p> <code>mktemp</code> 命令使用<code>-t</code> 选项在系统的临时目录来创建临时文件。创建好后会返回用来创建临时文件的全路径，而不是只有文件名。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ mktemp -t test.XXXXXX </span><br><span class="line">/tmp/test.xG3374 </span><br><span class="line">$ ls -al /tmp/<span class="built_in">test</span>* </span><br><span class="line">-rw------- 1 rich rich 0 2014-10-29 18:41 /tmp/test.xG3374 </span><br><span class="line">$</span><br></pre></td></tr></table></figure>
+<h3 id="创建临时目录"><a href="#创建临时目录" class="headerlink" title="创建临时目录"></a>创建临时目录</h3><p><code>mktemp</code> 命令-d 选项来创建一个临时目录而不是临时文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">tempdir=$(mktemp -d dir.XXXXXX) </span><br><span class="line"><span class="built_in">cd</span> <span class="variable">$tempdir</span> </span><br><span class="line">tempfile1=$(mktemp temp.XXXXXX) </span><br><span class="line">tempfile2=$(mktemp temp.XXXXXX)</span><br></pre></td></tr></table></figure>
+<h2 id="记录消息-tee"><a href="#记录消息-tee" class="headerlink" title="记录消息 (tee)"></a>记录消息 (tee)</h2><p>如果需要将输出同时发送到显示器和日志文件，只要用特殊的 tee 命令就行。<br>tee 命令相当于管道的一个T型接头。它将从 STDIN 过来的数据同时发往两处。一处是STDOUT ，另一处是 tee 命令行所指定的文件名。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tee filename</span><br><span class="line">-a 将数据追加到文件</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 由于tee会重定向来自STDIN的数据，可以用它配合管道命令来重定向命令输出。 </span></span><br><span class="line">$ date | tee testfile </span><br><span class="line">Sun Oct 19 18:56:21 EDT 2014 </span><br><span class="line">$ cat testfile </span><br><span class="line">Sun Oct 19 18:56:21 EDT 2014 </span><br><span class="line">$</span><br></pre></td></tr></table></figure>
+<h2 id="参考书目"><a href="#参考书目" class="headerlink" title="参考书目"></a>参考书目</h2><p>《Linux命令行与shell脚本编程大全》第3版</p>
+	  
+	</div>
+
+	<!-- recommended posts -->
+	
+
+	<div>
+  	<center>
+	<div class="pagination">
+<ul class="pagination">
+	 
+				
+    	<li class="prev"><a href="/2018/02/23/shell-script-5-script-control/" class="alignleft prev"><i class="fa fa-arrow-circle-o-left"></i>上一页</a></li>
+  		
+
+        <li><a href="/archives"><i class="fa fa-archive"></i>Archive</a></li>
+
+		
+		   <li class="next"><a href="/2018/02/21/shell-script-3-user-input/" class="alignright next">下一页<i class="fa fa-arrow-circle-o-right"></i></a></li>         
+        
+	
+</ul>
+</div>
+
+    </center>
+	</div>
+
+    <!-- share -->
+    
+        
+
+        
+
+    
+	
+	<!-- comment -->
+	
+<section id="comment">
+  <h2 class="title">留言</h2>
+  
+  	 <div id="disqus_thread">
+     <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  	 </div>
+  
+</section>
+
+
+	</div> <!-- col-md-9/col-md-12 -->
+		
+	
+	<div id="side_meta">
+		<div class="col-md-3" id="post_meta"> 
+
+	<!-- date -->
+	
+	<div class="meta-widget">
+	<i class="fa fa-clock-o"></i>
+	2018-02-22 
+	</div>
+	
+
+	<!-- categories -->
+    
+
+	<!-- tags -->
+	
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#tags"><i class="fa fa-tags"></i></a>		  
+    <ul id="tags" class="tag_box list-unstyled collapse in">	  
+	    
+  <li><a href="/tags/Linux/">Linux<span>11</span></a></li> <li><a href="/tags/Shell/">Shell<span>11</span></a></li>
+    </ul>
+	</div>
+	
+
+	<!-- toc -->
+	<div class="meta-widget">
+	
+	   <a data-toggle="collapse" data-target="#toc"><i class="fa fa-bars"></i></a>
+	   <div id="toc" class="toc collapse in">
+			<ol class="toc-article"><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#理解输入和输出"><span class="toc-article-text">理解输入和输出</span></a><ol class="toc-article-child"><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#标准文件描述符"><span class="toc-article-text">标准文件描述符</span></a><ol class="toc-article-child"><li class="toc-article-item toc-article-level-4"><a class="toc-article-link" href="#1-STDIN"><span class="toc-article-text">1.STDIN</span></a></li><li class="toc-article-item toc-article-level-4"><a class="toc-article-link" href="#2-STDOUT"><span class="toc-article-text">2.STDOUT</span></a></li><li class="toc-article-item toc-article-level-4"><a class="toc-article-link" href="#3-STDERR"><span class="toc-article-text">3.STDERR</span></a></li></ol></li><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#重定向错误"><span class="toc-article-text">重定向错误</span></a><ol class="toc-article-child"><li class="toc-article-item toc-article-level-4"><a class="toc-article-link" href="#1-只重定向错误"><span class="toc-article-text">1.只重定向错误</span></a></li><li class="toc-article-item toc-article-level-4"><a class="toc-article-link" href="#2-重定向错误和数据"><span class="toc-article-text">2. 重定向错误和数据</span></a></li></ol></li></ol></li><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#在脚本中重定向输出"><span class="toc-article-text">在脚本中重定向输出</span></a><ol class="toc-article-child"><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#临时重定向"><span class="toc-article-text">临时重定向</span></a></li><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#永久重定向"><span class="toc-article-text">永久重定向</span></a></li></ol></li><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#在脚本中重定向输入"><span class="toc-article-text">在脚本中重定向输入</span></a></li><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#创建自己的重定向"><span class="toc-article-text">创建自己的重定向</span></a><ol class="toc-article-child"><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#创建输出文件描述符"><span class="toc-article-text">创建输出文件描述符</span></a></li><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#重定向文件描述符"><span class="toc-article-text">重定向文件描述符</span></a></li><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#创建输入文件描述符"><span class="toc-article-text">创建输入文件描述符</span></a></li><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#关闭文件描述符"><span class="toc-article-text">关闭文件描述符</span></a></li></ol></li><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#列出打开的文件描述符"><span class="toc-article-text">列出打开的文件描述符</span></a></li><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#阻止命令输出"><span class="toc-article-text">阻止命令输出</span></a></li><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#创建临时文件"><span class="toc-article-text">创建临时文件</span></a><ol class="toc-article-child"><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#创建本地临时文件"><span class="toc-article-text">创建本地临时文件</span></a></li><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#在-tmp-目录创建临时文件"><span class="toc-article-text">在/tmp 目录创建临时文件</span></a></li><li class="toc-article-item toc-article-level-3"><a class="toc-article-link" href="#创建临时目录"><span class="toc-article-text">创建临时目录</span></a></li></ol></li><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#记录消息-tee"><span class="toc-article-text">记录消息 (tee)</span></a></li><li class="toc-article-item toc-article-level-2"><a class="toc-article-link" href="#参考书目"><span class="toc-article-text">参考书目</span></a></li></ol>
+		</div>
+	
+	</div>
+	
+    <hr>
+	
+</div><!-- col-md-3 -->
+
+	</div>
+		
+
+</div><!-- row -->
+
+<script type="text/javascript">
+var disqus_shortname = 'technonacgithub';
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+	</div>
+  </div>
+  <div class="container-narrow">
+  <footer> <p>
+  &copy; 2018 technonac
+  
+      with help from <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="http://getbootstrap.com/" target="_blank">Twitter Bootstrap</a>. Theme by <a href="http://github.com/wzpan/hexo-theme-freemind/">Freemind</a>.    
+</p> </footer>
+</div> <!-- container-narrow -->
+  
+
+
+  
+<a id="gotop" href="#">   
+  <span>▲</span> 
+</a>
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script> 
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+   <script type="text/javascript">      
+     var search_path = "search.xml";
+	 if (search_path.length == 0) {
+	 	search_path = "search.xml";
+	 }
+	 var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+   </script>
+
+
+<!-- syntax highlighting -->
+
+
+</body>
+   </html>
